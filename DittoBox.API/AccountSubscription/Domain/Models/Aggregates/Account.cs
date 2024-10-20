@@ -1,4 +1,6 @@
-﻿namespace DittoBox.API.AccountSubscription.Domain.Models.Aggregates
+﻿using DittoBox.API.AccountSubscription.Domain.Models.Entities;
+
+namespace DittoBox.API.AccountSubscription.Domain.Models.Aggregates
 {
     public class Account
     {
