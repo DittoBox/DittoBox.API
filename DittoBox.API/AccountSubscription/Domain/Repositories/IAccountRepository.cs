@@ -5,6 +5,6 @@ namespace DittoBox.API.AccountSubscription.Domain.Repositories
 {
 	public interface IAccountRepository : IBaseRepository<Account>
 	{
-
+		
 	}
 }
