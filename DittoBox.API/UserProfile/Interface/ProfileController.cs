@@ -10,25 +10,25 @@ namespace DittoBox.API.UserProfile.Interface
     public class ProfileController : ControllerBase
     {
         [HttpGet("{profileId}")]
-        public ActionResult<ProfileDto> GetProfileDetails([FromRoute] GetProfileQuery profileId)
+        public ActionResult<ProfileResource> GetProfileDetails([FromRoute] GetProfileQuery profileId)
         {
             throw new NotImplementedException();
         }
 
         [HttpPut]
-        public ActionResult<ProfileDto> UpdateProfileNames([FromBody] UpdateProfileNamesCommand profile)
+        public ActionResult<ProfileResource> UpdateProfileNames([FromBody] UpdateProfileNamesCommand profile)
         {
             throw new NotImplementedException();
         }
 
         [HttpPost]
-        public ActionResult<ProfileDto> GrantPrivilege([FromBody] GrantPrivilegeCommand privilege)
+        public ActionResult<ProfileResource> GrantPrivilege([FromBody] GrantPrivilegeCommand privilege)
         {
             throw new NotImplementedException();
         }
 
         [HttpPut]
-        public ActionResult<ProfileDto> RevokePrivilege([FromBody] RevokePrivilegeCommand privilege)
+        public ActionResult<ProfileResource> RevokePrivilege([FromBody] RevokePrivilegeCommand privilege)
         {
             throw new NotImplementedException();
         }

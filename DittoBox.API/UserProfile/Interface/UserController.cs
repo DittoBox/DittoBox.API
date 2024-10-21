@@ -12,13 +12,13 @@ namespace DittoBox.API.UserProfile.Interface
 	) : ControllerBase
 	{
 		[HttpGet("{userId}")]
-		public ActionResult<UserDto> GetUserDetails([FromRoute] GetUserQuery userId)
+		public ActionResult<UserResource> GetUserDetails([FromRoute] GetUserQuery userId)
 		{
 			throw new NotImplementedException();
 		}
 
 		[HttpPost]
-		public ActionResult<UserDto> CreateUser([FromBody] CreateUserCommand user)
+		public ActionResult<UserResource> CreateUser([FromBody] CreateUserCommand user)
 		{
 			throw new NotImplementedException();
 		}

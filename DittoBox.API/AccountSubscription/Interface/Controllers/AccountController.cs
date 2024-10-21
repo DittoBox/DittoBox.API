@@ -10,7 +10,7 @@ namespace DittoBox.API.AccountSubscription.Interface.Controllers
     public class AccountController : ControllerBase
     {
         [HttpGet]
-        [Route("{accountId}")]
+        [Route("{query}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public Task<ActionResult<AccountResponse>> GetAccountDetails([FromRoute] GetAccountDetailsQuery query)
