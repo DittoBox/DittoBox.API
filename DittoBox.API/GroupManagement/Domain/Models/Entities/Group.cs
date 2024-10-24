@@ -6,12 +6,13 @@ namespace DittoBox.API.GroupManagement.Domain.Models.Entities
         string name,
         string country,
         string city,
+        string state,
         FacilityType facilityType
     )
     {
         public int Id { get; set; }
         public string Name { get; set; } = name;
-        public Location Location { get; set; } = new Location(country, city);
+        public Location Location { get; set; } = new Location(country, city, state);
         public int AccountId { get; set; }
         public int FacilityType { get; set; } = (int)facilityType;
 
