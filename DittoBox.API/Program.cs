@@ -3,56 +3,56 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DittoBox.API
 {
-	public class Program
-	{
-		public static void Main(string[] args)
-		{
-			var builder = WebApplication.CreateBuilder(args);
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            var builder = WebApplication.CreateBuilder(args);
 
-			// Add services to the container.
+            // Add services to the container.
 
-			builder.Services.AddControllers();
-			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-			builder.Services.AddEndpointsApiExplorer();
-			builder.Services.AddSwaggerGen();
-			builder.Configuration.AddUserSecrets<Program>();
+            builder.Services.AddControllers();
+            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
+            builder.Configuration.AddUserSecrets<Program>();
 
-			builder.Services.AddDbContext<ApplicationDbContext>(
-				options => options.UseNpgsql(
-					builder.Configuration.GetConnectionString("postgresconnstr")
-				)
-			);
+            var postgresConnectionString = Environment.GetEnvironmentVariable("POSTGRES_CONNECTION_STRING") ?? throw new ArgumentNullException("POSTGRES_CONNECTION_STRING environment variable is required");
 
-			builder.Services.Configure<RouteOptions>(options =>
-			{
-				options.LowercaseUrls = true;
-			});
+            builder.Services.AddDbContext<ApplicationDbContext>(
+                options => options.UseNpgsql(
+                    postgresConnectionString
+                )
+            );
 
-			var app = builder.Build();
+            builder.Services.Configure<RouteOptions>(options =>
+            {
+                options.LowercaseUrls = true;
+            });
 
-			// Configure the HTTP request pipeline.
-			if (app.Environment.IsDevelopment())
-			{
-				app.UseSwagger();
-				app.UseSwaggerUI();
-			}
+            var app = builder.Build();
 
-			// Reset database
-			using (var scope = app.Services.CreateScope())
-			{
+            // Configure the HTTP request pipeline.
+            app.UseSwagger();
+            app.UseSwaggerUI();
+
+
+            // Reset database
+            using (var scope = app.Services.CreateScope())
+            {
                 var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
                 db.Database.EnsureDeleted();
                 db.Database.EnsureCreated();
             }
 
-			app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
 
-			app.UseAuthorization();
+            app.UseAuthorization();
 
 
-			app.MapControllers();
+            app.MapControllers();
 
-			app.Run();
-		}
-	}
+            app.Run();
+        }
+    }
 }
