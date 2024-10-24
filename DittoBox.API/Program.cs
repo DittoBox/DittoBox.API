@@ -17,7 +17,16 @@ namespace DittoBox.API
             builder.Services.AddSwaggerGen();
             builder.Configuration.AddUserSecrets<Program>();
 
-            var postgresConnectionString = Environment.GetEnvironmentVariable("POSTGRES_CONNECTION_STRING") ?? throw new ArgumentNullException("POSTGRES_CONNECTION_STRING environment variable is required");
+            var postgresConnectionString = Environment.GetEnvironmentVariable("POSTGRES_CONNECTION_STRING");
+
+            if (string.IsNullOrEmpty(postgresConnectionString))
+            {
+                postgresConnectionString = builder.Configuration.GetConnectionString("POSTGRES_CONNECTION_STRING");
+            }
+            if (string.IsNullOrEmpty(postgresConnectionString))
+            {
+                throw new ArgumentException("PostgreSQL connection string is not configured.");
+            }
 
             builder.Services.AddDbContext<ApplicationDbContext>(
                 options => options.UseNpgsql(
