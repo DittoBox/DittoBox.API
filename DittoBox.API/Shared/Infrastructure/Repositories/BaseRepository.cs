@@ -17,7 +17,7 @@ namespace DittoBox.API.Shared.Domain.Repositories {
 			throw new NotImplementedException();
 		}
 
-		public Task<T> GetById(Guid id)
+		public Task<T> GetById(int id)
 		{
 			throw new NotImplementedException();
 		}

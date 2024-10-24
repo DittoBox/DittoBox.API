@@ -1,4 +1,5 @@
 ﻿using DittoBox.API.AccountSubscription.Domain.Models.Entities;
+using DittoBox.API.UserProfile.Domain.Models.Entities;
 
 namespace DittoBox.API.AccountSubscription.Domain.Models.Aggregates
 {
