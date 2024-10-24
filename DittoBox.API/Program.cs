@@ -22,6 +22,12 @@ namespace DittoBox.API
 					builder.Configuration.GetConnectionString("postgresconnstr")
 				)
 			);
+
+			builder.Services.Configure<RouteOptions>(options =>
+			{
+				options.LowercaseUrls = true;
+			});
+
 			var app = builder.Build();
 
 			// Configure the HTTP request pipeline.

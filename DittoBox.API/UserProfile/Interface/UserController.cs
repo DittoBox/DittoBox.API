@@ -24,18 +24,21 @@ namespace DittoBox.API.UserProfile.Interface
 		}
 
 		[HttpDelete]
+		[Route("{userId}")]
 		public ActionResult DeleteUser([FromRoute] DeleteUserCommand userId)
 		{
 			throw new NotImplementedException();
 		}
 
 		[HttpPost]
+		[Route("{userId}/request-password-change")]
 		public ActionResult RequestPasswordChange([FromBody] PasswordChangeQuery changePassword)
 		{
 			throw new NotImplementedException();
 		}
 
 		[HttpPut]
+		[Route("{userId}/change-password")]
 		public ActionResult ChangePassword([FromBody] PasswordChangeCommand changePassword)
 		{
 			throw new NotImplementedException();

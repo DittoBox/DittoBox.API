@@ -16,18 +16,21 @@ namespace DittoBox.API.UserProfile.Interface
         }
 
         [HttpPut]
+        [Route("{profileId}/update-names")]
         public ActionResult<ProfileResource> UpdateProfileNames([FromBody] UpdateProfileNamesCommand profile)
         {
             throw new NotImplementedException();
         }
 
         [HttpPost]
+        [Route("{profileId}/grant-privileges")]
         public ActionResult<ProfileResource> GrantPrivilege([FromBody] GrantPrivilegeCommand privilege)
         {
             throw new NotImplementedException();
         }
 
         [HttpPut]
+        [Route("{profileId}/revoke-privileges")]
         public ActionResult<ProfileResource> RevokePrivilege([FromBody] RevokePrivilegeCommand privilege)
         {
             throw new NotImplementedException();

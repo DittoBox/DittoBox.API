@@ -8,6 +8,5 @@ namespace DittoBox.API.Shared.Infrastructure
 		{
 		}
 
-		public DbSet<WeatherForecast> WeatherForecasts { get; set; }
 	}
 }
