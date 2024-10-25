@@ -1,4 +1,5 @@
 using DittoBox.API.Shared.Infrastructure;
+using DittoBox.API.UserProfile.Application.Handlers.Internal;
 using Microsoft.EntityFrameworkCore;
 
 namespace DittoBox.API
@@ -39,6 +40,10 @@ namespace DittoBox.API
                 options.LowercaseUrls = true;
             });
 
+
+			RegisterHandlers(builder);
+
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -63,5 +68,10 @@ namespace DittoBox.API
 
             app.Run();
         }
-    }
+    
+		public static void RegisterHandlers(WebApplicationBuilder builder)
+		{
+			builder.Services.AddTransient<ICreateUserCommandHandler, CreateUserCommandHandler>();
+		}
+	}
 }

@@ -1,7 +1,6 @@
 namespace DittoBox.API.UserProfile.Application.DTOs
 {
-    public record UserResource
-    {
-        public int Id { get; init; }
-    }
+    public record UserResource (
+		int Id
+	);
 }
