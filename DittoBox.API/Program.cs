@@ -1,4 +1,5 @@
 using DittoBox.API.Shared.Infrastructure;
+using DittoBox.API.UserProfile.Application.Handlers.Interfaces;
 using DittoBox.API.UserProfile.Application.Handlers.Internal;
 using Microsoft.EntityFrameworkCore;
 
@@ -72,6 +73,7 @@ namespace DittoBox.API
 		public static void RegisterHandlers(WebApplicationBuilder builder)
 		{
 			builder.Services.AddTransient<ICreateUserCommandHandler, CreateUserCommandHandler>();
+            builder.Services.AddScoped<IGetUserQueryHandler, GetUserQueryHandler>();
 		}
 	}
 }

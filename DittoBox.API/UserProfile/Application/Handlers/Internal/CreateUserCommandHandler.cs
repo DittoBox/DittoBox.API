@@ -7,7 +7,7 @@ namespace DittoBox.API.UserProfile.Application.Handlers.Internal
 	{
 		public Task<UserResource> Handle(CreateUserCommand command)
 		{
-			return Task.FromResult(new UserResource(1));
+			return Task.FromResult(new UserResource(1, "dcancho", "u20201f479"));
 		}
 	}
 }
