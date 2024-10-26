@@ -1,5 +1,6 @@
 using DittoBox.API.UserProfile.Application.Commands;
-using DittoBox.API.UserProfile.Application.DTOs;
+using DittoBox.API.UserProfile.Application.Handlers.Interfaces;
+using DittoBox.API.UserProfile.Application.Resources;
 
 namespace DittoBox.API.UserProfile.Application.Handlers.Internal
 {

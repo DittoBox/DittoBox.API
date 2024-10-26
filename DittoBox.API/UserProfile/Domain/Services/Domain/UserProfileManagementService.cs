@@ -1,6 +1,6 @@
 namespace DittoBox.API.UserProfile.Domain.Services.Domain
 {
-	public interface UserProfileManagementServices
+	public interface IUserProfileManagementServices
 	{
 		public Task AssignPrivilegeToUser(int UserId, int PrivilegeId);
 		public Task RevokePrivilegeFromUser(int UserId, int PrivilegeId);

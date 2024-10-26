@@ -72,8 +72,11 @@ namespace DittoBox.API
     
 		public static void RegisterHandlers(WebApplicationBuilder builder)
 		{
-			builder.Services.AddTransient<ICreateUserCommandHandler, CreateUserCommandHandler>();
+			builder.Services.AddScoped<ICreateUserCommandHandler, CreateUserCommandHandler>();
             builder.Services.AddScoped<IGetUserQueryHandler, GetUserQueryHandler>();
-		}
+            builder.Services.AddScoped<IDeleteUserCommandHandler, DeleteUserCommandHandler>();
+            builder.Services.AddScoped<IRequestPasswordChangeQueryHandler, RequestPasswordChangeQueryHandler>();
+            builder.Services.AddScoped<IChangePasswordCommandHandler, ChangePasswordCommandHandler>();
+        }
 	}
 }

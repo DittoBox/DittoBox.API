@@ -1,7 +1,7 @@
 using DittoBox.API.UserProfile.Application.Commands;
-using DittoBox.API.UserProfile.Application.DTOs;
+using DittoBox.API.UserProfile.Application.Resources;
 
-namespace DittoBox.API.UserProfile.Application.Handlers.Internal
+namespace DittoBox.API.UserProfile.Application.Handlers.Interfaces
 {
 	public interface ICreateUserCommandHandler
 	{

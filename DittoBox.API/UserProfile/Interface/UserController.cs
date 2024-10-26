@@ -1,7 +1,6 @@
 using DittoBox.API.UserProfile.Application.Commands;
-using DittoBox.API.UserProfile.Application.DTOs;
+using DittoBox.API.UserProfile.Application.Resources;
 using DittoBox.API.UserProfile.Application.Handlers.Interfaces;
-using DittoBox.API.UserProfile.Application.Handlers.Internal;
 using DittoBox.API.UserProfile.Application.Queries;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,15 +11,22 @@ namespace DittoBox.API.UserProfile.Interface
     public class UserController(
         ILogger<UserController> _logger,
         ICreateUserCommandHandler createUserCommandHandler,
-        IGetUserQueryHandler getUserQueryHandler
+        IGetUserQueryHandler getUserQueryHandler,
+        IDeleteUserCommandHandler deleteUserCommandHandler,
+        IRequestPasswordChangeQueryHandler requestPasswordChangeQueryHandler,
+        IChangePasswordCommandHandler changePasswordCommandHandler
     ) : ControllerBase
     {
 
-        [HttpGet("{query}")]
+        [HttpGet("{query:int}")]
         public async Task<ActionResult<UserResource>> GetUser([FromRoute] GetUserQuery query)
         {
             try
             {
+                if (query.UserId <= 0)
+                {
+                    return BadRequest("UserId must be a positive integer.");
+                }
                 var response = await getUserQueryHandler.Handle(query);
                 if (response == null)
                 {
@@ -53,24 +59,55 @@ namespace DittoBox.API.UserProfile.Interface
         }
 
         [HttpDelete]
-        [Route("{userId}")]
-        public ActionResult DeleteUser([FromRoute] DeleteUserCommand userId)
+        [Route("{command:int}")]
+        public async Task<ActionResult> DeleteUser([FromRoute] DeleteUserCommand command)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await deleteUserCommandHandler.Handle(command);
+                _logger.LogInformation("User with userId: {userId} deleted", command.UserId);
+                return NoContent();
+            }
+            catch (Exception)
+            {
+                _logger.LogError("An error occurred while deleting user with userId: {userId}", command.UserId);
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpPost]
-        [Route("{userId}/request-password-change")]
-        public ActionResult RequestPasswordChange([FromBody] PasswordChangeQuery changePassword)
+        [Route("request-password-change")]
+        public async Task<ActionResult> RequestPasswordChange([FromBody] ChangePasswordQuery changePassword)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await requestPasswordChangeQueryHandler.Handle(changePassword);
+                _logger.LogInformation("Password change requested for user with email {email}", changePassword.Email);
+                return Ok();
+            }
+            catch (Exception)
+            {
+                _logger.LogError("An error occurred while requesting password change for user with email {email}", changePassword.Email);
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpPut]
-        [Route("{userId}/change-password")]
-        public ActionResult ChangePassword([FromBody] PasswordChangeCommand changePassword)
+        [Route("change-password")]
+        public async Task<ActionResult> ChangePassword([FromBody] ChangePasswordCommand changePassword)
         {
-            throw new NotImplementedException();
+            try
+            {
+
+                await changePasswordCommandHandler.Handle(changePassword);
+                _logger.LogInformation("Password changed for user with email {email}", changePassword.Email);
+                return Ok();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

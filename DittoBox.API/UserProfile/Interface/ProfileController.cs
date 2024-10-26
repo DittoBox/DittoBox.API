@@ -1,39 +1,85 @@
 ﻿using DittoBox.API.UserProfile.Application.Commands;
-using DittoBox.API.UserProfile.Application.DTOs;
+using DittoBox.API.UserProfile.Application.Handlers.Internal;
 using DittoBox.API.UserProfile.Application.Queries;
+using DittoBox.API.UserProfile.Application.Resources;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DittoBox.API.UserProfile.Interface
 {
     [ApiController]
     [Route("api/v1/[controller]")]
-    public class ProfileController : ControllerBase
+    public class ProfileController(
+        ILogger<ProfileController> _logger,
+        GetProfileDetailsQueryHandler getProfileDetailsQueryHandler,
+        UpdateProfileNamesCommandHandler updateProfileNamesCommandHandler,
+        GrantPrivilegeCommandHandler grantPrivilegeCommandHandler,
+        RevokePrivilegeCommandHandler revokePrivilegeCommandHandler
+    ) : ControllerBase
     {
-        [HttpGet("{profileId}")]
-        public ActionResult<ProfileResource> GetProfileDetails([FromRoute] GetProfileQuery profileId)
+        [HttpGet("{query:id}")]
+        public async Task<ActionResult<ProfileResource>> GetProfileDetails([FromRoute] GetProfileQuery query)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var result = await getProfileDetailsQueryHandler.Handle(query);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while getting profile with profileId: {profileId}", query.ProfileId);
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpPut]
-        [Route("{profileId}/update-names")]
-        public ActionResult<ProfileResource> UpdateProfileNames([FromBody] UpdateProfileNamesCommand profile)
+        [Route("update-names")]
+        public async Task<ActionResult> UpdateProfileNames([FromBody] UpdateProfileNamesCommand command)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await updateProfileNamesCommandHandler.Handle(command);
+                _logger.LogInformation("Profile names updated with profileId: {profileId}", command.ProfileId);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while updating profile names with profileId: {profileId}", command.ProfileId);
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpPost]
-        [Route("{profileId}/grant-privileges")]
-        public ActionResult<ProfileResource> GrantPrivilege([FromBody] GrantPrivilegeCommand privilege)
+        [Route("grant-privileges")]
+        public async Task<ActionResult> GrantPrivilege([FromBody] GrantPrivilegeCommand privilege)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await grantPrivilegeCommandHandler.Handle(privilege);
+                _logger.LogInformation("Privileges granted with profileId: {profileId}", privilege.ProfileId);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while granting privileges with profileId: {profileId}", privilege.ProfileId);
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpPut]
-        [Route("{profileId}/revoke-privileges")]
-        public ActionResult<ProfileResource> RevokePrivilege([FromBody] RevokePrivilegeCommand privilege)
+        [Route("revoke-privileges")]
+        public async Task<ActionResult> RevokePrivilege([FromBody] RevokePrivilegeCommand privilege)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await revokePrivilegeCommandHandler.Handle(privilege);
+                _logger.LogInformation("Privileges revoked with profileId: {profileId}", privilege.ProfileId);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while revoking privileges with profileId: {profileId}", privilege.ProfileId);
+                return StatusCode(500, "Internal server error");
+            }
         }
     }
 }

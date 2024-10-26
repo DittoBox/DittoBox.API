@@ -3,8 +3,8 @@ using DittoBox.API.UserProfile.Application.Resources;
 
 namespace DittoBox.API.UserProfile.Application.Handlers.Interfaces
 {
-    public interface IGetUserQueryHandler
+    public interface IGetProfileDetailsQueryHandler
     {
-        public Task<UserResource> Handle(GetUserQuery query);
+        public Task<ProfileResource> Handle(GetProfileQuery query);
     }
 }

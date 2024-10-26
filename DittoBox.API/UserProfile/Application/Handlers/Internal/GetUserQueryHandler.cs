@@ -1,4 +1,4 @@
-﻿using DittoBox.API.UserProfile.Application.DTOs;
+﻿using DittoBox.API.UserProfile.Application.Resources;
 using DittoBox.API.UserProfile.Application.Handlers.Interfaces;
 using DittoBox.API.UserProfile.Application.Queries;
 

@@ -1,4 +1,4 @@
-namespace DittoBox.API.UserProfile.Application.DTOs
+namespace DittoBox.API.UserProfile.Application.Resources
 {
     public record ProfileResource (
 		int Id,
