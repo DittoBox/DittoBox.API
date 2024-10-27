@@ -2,9 +2,8 @@
 
 namespace DittoBox.API.AccountSubscription.Application.Commands
 {
-    public record UpdateAccountCommand
+    public record DeleteAccountCommand
     (
-        [Required] int AccountId,
-        string? BusinessName
-        );
+        [Required] int AccountId
+    );
 }

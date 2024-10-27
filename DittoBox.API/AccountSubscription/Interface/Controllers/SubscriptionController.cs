@@ -1,6 +1,6 @@
 ﻿using DittoBox.API.AccountSubscription.Application.Commands;
 using DittoBox.API.AccountSubscription.Application.Queries;
-using DittoBox.API.AccountSubscription.Interface.Responses;
+using DittoBox.API.AccountSubscription.Application.Resources;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DittoBox.API.AccountSubscription.Interface.Controllers
@@ -11,21 +11,21 @@ namespace DittoBox.API.AccountSubscription.Interface.Controllers
     {
         [HttpGet]
         [Route("{subscriptionId}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(SubscriptionResponse))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(SubscriptionResource))]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<SubscriptionResponse> GetSubscriptionDetails([FromRoute]GetSubscriptionDetailsQuery query)
+        public ActionResult<SubscriptionResource> GetSubscriptionDetails([FromRoute]GetSubscriptionDetailsQuery query)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         [HttpPost]
         [Route("upgrade")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(SubscriptionResponse))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(SubscriptionResource))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<SubscriptionResponse> UpgradeSubscription([FromBody] UpgradeSubscriptionCommand command)
+        public ActionResult<SubscriptionResource> UpgradeSubscription([FromBody] UpgradeSubscriptionCommand command)
         {
             throw new NotImplementedException();
         }
@@ -46,7 +46,7 @@ namespace DittoBox.API.AccountSubscription.Interface.Controllers
 
         [HttpGet]
         [Route("{subscriptionId}/status")]
-        public ActionResult<PaymentStatusResponse> GetSubscriptionStatus([FromRoute]GetSubscriptionStatusQuery query)
+        public ActionResult<PaymentStatusResource> GetSubscriptionStatus([FromRoute]GetSubscriptionStatusQuery query)
         {
             throw new NotImplementedException();
         }

@@ -1,5 +1,5 @@
 ﻿using DittoBox.API.UserProfile.Application.Commands;
-using DittoBox.API.UserProfile.Application.Handlers.Internal;
+using DittoBox.API.UserProfile.Application.Handlers.Interfaces;
 using DittoBox.API.UserProfile.Application.Queries;
 using DittoBox.API.UserProfile.Application.Resources;
 using Microsoft.AspNetCore.Mvc;
@@ -10,13 +10,13 @@ namespace DittoBox.API.UserProfile.Interface
     [Route("api/v1/[controller]")]
     public class ProfileController(
         ILogger<ProfileController> _logger,
-        GetProfileDetailsQueryHandler getProfileDetailsQueryHandler,
-        UpdateProfileNamesCommandHandler updateProfileNamesCommandHandler,
-        GrantPrivilegeCommandHandler grantPrivilegeCommandHandler,
-        RevokePrivilegeCommandHandler revokePrivilegeCommandHandler
+        IGetProfileDetailsQueryHandler getProfileDetailsQueryHandler,
+        IUpdateProfileNamesCommandHandler updateProfileNamesCommandHandler,
+        IGrantPrivilegeCommandHandler grantPrivilegeCommandHandler,
+        IRevokePrivilegeCommandHandler revokePrivilegeCommandHandler
     ) : ControllerBase
     {
-        [HttpGet("{query:id}")]
+        [HttpGet("{query:int}")]
         public async Task<ActionResult<ProfileResource>> GetProfileDetails([FromRoute] GetProfileQuery query)
         {
             try

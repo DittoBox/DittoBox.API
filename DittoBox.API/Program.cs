@@ -1,3 +1,5 @@
+using DittoBox.API.AccountSubscription.Application.Handlers.Interfaces;
+using DittoBox.API.AccountSubscription.Application.Handlers.Internal;
 using DittoBox.API.Shared.Infrastructure;
 using DittoBox.API.UserProfile.Application.Handlers.Interfaces;
 using DittoBox.API.UserProfile.Application.Handlers.Internal;
@@ -72,11 +74,23 @@ namespace DittoBox.API
     
 		public static void RegisterHandlers(WebApplicationBuilder builder)
 		{
+            /* UserProfile handlers */
 			builder.Services.AddScoped<ICreateUserCommandHandler, CreateUserCommandHandler>();
             builder.Services.AddScoped<IGetUserQueryHandler, GetUserQueryHandler>();
             builder.Services.AddScoped<IDeleteUserCommandHandler, DeleteUserCommandHandler>();
             builder.Services.AddScoped<IRequestPasswordChangeQueryHandler, RequestPasswordChangeQueryHandler>();
             builder.Services.AddScoped<IChangePasswordCommandHandler, ChangePasswordCommandHandler>();
+            builder.Services.AddScoped<IGetProfileDetailsQueryHandler, GetProfileDetailsQueryHandler>();
+            builder.Services.AddScoped<IGrantPrivilegeCommandHandler, GrantPrivilegeCommandHandler>();
+            builder.Services.AddScoped<IRevokePrivilegeCommandHandler, RevokePrivilegeCommandHandler>();
+            builder.Services.AddScoped<IUpdateProfileNamesCommandHandler, UpdateProfileNamesCommandHandler>();
+
+            /* AccountSubscription handlers */
+            builder.Services.AddScoped<ICreateAccountCommandHandler, CreateAccountCommandHandler>();
+            builder.Services.AddScoped<IDeleteAccountCommandHandler, DeleteAccountCommandHandler>();
+            builder.Services.AddScoped<IGetAccountDetailsQueryHandler, GetAccountDetailsQueryHandler>();
+            builder.Services.AddScoped<IUpdateAccountCommandHandler, UpdateAccountCommandHandler>();
+            builder.Services.AddScoped<IUpdateBusinessInformationCommandHandler, UpdateBusinessInformationCommandHandler>();
         }
 	}
 }
