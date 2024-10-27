@@ -1,6 +1,10 @@
-﻿namespace DittoBox.API.AccountSubscription.Application.Commands
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace DittoBox.API.AccountSubscription.Application.Commands
 {
-    public class UpdateAccountCommand
-    {
-    }
+    public record UpdateAccountCommand
+    (
+        [Required] int AccountId,
+        string? BusinessName
+        );
 }

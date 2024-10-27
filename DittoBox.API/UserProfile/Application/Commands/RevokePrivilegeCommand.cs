@@ -1,6 +1,10 @@
-﻿namespace DittoBox.API.UserProfile.Application.Commands
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace DittoBox.API.UserProfile.Application.Commands
 {
-    public class RevokePrivilegeCommand
-    {
-    }
+    public record RevokePrivilegeCommand
+    (
+        [Required, Range(1, int.MaxValue)] int ProfileId,
+        [Required] int PrivilegeId
+        );
 }

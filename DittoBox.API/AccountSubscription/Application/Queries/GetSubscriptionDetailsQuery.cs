@@ -1,6 +1,9 @@
-﻿namespace DittoBox.API.AccountSubscription.Application.Queries
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace DittoBox.API.AccountSubscription.Application.Queries
 {
-    public class GetSubscriptionDetailsQuery
-    {
-    }
+    public record GetSubscriptionDetailsQuery
+    (
+        [Required] int SubscriptionId
+        );
 }

@@ -1,6 +1,8 @@
-﻿namespace DittoBox.API.UserProfile.Application.Queries
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace DittoBox.API.UserProfile.Application.Queries
 {
-    public class GetProfileQuery
-    {
-    }
+    public record GetProfileQuery(
+        [Required, Range(1, int.MaxValue)] int ProfileId
+    );
 }

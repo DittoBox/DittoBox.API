@@ -1,6 +1,9 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace DittoBox.API.UserProfile.Application.Commands
 {
-    public class DeleteUserCommand
-    {
-    }
+    public record DeleteUserCommand
+        (
+        [Required] int UserId
+        );
 }

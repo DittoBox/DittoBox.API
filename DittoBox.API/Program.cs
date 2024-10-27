@@ -1,4 +1,8 @@
+using DittoBox.API.AccountSubscription.Application.Handlers.Interfaces;
+using DittoBox.API.AccountSubscription.Application.Handlers.Internal;
 using DittoBox.API.Shared.Infrastructure;
+using DittoBox.API.UserProfile.Application.Handlers.Interfaces;
+using DittoBox.API.UserProfile.Application.Handlers.Internal;
 using Microsoft.EntityFrameworkCore;
 
 namespace DittoBox.API
@@ -39,6 +43,10 @@ namespace DittoBox.API
                 options.LowercaseUrls = true;
             });
 
+
+			RegisterHandlers(builder);
+
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -63,5 +71,32 @@ namespace DittoBox.API
 
             app.Run();
         }
-    }
+    
+		public static void RegisterHandlers(WebApplicationBuilder builder)
+		{
+            /* UserProfile handlers */
+			builder.Services.AddScoped<ICreateUserCommandHandler, CreateUserCommandHandler>();
+            builder.Services.AddScoped<IGetUserQueryHandler, GetUserQueryHandler>();
+            builder.Services.AddScoped<IDeleteUserCommandHandler, DeleteUserCommandHandler>();
+            builder.Services.AddScoped<IRequestPasswordChangeQueryHandler, RequestPasswordChangeQueryHandler>();
+            builder.Services.AddScoped<IChangePasswordCommandHandler, ChangePasswordCommandHandler>();
+            builder.Services.AddScoped<IGetProfileDetailsQueryHandler, GetProfileDetailsQueryHandler>();
+            builder.Services.AddScoped<IGrantPrivilegeCommandHandler, GrantPrivilegeCommandHandler>();
+            builder.Services.AddScoped<IRevokePrivilegeCommandHandler, RevokePrivilegeCommandHandler>();
+            builder.Services.AddScoped<IUpdateProfileNamesCommandHandler, UpdateProfileNamesCommandHandler>();
+
+            /* AccountSubscription handlers */
+            builder.Services.AddScoped<ICreateAccountCommandHandler, CreateAccountCommandHandler>();
+            builder.Services.AddScoped<IDeleteAccountCommandHandler, DeleteAccountCommandHandler>();
+            builder.Services.AddScoped<IGetAccountDetailsQueryHandler, GetAccountDetailsQueryHandler>();
+            builder.Services.AddScoped<IUpdateAccountCommandHandler, UpdateAccountCommandHandler>();
+            builder.Services.AddScoped<IUpdateBusinessInformationCommandHandler, UpdateBusinessInformationCommandHandler>();
+            builder.Services.AddScoped<ICancelSubscriptionCommandHandler, CancelSubscriptionCommandHandler>();
+            builder.Services.AddScoped<IDowngradeSubscriptionCommandHandler, DowngradeSubscriptionCommandHandler>();
+            builder.Services.AddScoped<IUpgradeSubscriptionCommandHandler, UpgradeSubscriptionCommandHandler>();
+            builder.Services.AddScoped<IGetSubscriptionDetailsQueryHandler, GetSubscriptionDetailsQueryHandler>();
+            builder.Services.AddScoped<ICancelSubscriptionCommandHandler, CancelSubscriptionCommandHandler>();
+
+        }
+	}
 }

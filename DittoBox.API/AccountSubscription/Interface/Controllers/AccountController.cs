@@ -1,57 +1,117 @@
 using DittoBox.API.AccountSubscription.Application.Commands;
+using DittoBox.API.AccountSubscription.Application.Handlers.Interfaces;
 using DittoBox.API.AccountSubscription.Application.Queries;
-using DittoBox.API.AccountSubscription.Interface.Responses;
+using DittoBox.API.AccountSubscription.Application.Resources;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DittoBox.API.AccountSubscription.Interface.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
-    public class AccountController : ControllerBase
+    public class AccountController(
+        ILogger<AccountController> _logger,
+        ICreateAccountCommandHandler createAccountCommandHandler,
+        IGetAccountDetailsQueryHandler getAccountDetailsQueryHandler,
+        IUpdateAccountCommandHandler updateAccountCommandHandler,
+        IDeleteAccountCommandHandler deleteAccountCommandHandler,
+        IUpdateBusinessInformationCommandHandler updateBusinessInformationCommandHandler
+        ) : ControllerBase
     {
         [HttpGet]
-        [Route("{query}")]
+        [Route("{query:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public Task<ActionResult<AccountResponse>> GetAccountDetails([FromRoute] GetAccountDetailsQuery query)
+        public async Task<ActionResult<AccountResource>> GetAccountDetails([FromRoute] GetAccountDetailsQuery query)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var response = await getAccountDetailsQueryHandler.Handle(query);
+                if (response == null)
+                {
+                    return NotFound();
+                }
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while getting account with accountId: {accountId}", query.AccountId);
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public Task<ActionResult<AccountResponse>> CreateAccount([FromBody] CreateAccountCommand command)
+        public async Task<ActionResult<AccountResource>> CreateAccount([FromBody] CreateAccountCommand command)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var response = await createAccountCommandHandler.Handle(command);
+                return CreatedAtAction(nameof(GetAccountDetails), new { accountId = response.Id }, response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while creating account with businessName {businessName}.", command.BusinessName);
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpPut]
-        [Route("{accountId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public Task<ActionResult<AccountResponse>> UpdateAccount([FromRoute] int accountId, [FromBody] UpdateAccountCommand command)
+        public async Task<ActionResult<AccountResource>> UpdateAccount([FromBody] UpdateAccountCommand command)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await updateAccountCommandHandler.Handle(command);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while updating account with accountId: {AccountId}", command.AccountId);
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpDelete]
-        [Route("{accountId}")]
+        [Route("{command:int}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public Task<ActionResult> DeleteAccount([FromRoute] int accountId)
+        public async Task<ActionResult> DeleteAccount([FromRoute] DeleteAccountCommand command)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await deleteAccountCommandHandler.Handle(command);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while deleting account with accountId: {AccountId}", command.AccountId);
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpPut]
-        [Route("{accountId}/business")]
+        [Route("{accountId:int}/business")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public Task<ActionResult<AccountResponse>> UpdateBusinessName([FromRoute]int accountId ,[FromBody]UpdateBusinessInformationCommand command)
+        public async Task<ActionResult<AccountResource>> UpdateBusinessName([FromRoute] int accountId ,[FromBody]UpdateBusinessInformationCommand command)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (command.AccountId != accountId)
+                {
+                    return BadRequest();
+                }
+                await updateBusinessInformationCommandHandler.Handle(command);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while updating business information for account with accountId: {AccountId}", command.AccountId);
+                return StatusCode(500, "Internal server error");
+            }
         }
     }
 }

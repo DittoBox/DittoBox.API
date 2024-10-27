@@ -1,6 +1,8 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace DittoBox.API.UserProfile.Application.Queries
 {
-    public class GetUserQuery
-    {
-    }
+    public record GetUserQuery (
+        [Required] int UserId
+    );
 }
