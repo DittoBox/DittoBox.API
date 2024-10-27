@@ -1,5 +1,6 @@
 using DittoBox.API.AccountSubscription.Application.Handlers.Interfaces;
 using DittoBox.API.AccountSubscription.Application.Handlers.Internal;
+using DittoBox.API.Shared.Domain.Repositories;
 using DittoBox.API.Shared.Infrastructure;
 using DittoBox.API.UserProfile.Application.Handlers.Interfaces;
 using DittoBox.API.UserProfile.Application.Handlers.Internal;
@@ -43,7 +44,7 @@ namespace DittoBox.API
                 options.LowercaseUrls = true;
             });
 
-
+            builder.Services.AddScoped<IUnitOfWork, IUnitOfWork>();
 			RegisterHandlers(builder);
 
 
