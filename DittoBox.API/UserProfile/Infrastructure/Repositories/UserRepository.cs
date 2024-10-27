@@ -1,4 +1,4 @@
-﻿using DittoBox.API.Shared.Domain.Repositories;
+﻿using DittoBox.API.Shared.Infrastructure.Repositories;
 using DittoBox.API.UserProfile.Domain.Models.Entities;
 using DittoBox.API.UserProfile.Domain.Repositories;
 

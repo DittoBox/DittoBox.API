@@ -1,6 +1,6 @@
 ﻿using DittoBox.API.AccountSubscription.Domain.Models.Aggregates;
 using DittoBox.API.AccountSubscription.Domain.Repositories;
-using DittoBox.API.Shared.Domain.Repositories;
+using DittoBox.API.Shared.Infrastructure.Repositories;
 
 namespace DittoBox.API.AccountSubscription.Infrastructure.Repositories
 {
