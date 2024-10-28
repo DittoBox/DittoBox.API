@@ -1,13 +1,21 @@
-﻿using DittoBox.API.UserProfile.Application.Commands;
+﻿using DittoBox.API.Shared.Domain.Repositories;
+using DittoBox.API.UserProfile.Application.Commands;
 using DittoBox.API.UserProfile.Application.Handlers.Interfaces;
+using DittoBox.API.UserProfile.Domain.Models.ValueObjects;
+using DittoBox.API.UserProfile.Domain.Services.Application;
 
 namespace DittoBox.API.UserProfile.Application.Handlers.Internal
 {
-    public class GrantPrivilegeCommandHandler : IGrantPrivilegeCommandHandler
+    public class GrantPrivilegeCommandHandler(
+        IProfileService profileService,
+        IUnitOfWork unitOfWork
+        ) : IGrantPrivilegeCommandHandler
     {
-        public Task Handle(GrantPrivilegeCommand command)
+        public async Task Handle(GrantPrivilegeCommand command)
         {
-            return Task.CompletedTask;
+            var profilePrivilege = new ProfilePrivilege(command.ProfileId, (Privilege)command.PrivilegeId);
+            await profileService.GrantPrivilege(profilePrivilege);
+            await unitOfWork.CompleteAsync();
         }
     }
 }

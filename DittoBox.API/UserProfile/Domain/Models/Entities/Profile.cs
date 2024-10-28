@@ -7,7 +7,7 @@ namespace DittoBox.API.UserProfile.Domain.Models.Entities {
         public int UserId { get; set; }
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
-        public Privilege? ProfilePrivilege { get; set; }
+        public ICollection<ProfilePrivilege> ProfilePrivileges { get; set; } = [];
         public Profile()
         {
         }
@@ -18,20 +18,5 @@ namespace DittoBox.API.UserProfile.Domain.Models.Entities {
             FirstName = firstName;
             LastName = lastName;
         }
-		public string GetProfileDetails() {
-			throw new NotImplementedException();
-		}
-		public void UpdateFirstName(string firstName) {
-			throw new NotImplementedException();
-		}
-		public void UpdateLastName(string lastName) {
-			throw new NotImplementedException();
-		}
-		public void AssignPrivilege(Privilege privilege) {
-			throw new NotImplementedException();
-		}
-		public void RevokePrivilege(Privilege privilege) {
-			throw new NotImplementedException();
-		}
 	}
 }

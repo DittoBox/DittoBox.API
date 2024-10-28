@@ -5,6 +5,6 @@ namespace DittoBox.API.UserProfile.Application.Handlers.Interfaces
 {
     public interface IGetProfileDetailsQueryHandler
     {
-        public Task<ProfileResource> Handle(GetProfileQuery query);
+        public Task<ProfileResource?> Handle(GetProfileQuery query);
     }
 }
