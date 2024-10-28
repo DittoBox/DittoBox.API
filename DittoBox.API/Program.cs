@@ -1,9 +1,18 @@
 using DittoBox.API.AccountSubscription.Application.Handlers.Interfaces;
 using DittoBox.API.AccountSubscription.Application.Handlers.Internal;
+using DittoBox.API.AccountSubscription.Application.Services;
+using DittoBox.API.AccountSubscription.Domain.Repositories;
+using DittoBox.API.AccountSubscription.Domain.Services.Application;
+using DittoBox.API.AccountSubscription.Infrastructure.Repositories;
 using DittoBox.API.Shared.Domain.Repositories;
 using DittoBox.API.Shared.Infrastructure;
+using DittoBox.API.Shared.Infrastructure.Repositories;
 using DittoBox.API.UserProfile.Application.Handlers.Interfaces;
 using DittoBox.API.UserProfile.Application.Handlers.Internal;
+using DittoBox.API.UserProfile.Application.Services;
+using DittoBox.API.UserProfile.Domain.Repositories;
+using DittoBox.API.UserProfile.Domain.Services.Application;
+using DittoBox.API.UserProfile.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace DittoBox.API
@@ -44,8 +53,10 @@ namespace DittoBox.API
                 options.LowercaseUrls = true;
             });
 
-            builder.Services.AddScoped<IUnitOfWork, IUnitOfWork>();
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 			RegisterHandlers(builder);
+            RegisterRepositories(builder);
+            RegisterServices(builder);
 
 
             var app = builder.Build();
@@ -59,7 +70,7 @@ namespace DittoBox.API
             using (var scope = app.Services.CreateScope())
             {
                 var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-                db.Database.EnsureDeleted();
+                // db.Database.EnsureDeleted();
                 db.Database.EnsureCreated();
             }
 
@@ -79,7 +90,6 @@ namespace DittoBox.API
 			builder.Services.AddScoped<ICreateUserCommandHandler, CreateUserCommandHandler>();
             builder.Services.AddScoped<IGetUserQueryHandler, GetUserQueryHandler>();
             builder.Services.AddScoped<IDeleteUserCommandHandler, DeleteUserCommandHandler>();
-            builder.Services.AddScoped<IRequestPasswordChangeQueryHandler, RequestPasswordChangeQueryHandler>();
             builder.Services.AddScoped<IChangePasswordCommandHandler, ChangePasswordCommandHandler>();
             builder.Services.AddScoped<IGetProfileDetailsQueryHandler, GetProfileDetailsQueryHandler>();
             builder.Services.AddScoped<IGrantPrivilegeCommandHandler, GrantPrivilegeCommandHandler>();
@@ -98,6 +108,20 @@ namespace DittoBox.API
             builder.Services.AddScoped<IGetSubscriptionDetailsQueryHandler, GetSubscriptionDetailsQueryHandler>();
             builder.Services.AddScoped<ICancelSubscriptionCommandHandler, CancelSubscriptionCommandHandler>();
 
+        }
+
+        public static void RegisterRepositories(WebApplicationBuilder builder) {
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
+            builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+            builder.Services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
+        }
+
+        public static void RegisterServices(WebApplicationBuilder builder) {
+            builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IProfileService, ProfileService>();
+            builder.Services.AddScoped<IAccountService, AccountService>();
+            builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
         }
 	}
 }

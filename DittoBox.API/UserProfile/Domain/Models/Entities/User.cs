@@ -1,13 +1,20 @@
-using DittoBox.API.UserProfile.Domain.Models.ValueObjects;
-
 namespace DittoBox.API.UserProfile.Domain.Models.Entities
 {
-	public class User(string username, string password, string email)
-	{
-		public int Id { get; set; }
-		public string Username { get; set; } = username;
-		public string Password { get; set; } = password;
-		public string Email { get; set; } = email;
+	public class User
+    {
+        public int Id { get; set; }
+		public string Username { get; set; } = string.Empty;
+		public string Password { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+	    public User()
+        {
+        }
+        public User(string username, string password, string email)
+        {
+            Username = username;
+            Password = password;
+            Email = email;
+        }
 
 		public string GetUserDetails() {
 			throw new NotImplementedException();

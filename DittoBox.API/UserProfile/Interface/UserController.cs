@@ -13,20 +13,15 @@ namespace DittoBox.API.UserProfile.Interface
         ICreateUserCommandHandler createUserCommandHandler,
         IGetUserQueryHandler getUserQueryHandler,
         IDeleteUserCommandHandler deleteUserCommandHandler,
-        IRequestPasswordChangeQueryHandler requestPasswordChangeQueryHandler,
         IChangePasswordCommandHandler changePasswordCommandHandler
     ) : ControllerBase
     {
 
-        [HttpGet("{query:int}")]
+        [HttpGet("{UserId:int}")]
         public async Task<ActionResult<UserResource>> GetUser([FromRoute] GetUserQuery query)
         {
             try
             {
-                if (query.UserId <= 0)
-                {
-                    return BadRequest("UserId must be a positive integer.");
-                }
                 var response = await getUserQueryHandler.Handle(query);
                 if (response == null)
                 {
@@ -49,7 +44,7 @@ namespace DittoBox.API.UserProfile.Interface
             {
                 var response = await createUserCommandHandler.Handle(user);
                 _logger.LogInformation("User created with username {username} and id {id}", response.Username, response.Id);
-                return CreatedAtAction(nameof(GetUser), new { query = response.Id }, response);
+                return CreatedAtAction(nameof(GetUser), new { UserId = response.Id }, response);
             }
             catch (Exception ex)
             {
@@ -59,7 +54,7 @@ namespace DittoBox.API.UserProfile.Interface
         }
 
         [HttpDelete]
-        [Route("{command:int}")]
+        [Route("{UserId:int}")]
         public async Task<ActionResult> DeleteUser([FromRoute] DeleteUserCommand command)
         {
             try
@@ -68,26 +63,9 @@ namespace DittoBox.API.UserProfile.Interface
                 _logger.LogInformation("User with userId: {userId} deleted", command.UserId);
                 return NoContent();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                _logger.LogError("An error occurred while deleting user with userId: {userId}", command.UserId);
-                return StatusCode(500, "Internal server error");
-            }
-        }
-
-        [HttpPost]
-        [Route("request-password-change")]
-        public async Task<ActionResult> RequestPasswordChange([FromBody] ChangePasswordQuery changePassword)
-        {
-            try
-            {
-                await requestPasswordChangeQueryHandler.Handle(changePassword);
-                _logger.LogInformation("Password change requested for user with email {email}", changePassword.Email);
-                return Ok();
-            }
-            catch (Exception)
-            {
-                _logger.LogError("An error occurred while requesting password change for user with email {email}", changePassword.Email);
+                _logger.LogError(ex, "An error occurred while deleting user with userId: {userId}", command.UserId);
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -100,13 +78,13 @@ namespace DittoBox.API.UserProfile.Interface
             {
 
                 await changePasswordCommandHandler.Handle(changePassword);
-                _logger.LogInformation("Password changed for user with email {email}", changePassword.Email);
+                _logger.LogInformation("Password changed for user with id {UserId}", changePassword.UserId);
                 return Ok();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                _logger.LogError(ex, "An error occurred while changing password for user with id {UserId}", changePassword.UserId);
+                return StatusCode(500, "Internal server error");
             }
         }
     }
