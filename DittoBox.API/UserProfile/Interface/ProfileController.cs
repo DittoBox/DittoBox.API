@@ -2,6 +2,7 @@
 using DittoBox.API.UserProfile.Application.Handlers.Interfaces;
 using DittoBox.API.UserProfile.Application.Queries;
 using DittoBox.API.UserProfile.Application.Resources;
+using DittoBox.API.UserProfile.Domain.Models.ValueObjects;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DittoBox.API.UserProfile.Interface
@@ -16,7 +17,7 @@ namespace DittoBox.API.UserProfile.Interface
         IRevokePrivilegeCommandHandler revokePrivilegeCommandHandler
     ) : ControllerBase
     {
-        [HttpGet("{query:int}")]
+        [HttpGet("{ProfileId:int}")]
         public async Task<ActionResult<ProfileResource>> GetProfileDetails([FromRoute] GetProfileQuery query)
         {
             try

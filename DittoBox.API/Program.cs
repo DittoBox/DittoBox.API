@@ -115,6 +115,7 @@ namespace DittoBox.API
             builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
             builder.Services.AddScoped<IAccountRepository, AccountRepository>();
             builder.Services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
+            builder.Services.AddScoped<IProfilePrivilegeRepository, ProfilePrivilegeRepository>();
         }
 
         public static void RegisterServices(WebApplicationBuilder builder) {

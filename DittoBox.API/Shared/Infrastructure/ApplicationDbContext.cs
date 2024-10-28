@@ -1,6 +1,7 @@
 using DittoBox.API.AccountSubscription.Domain.Models.Aggregates;
 using DittoBox.API.AccountSubscription.Domain.Models.Entities;
 using DittoBox.API.UserProfile.Domain.Models.Entities;
+using DittoBox.API.UserProfile.Domain.Models.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 
 namespace DittoBox.API.Shared.Infrastructure
@@ -11,6 +12,7 @@ namespace DittoBox.API.Shared.Infrastructure
 		public DbSet<Profile> Profiles { get; set; }
 		public DbSet<Account> Accounts { get; set; }
         public DbSet<Subscription> Subscriptions { get; set; }
+		public DbSet<ProfilePrivilege> ProfilePrivileges { get; set; }
 
     }
 }
