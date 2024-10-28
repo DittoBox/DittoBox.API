@@ -3,14 +3,22 @@ using DittoBox.API.UserProfile.Domain.Models.Entities;
 
 namespace DittoBox.API.AccountSubscription.Domain.Models.Aggregates
 {
-    public class Account(int id, string businessName, string bussinessId, int representativeId, int subscriptionId)
+    public class Account
     {
-        public int Id { get; set; } = id;
-        public string BusinessName { get; set; } = businessName;
-        public string BussinessId { get; set; } = bussinessId;
-        public int RepresentativeId { get; set; } = representativeId;
-        public int SubscriptionId { get; set; } = subscriptionId;
-
+        public int Id { get; set; }
+        public string BusinessName { get; set; } = string.Empty;
+        public string BussinessId { get; set; } = string.Empty;
+        public int RepresentativeId { get; set; }
+        public int SubscriptionId { get; set; }
+        public Account() { }
+        public Account(int id, string businessName, string bussinessId, int representativeId, int subscriptionId)
+        {
+            Id = id;
+            BusinessName = businessName;
+            BussinessId = bussinessId;
+            RepresentativeId = representativeId;
+            SubscriptionId = subscriptionId;
+        }
         public void UpdateBusinessInformation(string businessName, string businessId, int representativeId)
         {
             BusinessName = businessName;

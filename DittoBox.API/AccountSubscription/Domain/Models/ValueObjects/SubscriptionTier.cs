@@ -1,8 +1,9 @@
 ﻿namespace DittoBox.API.AccountSubscription.Domain.Models.ValueObjects
 {
-    public class SubscriptionTier
+    public enum SubscriptionTier
     {
-        public int Id { get; set; }
-        private string Name { get; set; }
+        Free = 0,
+        Basic = 1,
+        Premium = 2
     }
 }

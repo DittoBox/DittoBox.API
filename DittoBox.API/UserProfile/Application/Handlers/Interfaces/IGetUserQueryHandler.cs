@@ -5,6 +5,6 @@ namespace DittoBox.API.UserProfile.Application.Handlers.Interfaces
 {
     public interface IGetUserQueryHandler
     {
-        public Task<UserResource> Handle(GetUserQuery query);
+        public Task<UserResource?> Handle(GetUserQuery query);
     }
 }
