@@ -33,5 +33,10 @@ namespace DittoBox.API.Shared.Infrastructure.Repositories
             context.Set<T>().Update(entity);
             return Task.CompletedTask;
         }
+
+        public Task<IQueryable<T>> GetAllSync()
+        {
+            return Task.FromResult((IQueryable<T>)context.Set<T>());
+        }
     }
 }

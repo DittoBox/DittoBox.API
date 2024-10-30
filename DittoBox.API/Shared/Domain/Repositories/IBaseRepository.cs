@@ -6,5 +6,7 @@ namespace DittoBox.API.Shared.Domain.Repositories {
 		Task Update(T entity);
 		Task Delete(T entity);
 
+		Task<IQueryable<T>> GetAllSync();
+
 	}
 }

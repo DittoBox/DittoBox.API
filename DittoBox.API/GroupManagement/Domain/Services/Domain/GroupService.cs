@@ -3,6 +3,8 @@ using DittoBox.API.GroupManagement.Domain.Models.Entities;
 using DittoBox.API.GroupManagement.Domain.Models.ValueObject;
 using DittoBox.API.GroupManagement.Domain.Repositories;
 using DittoBox.API.GroupManagement.Domain.Services.Application;
+using Microsoft.EntityFrameworkCore; 
+
 
 namespace DittoBox.API.GroupManagement.Domain.Services.Domain
 {
@@ -24,14 +26,18 @@ namespace DittoBox.API.GroupManagement.Domain.Services.Domain
                 await groupRepository.Delete(group);
             }
         }
-
         public async Task<Group> GetGroup(int id)
         {
-            var group = await groupRepository.GetById(id);
+            var groups = await groupRepository.GetAllSync(); // Asegúrate de que esto devuelva Task<IQueryable<Group>>
+            var group = await groups
+                .Include(g => g.Location)
+                .FirstOrDefaultAsync(g => g.Id == id);
+
             if (group == null)
             {
                 throw new Exception("Group not found");
             }
+
             return group;
         }
 

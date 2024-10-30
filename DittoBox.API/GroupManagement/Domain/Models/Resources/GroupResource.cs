@@ -11,14 +11,13 @@ namespace DittoBox.API.GroupManagement.Domain.Models.Resources
         int AccountId,
         FacilityType FacilityType
     )
-
     {
 
         public static GroupResource FromGroup(Group group)
         {
-            return new GroupResource(group.Id, group.Name, group.Location, group.AccountId, group.FacilityType);
+            return new GroupResource(group.Id, group.Name, Location.FromLocation(group.Location), group.AccountId, group.FacilityType);
         }
-    }
+    };
 
 
 }

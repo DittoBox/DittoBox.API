@@ -22,7 +22,12 @@ namespace DittoBox.API.Shared.Infrastructure
 		{
 			base.OnModelCreating(modelBuilder);
 			modelBuilder.Entity<Group>().Property(g => g.FacilityType).HasConversion<string>();
-		}
+			
+			modelBuilder.Entity<Group>()
+				.HasOne(g => g.Location)
+				.WithMany()
+				.HasForeignKey(g => g.LocationId);
+			}
 
     }
 	

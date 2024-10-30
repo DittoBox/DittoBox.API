@@ -69,7 +69,7 @@ namespace DittoBox.API.GroupManagement.Interface.Controllers
         [Route("{groupId:int}")]
         public async Task<ActionResult<GroupResource>> GetGroup([FromRoute] int groupId)
         {
-            try 
+            try
             {
                 var query = new GetGroupQuery(groupId);
                 var response = await getGroupQueryHandler.Handle(query);
@@ -77,13 +77,6 @@ namespace DittoBox.API.GroupManagement.Interface.Controllers
                 {
                     return NotFound();
                 }
-
-                // Verifica si la propiedad Location está asignada
-                if (response.Location == null)
-                {
-                    _logger.LogWarning("Location is null for group with groupId: {groupId}", groupId);
-                }
-
                 return Ok(response);
             }
             catch (Exception ex)
