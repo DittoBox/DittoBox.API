@@ -1,5 +1,7 @@
 using DittoBox.API.AccountSubscription.Domain.Models.Aggregates;
 using DittoBox.API.AccountSubscription.Domain.Models.Entities;
+using DittoBox.API.GroupManagement.Domain.Models.Entities;
+using DittoBox.API.GroupManagement.Domain.Models.ValueObject;
 using DittoBox.API.UserProfile.Domain.Models.Entities;
 using DittoBox.API.UserProfile.Domain.Models.ValueObjects;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +15,15 @@ namespace DittoBox.API.Shared.Infrastructure
 		public DbSet<Account> Accounts { get; set; }
         public DbSet<Subscription> Subscriptions { get; set; }
 		public DbSet<ProfilePrivilege> ProfilePrivileges { get; set; }
+		public DbSet<Group> Groups { get; set; }
+		public DbSet<Location> locations { get; set; }
+
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
+		{
+			base.OnModelCreating(modelBuilder);
+			modelBuilder.Entity<Group>().Property(g => g.FacilityType).HasConversion<string>();
+		}
 
     }
+	
 }

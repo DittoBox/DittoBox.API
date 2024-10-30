@@ -1,5 +1,6 @@
 
 using DittoBox.API.GroupManagement.Domain.Models.Entities;
+using DittoBox.API.GroupManagement.Domain.Models.ValueObject;
 
 namespace DittoBox.API.GroupManagement.Domain.Models.Resources
 {
@@ -7,14 +8,15 @@ namespace DittoBox.API.GroupManagement.Domain.Models.Resources
         int Id,
         string Name,
         Location Location,
-        int AccountId
-    );
+        int AccountId,
+        FacilityType FacilityType
+    )
 
-    public static class GroupResourceExtensions
     {
-        public static GroupResource ToResource(this Group group)
+
+        public static GroupResource FromGroup(Group group)
         {
-            return new GroupResource(group.Id, group.Name, group.Location, group.AccountId);
+            return new GroupResource(group.Id, group.Name, group.Location, group.AccountId, group.FacilityType);
         }
     }
 

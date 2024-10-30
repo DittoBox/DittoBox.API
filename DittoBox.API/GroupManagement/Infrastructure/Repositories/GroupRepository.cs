@@ -9,6 +9,9 @@ namespace DittoBox.API.GroupManagement.Infrastructure.Repositories
     {
         public GroupRepository(ApplicationDbContext context) : base(context)
         {
+            
         }
+        
     }
+
 }

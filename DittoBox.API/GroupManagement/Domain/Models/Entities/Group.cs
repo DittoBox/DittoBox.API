@@ -2,23 +2,28 @@
 
 namespace DittoBox.API.GroupManagement.Domain.Models.Entities
 {
-    public class Group (
-        string name,
-        string country,
-        string city,
-        string state,
-        FacilityType facilityType
-    )
+    public class Group
     {
         public int Id { get; set; }
-        public string Name { get; set; } = name;
-        public Location Location { get; set; } = new Location(country, city, state);
+        public string Name { get; set; }
+
+        public Location Location { get; set; }
         public int AccountId { get; set; }
-        public int FacilityType { get; set; } = (int)facilityType;
+        public FacilityType FacilityType { get; }
+
+        public Group(){}
+
+        public Group(int accountId, string name, Location location, FacilityType facilityType)
+        {
+            AccountId = accountId;
+            Name = name;
+            Location = location;
+            FacilityType = facilityType;
+        }
 
         public void UpdateGroupLocation(Location location)
         {
-               Location = location;
+            Location = location;
         }
 
         public void UpdateGroupName(string name)

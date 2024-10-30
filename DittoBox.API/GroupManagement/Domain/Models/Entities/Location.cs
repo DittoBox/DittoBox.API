@@ -21,5 +21,6 @@
             Latitude = latitude;
             Longitude = longitude;
         }
+        
     }
 }
