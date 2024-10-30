@@ -4,6 +4,8 @@ using DittoBox.API.AccountSubscription.Application.Services;
 using DittoBox.API.AccountSubscription.Domain.Repositories;
 using DittoBox.API.AccountSubscription.Domain.Services.Application;
 using DittoBox.API.AccountSubscription.Infrastructure.Repositories;
+using DittoBox.API.GroupManagement.Domain.Models.Commands;
+using DittoBox.API.GroupManagement.Domain.Models.Handlers.Internal;
 using DittoBox.API.Shared.Domain.Repositories;
 using DittoBox.API.Shared.Infrastructure;
 using DittoBox.API.Shared.Infrastructure.Repositories;
@@ -107,6 +109,9 @@ namespace DittoBox.API
             builder.Services.AddScoped<IUpgradeSubscriptionCommandHandler, UpgradeSubscriptionCommandHandler>();
             builder.Services.AddScoped<IGetSubscriptionDetailsQueryHandler, GetSubscriptionDetailsQueryHandler>();
             builder.Services.AddScoped<ICancelSubscriptionCommandHandler, CancelSubscriptionCommandHandler>();
+
+            /* GroupManagement handlers */
+            builder.Services.AddScoped<ICreateGroupCommandHandler, CreateGroupCommandHandler>();
 
         }
 

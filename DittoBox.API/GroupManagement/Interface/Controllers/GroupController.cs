@@ -73,11 +73,22 @@ namespace DittoBox.API.GroupManagement.Interface.Controllers
         [HttpPost]
         public async Task<ActionResult<GroupResource>> CreateGroup([FromBody] CreateGroupCommand command)
         {
+            // try
+            // {
+            //     var response = await createGroupCommandHandler.Handle(command);
+            //     _logger.LogInformation("Group created with name {name} and id {id}", response.Name, response.Id);
+            //     return CreatedAtAction(nameof(GetGroup), new { GroupId = response.Id }, response);
+            // }
+            // catch (Exception ex)
+            // {
+            //     _logger.LogError(ex, "An error occurred while creating group with name {name}", command.Name);
+            //     return StatusCode(500, "Internal server error");
+            // }
             try
             {
                 var response = await createGroupCommandHandler.Handle(command);
                 _logger.LogInformation("Group created with name {name} and id {id}", response.Name, response.Id);
-                return CreatedAtAction(nameof(GetGroup), new { GroupId = response.Id }, response);
+                return Ok(response);
             }
             catch (Exception ex)
             {
