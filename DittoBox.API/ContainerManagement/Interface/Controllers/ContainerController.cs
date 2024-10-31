@@ -11,7 +11,8 @@ namespace DittoBox.API.ContainerManagement.Interface.Controllers
     public class ContainerController(
         ILogger<ContainerController> _logger,
         ICreateContainerCommandHandler createContainerCommandHandler,
-        IGetContainerQueryHandler getContainersQueryHandler
+        IGetContainerQueryHandler getContainersQueryHandler,
+        IGetStatusFromContainerHandler getStatusFromContainerHandler
         ) : ControllerBase
     {
         [HttpPost]
@@ -54,9 +55,18 @@ namespace DittoBox.API.ContainerManagement.Interface.Controllers
 
         [HttpGet]
         [Route("{containerId}/status")]
-        public Task<ActionResult<ContainerStatusResource>> GetContainerStatus([FromRoute] int containerId)
+        public async Task<ActionResult<ContainerStatusResource>> GetContainerStatus([FromRoute] GetContainerByIdQuery query)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var response = await getStatusFromContainerHandler.Handle(query);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while getting container status with containerId: {containerId}", query.containerId);
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpGet]
