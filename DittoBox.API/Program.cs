@@ -4,6 +4,12 @@ using DittoBox.API.AccountSubscription.Application.Services;
 using DittoBox.API.AccountSubscription.Domain.Repositories;
 using DittoBox.API.AccountSubscription.Domain.Services.Application;
 using DittoBox.API.AccountSubscription.Infrastructure.Repositories;
+using DittoBox.API.ContainerManagement.Application.Handlers.Interfaces;
+using DittoBox.API.ContainerManagement.Application.Handlers.Internal;
+using DittoBox.API.ContainerManagement.Application.Services;
+using DittoBox.API.ContainerManagement.Domain.Repositories;
+using DittoBox.API.ContainerManagement.Domain.Services.Application;
+using DittoBox.API.ContainerManagement.Infrastructure.Repositories;
 using DittoBox.API.Shared.Domain.Repositories;
 using DittoBox.API.Shared.Infrastructure;
 using DittoBox.API.Shared.Infrastructure.Repositories;
@@ -70,7 +76,7 @@ namespace DittoBox.API
             using (var scope = app.Services.CreateScope())
             {
                 var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-                // db.Database.EnsureDeleted();
+                //db.Database.EnsureDeleted();
                 db.Database.EnsureCreated();
             }
 
@@ -108,6 +114,10 @@ namespace DittoBox.API
             builder.Services.AddScoped<IGetSubscriptionDetailsQueryHandler, GetSubscriptionDetailsQueryHandler>();
             builder.Services.AddScoped<ICancelSubscriptionCommandHandler, CancelSubscriptionCommandHandler>();
 
+            /* Group Management handlers */
+            builder.Services.AddScoped<ICreateContainerCommandHandler, CreateContainerCommandHandler>();
+            builder.Services.AddScoped<IGetContainersQueryHandler, GetContainersQueryHandler>();
+
         }
 
         public static void RegisterRepositories(WebApplicationBuilder builder) {
@@ -116,6 +126,7 @@ namespace DittoBox.API
             builder.Services.AddScoped<IAccountRepository, AccountRepository>();
             builder.Services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
             builder.Services.AddScoped<IProfilePrivilegeRepository, ProfilePrivilegeRepository>();
+            builder.Services.AddScoped<IContainerRepository, ContainerRepository>();
         }
 
         public static void RegisterServices(WebApplicationBuilder builder) {
@@ -123,6 +134,7 @@ namespace DittoBox.API
             builder.Services.AddScoped<IProfileService, ProfileService>();
             builder.Services.AddScoped<IAccountService, AccountService>();
             builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
+            builder.Services.AddScoped<IContainerService, ContainerService>();
         }
 	}
 }

@@ -5,5 +5,6 @@ namespace DittoBox.API.ContainerManagement.Domain.Repositories
 {
     public interface IContainerRepository : IBaseRepository<Container>
     {
+        public Task<IEnumerable<Container>> GetAllByGroupId(int groupId);
     }
 }
