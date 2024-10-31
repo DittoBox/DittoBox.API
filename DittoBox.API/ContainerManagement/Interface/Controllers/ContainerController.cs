@@ -1,5 +1,6 @@
 ﻿using DittoBox.API.ContainerManagement.Application.Commands;
 using DittoBox.API.ContainerManagement.Application.Handlers.Interfaces;
+using DittoBox.API.ContainerManagement.Application.Queries;
 using DittoBox.API.ContainerManagement.Interface.Resources;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,7 +11,7 @@ namespace DittoBox.API.ContainerManagement.Interface.Controllers
     public class ContainerController(
         ILogger<ContainerController> _logger,
         ICreateContainerCommandHandler createContainerCommandHandler,
-        IGetContainersQueryHandler getContainersQueryHandler
+        IGetContainerQueryHandler getContainersQueryHandler
         ) : ControllerBase
     {
         [HttpPost]
@@ -25,6 +26,21 @@ namespace DittoBox.API.ContainerManagement.Interface.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred while creating container with name {name}", container.Name);
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpGet("{containerId:int}")]
+        public async Task<ActionResult<ContainerResource>> GetContainerById([FromRoute] GetContainerByIdQuery query)
+        {
+            try
+            {
+                var response = await getContainersQueryHandler.Handle(query);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while getting containers with containerId: {containerId}", query.containerId);
                 return StatusCode(500, "Internal server error");
             }
         }

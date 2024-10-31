@@ -2,21 +2,23 @@
 {
     public class ContainerConditions
     {
-        public double MaxTemperature { get; private set; }
-        public double MinTemperature { get; private set; }
-        public double MaxHumidity { get; private set; }
-        public double MinHumidity { get; private set; }
+        public double MaxTemperature { get; set; }
+        public double MinTemperature { get; set; }
+        public double MaxHumidity { get; set; }
+        public double MinHumidity { get; set; }
 
-        public double OxygenMin { get; private set; }
-        public double OxygenMax { get; private set; }
-        public double DioxideMin { get; private set; }
-        public double DioxideMax { get; private set; }
-        public double EthyleneMin { get; private set; }
-        public double EthyleneMax { get; private set; }
-        public double AmmoniaMin { get; private set; }
-        public double AmmoniaMax { get; private set; }
-        public double SulfurDioxideMin { get; private set; }
-        public double SulfurDioxideMax { get; private set; }
+        public double OxygenMin { get; set; }
+        public double OxygenMax { get; set; }
+        public double DioxideMin { get; set; }
+        public double DioxideMax { get; set; }
+        public double EthyleneMin { get; set; }
+        public double EthyleneMax { get; set; }
+        public double AmmoniaMin { get; set; }
+        public double AmmoniaMax { get; set; }
+        public double SulfurDioxideMin { get; set; }
+        public double SulfurDioxideMax { get; set; }
+
+        public ContainerConditions() { }
 
         public ContainerConditions(
             double minTemp, double maxTemp,

@@ -13,13 +13,13 @@ namespace DittoBox.API.ContainerManagement.Domain.Models.Entities
         public double Temperature { get; set; } = 0.0;
         public double Humidity { get; set; } = 0.0;
 
-        public ContainerConditions? ContainerConditions { get; private set; }
+        public ContainerConditions? ContainerConditions { get; set; }
 
         public int LastKnownHealthStatus { get; private set; } = 0;
-        public DateTime LastKnownHealthStatusReport { get; private set; } = new DateTime(1970, 1, 1);
+        public DateTime? LastKnownHealthStatusReport { get; private set; } = DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc);
         public int LastKnownContainerStatus { get; set; } = 0;
-        public DateTime LastKnownContainerStatusReport { get; set; } = new DateTime();
-        public DateTime LastSync { get; set; }
+        public DateTime LastKnownContainerStatusReport { get; set; } = DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc);
+        public DateTime LastSync { get; set; } = DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc);
 
         public Container(
             string name,
@@ -69,18 +69,16 @@ namespace DittoBox.API.ContainerManagement.Domain.Models.Entities
             ContainerConditions = newConditions;
         }
 
-        public void UpdateConditions(ContainerConditions newConditions)
-        {
-            ContainerConditions = newConditions;
-        }
-
         public void UpdateSensorReadings(double temperature, double humidity)
         {
             Temperature = temperature;
             Humidity = humidity;
         }
 
-
+        public void UpdateSyncTime()
+        {
+            LastSync = DateTime.UtcNow;
+        }
 
 
     }

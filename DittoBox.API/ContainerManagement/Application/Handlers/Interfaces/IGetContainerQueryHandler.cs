@@ -3,8 +3,8 @@ using DittoBox.API.ContainerManagement.Interface.Resources;
 
 namespace DittoBox.API.ContainerManagement.Application.Handlers.Interfaces
 {
-    public interface IGetContainersQueryHandler
+    public interface IGetContainerQueryHandler
     {
-        public Task<IEnumerable<ContainerResource>> Handle(GetContainersByGroupIdQuery query);
+        public Task<ContainerResource?> Handle(GetContainerByIdQuery query);
     }
 }

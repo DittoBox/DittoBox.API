@@ -116,7 +116,7 @@ namespace DittoBox.API
 
             /* Group Management handlers */
             builder.Services.AddScoped<ICreateContainerCommandHandler, CreateContainerCommandHandler>();
-            builder.Services.AddScoped<IGetContainersQueryHandler, GetContainersQueryHandler>();
+            builder.Services.AddScoped<IGetContainerQueryHandler, GetContainerQueryHandler>();
 
         }
 
