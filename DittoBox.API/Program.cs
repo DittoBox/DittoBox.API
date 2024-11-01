@@ -118,6 +118,7 @@ namespace DittoBox.API
             builder.Services.AddScoped<ICreateContainerCommandHandler, CreateContainerCommandHandler>();
             builder.Services.AddScoped<IGetContainerQueryHandler, GetContainerQueryHandler>();
             builder.Services.AddScoped<IGetStatusFromContainerHandler, GetStatusFromContainerHandler>();
+            builder.Services.AddScoped<IGetHealthFromContainerHandler, GetHealthFromContainerHandle>();
 
         }
 

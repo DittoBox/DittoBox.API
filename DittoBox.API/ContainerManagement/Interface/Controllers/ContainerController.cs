@@ -12,7 +12,8 @@ namespace DittoBox.API.ContainerManagement.Interface.Controllers
         ILogger<ContainerController> _logger,
         ICreateContainerCommandHandler createContainerCommandHandler,
         IGetContainerQueryHandler getContainersQueryHandler,
-        IGetStatusFromContainerHandler getStatusFromContainerHandler
+        IGetStatusFromContainerHandler getStatusFromContainerHandler,
+        IGetHealthFromContainerHandler getHealthFromContainerHandler
         ) : ControllerBase
     {
         [HttpPost]
@@ -71,9 +72,18 @@ namespace DittoBox.API.ContainerManagement.Interface.Controllers
 
         [HttpGet]
         [Route("{containerId}/health")]
-        public Task<ActionResult<ContainerHealthResource>> GetContainerHealth([FromRoute] int containerId)
+        public async Task<ActionResult<ContainerHealthResource>> GetContainerHealth([FromRoute] GetContainerByIdQuery query)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var response = await getHealthFromContainerHandler.Handle(query);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while getting container health with containerId: {containerId}", query.containerId);
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpPut]
