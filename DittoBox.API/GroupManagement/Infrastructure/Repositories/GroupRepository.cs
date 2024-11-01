@@ -2,6 +2,7 @@
 using DittoBox.API.GroupManagement.Domain.Repositories;
 using DittoBox.API.Shared.Infrastructure;
 using DittoBox.API.Shared.Infrastructure.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace DittoBox.API.GroupManagement.Infrastructure.Repositories
 {
@@ -9,6 +10,7 @@ namespace DittoBox.API.GroupManagement.Infrastructure.Repositories
     {
         public GroupRepository(ApplicationDbContext context) : base(context)
         {
+
         }
     }
 }
