@@ -1,6 +1,19 @@
-﻿namespace DittoBox.API.ContainerManagement.Interface.Resources
+﻿using DittoBox.API.ContainerManagement.Domain.Models.Entities;
+using DittoBox.API.ContainerManagement.Domain.Models.ValueObjects;
+
+namespace DittoBox.API.ContainerManagement.Interface.Resources
 {
-    public class ContainerStatusResource
+    public record ContainerStatusResource(
+        string LastKnownContainerStatus,
+        DateTime LastKnownContainerStatusReport
+        )
     {
+        public static ContainerStatusResource FromContainer(Container container)
+        {
+            return new ContainerStatusResource(
+                ((ContainerStatus)container.LastKnownContainerStatus).ToString(),
+                container.LastKnownContainerStatusReport
+            );
+        }
     }
 }

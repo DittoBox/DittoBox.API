@@ -2,13 +2,10 @@
 using DittoBox.API.ContainerManagement.Domain.Models.Entities;
 using DittoBox.API.Shared.Infrastructure.Repositories;
 using DittoBox.API.Shared.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 
 namespace DittoBox.API.ContainerManagement.Infrastructure.Repositories
 {
-    public class ContainerRepository : BaseRepository<Container>, IContainerRepository
-    {
-        public ContainerRepository(ApplicationDbContext context) : base(context)
-        {
-        }
-    }
+    public class ContainerRepository(ApplicationDbContext context) : BaseRepository<Container>(context), IContainerRepository
+    {}
 }
