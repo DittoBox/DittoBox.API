@@ -1,4 +1,4 @@
 ﻿namespace DittoBox.API.ContainerManagement.Application.Queries
 {
-    public record GetContainerByIdQuery(int ContainerId);
+    public record GetHealthStatusByContainerIdQuery(int ContainerId);
 }

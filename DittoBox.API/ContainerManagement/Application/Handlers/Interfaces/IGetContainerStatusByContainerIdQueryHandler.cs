@@ -3,8 +3,8 @@ using DittoBox.API.ContainerManagement.Interface.Resources;
 
 namespace DittoBox.API.ContainerManagement.Application.Handlers.Interfaces
 {
-    public interface IGetHealthFromContainerHandler
+    public interface IGetContainerStatusByContainerIdQueryHandler
     {
-        public Task<ContainerHealthResource?> Handle(GetContainerByIdQuery query);
+        public Task<ContainerStatusResource?> Handle(GetContainerStatusByContainerIdQuery query);
     }
 }

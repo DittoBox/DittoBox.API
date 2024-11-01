@@ -5,14 +5,14 @@ using DittoBox.API.ContainerManagement.Interface.Resources;
 
 namespace DittoBox.API.ContainerManagement.Application.Handlers.Internal
 {
-    public class GetStatusFromContainerHandler(
+    public class GetHealthStatusByContainerIdQueryHandler(
         IContainerService containerService
-        ) : IGetStatusFromContainerHandler
+        ) : IGetHealthStatusByContainerIdQueryHandler
     {
-        public async Task<ContainerStatusResource?> Handle(GetContainerByIdQuery query)
+        public async Task<ContainerHealthResource?> Handle(GetHealthStatusByContainerIdQuery query)
         {
-            var result = await containerService.GetContainerById(query.containerId);
-            return result == null ? null : ContainerStatusResource.FromContainer(result);
+            var result = await containerService.GetContainerById(query.ContainerId);
+            return result == null ? null : ContainerHealthResource.FromContainer(result);
         }
     }
 }

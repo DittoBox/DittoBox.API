@@ -6,5 +6,6 @@ namespace DittoBox.API.ContainerManagement.Domain.Services.Application
     {
         public Task<Container> CreateContainer(string name, string description, int accountId, int groupId, int containerSizeId);
         public Task<Container?> GetContainerById(int id);
+        public Task UpdateContainer(Container container);
     }
 }

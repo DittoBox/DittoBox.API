@@ -13,7 +13,7 @@ namespace DittoBox.API.ContainerManagement.Application.Handlers.Internal
     {
         public async Task<ContainerResource?> Handle(GetContainerByIdQuery query)
         {
-            var result = await containerService.GetContainerById(query.containerId);
+            var result = await containerService.GetContainerById(query.ContainerId);
 
             return result == null ? null : ContainerResource.FromContainer(result);
         }
