@@ -21,9 +21,9 @@ namespace DittoBox.API.AccountSubscription.Application.Services
 			return account;
 		}
 
-		public Task<Account?> GetAccount(int accountId)
+		public async Task<Account?> GetAccount(int accountId)
 		{
-			throw new NotImplementedException();
+			return await accountRepository.GetById(accountId);
 		}
 	}
 }

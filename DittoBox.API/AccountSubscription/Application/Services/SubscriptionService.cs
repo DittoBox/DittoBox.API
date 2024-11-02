@@ -1,13 +1,24 @@
 using DittoBox.API.AccountSubscription.Domain.Models.Entities;
+using DittoBox.API.AccountSubscription.Domain.Repositories;
 using DittoBox.API.AccountSubscription.Domain.Services.Application;
 
 namespace DittoBox.API.AccountSubscription.Application.Services
 {
-	public class SubscriptionService : ISubscriptionService
+	public class SubscriptionService(
+		ISubscriptionRepository subscriptionRepository
+	) : ISubscriptionService
 	{
-		public Task<Subscription> CreateSubscription(int userId, string subscriptionName, string subscriptionDescription)
+		public async Task<Subscription> CreateSubscription(int accountId, string subscriptionName, string subscriptionDescription)
 		{
-			throw new NotImplementedException();
+			var subscription = new Subscription(){
+				AccountId = accountId,
+				TierId = 0,
+				PaymentDate = DateOnly.FromDateTime(DateTime.Now),
+				SubscriptionStatusId = 1,
+				LastPaidPeriod = DateOnly.FromDateTime(DateTime.Now)
+			};
+			await subscriptionRepository.Add(subscription);
+			return subscription;
 		}
 
 		public Task DeleteSubscription(int subscriptionId)
@@ -15,7 +26,17 @@ namespace DittoBox.API.AccountSubscription.Application.Services
 			throw new NotImplementedException();
 		}
 
-		public Task<Subscription?> GetSubscription(int subscriptionId)
+		public async Task<Subscription?> GetSubscription(int subscriptionId)
+		{
+			return await subscriptionRepository.GetById(subscriptionId);
+		}
+
+		public Task<Subscription?> GetSubscriptionByAccountId(int accountId)
+		{
+			throw new NotImplementedException();
+		}
+
+		public Task UpdateSubscriptionTier(int subscriptionTierId)
 		{
 			throw new NotImplementedException();
 		}
