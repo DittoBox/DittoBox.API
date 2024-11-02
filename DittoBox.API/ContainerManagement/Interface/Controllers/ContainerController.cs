@@ -12,8 +12,12 @@ namespace DittoBox.API.ContainerManagement.Interface.Controllers
         ILogger<ContainerController> _logger,
         ICreateContainerCommandHandler createContainerCommandHandler,
         IGetContainerQueryHandler getContainersQueryHandler,
-        IGetStatusFromContainerHandler getStatusFromContainerHandler,
-        IGetHealthFromContainerHandler getHealthFromContainerHandler
+        IGetContainerStatusByContainerIdQueryHandler getContainerStatusByContainerIdQueryHandler,
+        IGetHealthStatusByContainerIdQueryHandler getHealthStatusByContainerIdQueryHandler,
+        IUpdateContainerMetricsCommandHandler updateContainerMetricsCommandHandler,
+        IUpdateContainerParametersCommandHandler updateContainerParametersCommandHandler,
+        IUpdateContainerStatusCommandHandler updateContainerStatusCommandHandler,
+        IUpdateHealthStatusCommandHandler updateHealthStatusCommandHandler
         ) : ControllerBase
     {
         [HttpPost]
@@ -32,7 +36,7 @@ namespace DittoBox.API.ContainerManagement.Interface.Controllers
             }
         }
 
-        [HttpGet("{containerId:int}")]
+        [HttpGet("{ContainerId:int}")]
         public async Task<ActionResult<ContainerResource>> GetContainerById([FromRoute] GetContainerByIdQuery query)
         {
             try
@@ -42,7 +46,7 @@ namespace DittoBox.API.ContainerManagement.Interface.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occurred while getting containers with containerId: {containerId}", query.containerId);
+                _logger.LogError(ex, "An error occurred while getting containers with containerId: {containerId}", query.ContainerId);
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -55,42 +59,105 @@ namespace DittoBox.API.ContainerManagement.Interface.Controllers
         }
 
         [HttpGet]
-        [Route("{containerId}/status")]
-        public async Task<ActionResult<ContainerStatusResource>> GetContainerStatus([FromRoute] GetContainerByIdQuery query)
+        [Route("{ContainerId}/status")]
+        public async Task<ActionResult<ContainerStatusResource>> GetContainerStatus([FromRoute] GetContainerStatusByContainerIdQuery query)
         {
             try
             {
-                var response = await getStatusFromContainerHandler.Handle(query);
+                var response = await getContainerStatusByContainerIdQueryHandler.Handle(query);
                 return Ok(response);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occurred while getting container status with containerId: {containerId}", query.containerId);
+                _logger.LogError(ex, "An error occurred while getting container status with containerId: {containerId}", query.ContainerId);
                 return StatusCode(500, "Internal server error");
             }
         }
 
         [HttpGet]
-        [Route("{containerId}/health")]
-        public async Task<ActionResult<ContainerHealthResource>> GetContainerHealth([FromRoute] GetContainerByIdQuery query)
+        [Route("{ContainerId}/health")]
+        public async Task<ActionResult<ContainerHealthResource>> GetContainerHealth([FromRoute] GetHealthStatusByContainerIdQuery query)
         {
             try
             {
-                var response = await getHealthFromContainerHandler.Handle(query);
+                var response = await getHealthStatusByContainerIdQueryHandler.Handle(query);
                 return Ok(response);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occurred while getting container health with containerId: {containerId}", query.containerId);
+                _logger.LogError(ex, "An error occurred while getting container health with containerId: {containerId}", query.ContainerId);
                 return StatusCode(500, "Internal server error");
             }
         }
 
         [HttpPut]
-        [Route("{containerId}")]
-        public Task<ActionResult<ContainerResource>> UpdateContainerParameters([FromRoute] int containerId, [FromBody] UpdateContainerParametersCommand command)
+        [Route("{containerId}/status")]
+        public async Task<ActionResult> UpdateContainerStatus([FromRoute] int containerId, [FromBody] UpdateContainerStatusCommand command)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await updateContainerStatusCommandHandler.Handle(containerId, command);
+                _logger.LogInformation("Container status updated with containerId: {containerId}", containerId);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while updating container status with containerId: {containerId}", containerId);
+                return StatusCode(500, "Internal server error");
+
+            }
+        }
+
+        [HttpPut]
+        [Route("{containerId}/health")]
+        public async Task<ActionResult> UpdateHealthStatus([FromRoute] int containerId, [FromBody] UpdateHealthStatusCommand command)
+        {
+            try
+            {
+                await updateHealthStatusCommandHandler.Handle(containerId, command);
+                _logger.LogInformation("Health status updated with containerId: {containerId}", containerId);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while updating Health status with containerId: {containerId}", containerId);
+                return StatusCode(500, "Internal server error");
+
+            }
+        }
+
+        [HttpPut]
+        [Route("{containerId}/metrics")]
+        public async Task<ActionResult> UpdateContainerMetrics([FromRoute] int containerId, [FromBody] UpdateContainerMetricsCommand command)
+        {
+            try
+            {
+                await updateContainerMetricsCommandHandler.Handle(containerId, command);
+                _logger.LogInformation("Container metrics updated with containerId: {containerId}", containerId);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while updating container metrics with containerId: {containerId}", containerId);
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpPut]
+        [Route("{containerId}/parameters")]
+        public async Task<ActionResult> UpdateContainerParameters([FromRoute] int containerId, [FromBody] UpdateContainerParametersCommand command)
+        {
+            try
+            {
+                await updateContainerParametersCommandHandler.Handle(containerId, command);
+                _logger.LogInformation("Container parameters updated with containerId: {containerId}", containerId);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while updating container parameters with containerId: {containerId}", containerId);
+                return StatusCode(500, "Internal server error");
+            }
         }
     }
 }

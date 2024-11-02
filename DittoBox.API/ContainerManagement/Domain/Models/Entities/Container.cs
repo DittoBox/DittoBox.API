@@ -40,12 +40,14 @@ namespace DittoBox.API.ContainerManagement.Domain.Models.Entities
         {
             LastKnownHealthStatus = (int)status;
             LastKnownHealthStatusReport = DateTime.UtcNow;
+            LastSync = DateTime.UtcNow;
         }
 
         public void UpdateContainerStatus(ContainerStatus status)
         {
             LastKnownContainerStatus = (int)status;
             LastKnownContainerStatusReport = DateTime.UtcNow;
+            LastSync = DateTime.UtcNow;
         }
 
         /// <summary>
@@ -69,17 +71,12 @@ namespace DittoBox.API.ContainerManagement.Domain.Models.Entities
             ContainerConditions = newConditions;
         }
 
-        public void UpdateSensorReadings(double temperature, double humidity)
+        public void UpdateMetrics(double temperature, double humidity)
         {
             Temperature = temperature;
             Humidity = humidity;
-        }
-
-        public void UpdateSyncTime()
-        {
             LastSync = DateTime.UtcNow;
         }
-
 
     }
 }

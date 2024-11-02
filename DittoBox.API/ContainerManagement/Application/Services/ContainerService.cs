@@ -19,5 +19,10 @@ namespace DittoBox.API.ContainerManagement.Application.Services
         {
             return await containerRepository.GetById(id);
         }
+
+        public async Task UpdateContainer(Container container)
+        {
+            await containerRepository.Update(container);
+        }
     }
 }

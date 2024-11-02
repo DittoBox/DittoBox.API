@@ -43,8 +43,8 @@ namespace DittoBox.API.ContainerManagement.Interface.Resources
                 container.ContainerConditions?.AmmoniaMax,
                 container.ContainerConditions?.SulfurDioxideMin,
                 container.ContainerConditions?.SulfurDioxideMax,
-                ((ContainerStatus)container.LastKnownHealthStatus).ToString(),
-                ((HealthStatus)container.LastKnownContainerStatus).ToString(),
+                ((HealthStatus)container.LastKnownHealthStatus).ToString(),
+                ((ContainerStatus)container.LastKnownContainerStatus).ToString(),
                 container.LastSync
             );
         }

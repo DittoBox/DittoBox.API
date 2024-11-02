@@ -6,6 +6,7 @@ using DittoBox.API.AccountSubscription.Domain.Services.Application;
 using DittoBox.API.AccountSubscription.Infrastructure.Repositories;
 using DittoBox.API.ContainerManagement.Application.Handlers.Interfaces;
 using DittoBox.API.ContainerManagement.Application.Handlers.Internal;
+using DittoBox.API.ContainerManagement.Application.Queries;
 using DittoBox.API.ContainerManagement.Application.Services;
 using DittoBox.API.ContainerManagement.Domain.Repositories;
 using DittoBox.API.ContainerManagement.Domain.Services.Application;
@@ -122,8 +123,12 @@ namespace DittoBox.API
             /* Container Management handlers */
             builder.Services.AddScoped<ICreateContainerCommandHandler, CreateContainerCommandHandler>();
             builder.Services.AddScoped<IGetContainerQueryHandler, GetContainerQueryHandler>();
-            builder.Services.AddScoped<IGetStatusFromContainerHandler, GetStatusFromContainerHandler>();
-            builder.Services.AddScoped<IGetHealthFromContainerHandler, GetHealthFromContainerHandle>();
+            builder.Services.AddScoped<IGetContainerStatusByContainerIdQueryHandler, GetContainerStatusByContainerIdQueryHandler>();
+            builder.Services.AddScoped<IGetHealthStatusByContainerIdQueryHandler, GetHealthStatusByContainerIdQueryHandler>();
+            builder.Services.AddScoped<IUpdateContainerMetricsCommandHandler, UpdateContainerMetricsCommandHandler>();
+            builder.Services.AddScoped<IUpdateContainerParametersCommandHandler, UpdateContainerParametersCommandHandler>();
+            builder.Services.AddScoped<IUpdateContainerStatusCommandHandler, UpdateContainerStatusCommandHandler>();
+            builder.Services.AddScoped<IUpdateHealthStatusCommandHandler, UpdateHealthStatusCommandHandler>();
 
             /* GroupManagement handlers */
             builder.Services.AddScoped<ICreateGroupCommandHandler, CreateGroupCommandHandler>();
