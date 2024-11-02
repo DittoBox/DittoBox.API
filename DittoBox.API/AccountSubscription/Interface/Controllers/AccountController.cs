@@ -47,7 +47,7 @@ namespace DittoBox.API.AccountSubscription.Interface.Controllers
             try
             {
                 var response = await createAccountCommandHandler.Handle(command);
-                return CreatedAtAction(nameof(GetAccountDetails), new { accountId = response.Id }, response);
+                return Created("", response);
             }
             catch (Exception ex)
             {
