@@ -5,7 +5,7 @@ namespace DittoBox.API.AccountSubscription.Application.Commands
     public record CreateAccountCommand
     (
         [Required] string BusinessName,
-        [Required] int BusinessId,
+        [Required] string BusinessId,
         [Required] int RepresentativeId
     );
 }
