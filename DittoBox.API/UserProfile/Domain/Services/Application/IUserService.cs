@@ -9,5 +9,6 @@ namespace DittoBox.API.UserProfile.Domain.Services.Application
         public Task DeleteUser(int id);
         public string EncryptPassword(string password);
         public Task UpdateUser(User user);
+		public Task<IEnumerable<User>> GetUsers();
     }
 }
