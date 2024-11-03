@@ -1,13 +1,23 @@
 ﻿using DittoBox.API.AccountSubscription.Application.Commands;
 using DittoBox.API.AccountSubscription.Application.Handlers.Interfaces;
+using DittoBox.API.AccountSubscription.Domain.Services.Application;
+using DittoBox.API.Shared.Domain.Repositories;
 
 namespace DittoBox.API.AccountSubscription.Application.Handlers.Internal
 {
-    public class DeleteAccountCommandHandler : IDeleteAccountCommandHandler
+    public class DeleteAccountCommandHandler(
+		ISubscriptionService subscriptionService,
+		IUnitOfWork unitOfWork
+	) : IDeleteAccountCommandHandler
     {
-        public Task Handle(DeleteAccountCommand command)
+        public async Task Handle(DeleteAccountCommand command)
         {
-            return Task.CompletedTask;
+			var subscription = await subscriptionService.GetSubscription(command.AccountId);
+			if (subscription != null)
+			{
+				await subscriptionService.DeleteSubscription(command.AccountId);
+				await unitOfWork.CompleteAsync();
+			}
         }
     }
 }

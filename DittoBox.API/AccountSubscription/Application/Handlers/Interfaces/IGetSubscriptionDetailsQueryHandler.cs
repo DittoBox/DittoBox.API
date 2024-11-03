@@ -5,6 +5,6 @@ namespace DittoBox.API.AccountSubscription.Application.Handlers.Interfaces
 {
     public interface IGetSubscriptionDetailsQueryHandler
     {
-        public Task<SubscriptionDetailsResource> Handle(GetSubscriptionDetailsQuery query);
+        public Task<SubscriptionResource?> Handle(GetSubscriptionDetailsQuery query);
     }
 }
