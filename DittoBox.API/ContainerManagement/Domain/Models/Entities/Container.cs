@@ -10,7 +10,7 @@ namespace DittoBox.API.ContainerManagement.Domain.Models.Entities
         public int AccountId { get; set; }
         public ContainerSize ContainerSize { get; set; } = ContainerSize.Small;
         public int LastKnownHealthStatus { get; private set; } = 0;
-        public DateTime LastKnownHealthStatusReport { get; private set; } = new DateTime(1970, 1, 1);
+        public DateTime? LastKnownHealthStatusReport { get; private set; } = DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc);
         public int LastKnownContainerStatus { get; set; } = 0;
         public DateTime LastKnownContainerStatusReport { get; set; } = new DateTime();
 
@@ -19,6 +19,14 @@ namespace DittoBox.API.ContainerManagement.Domain.Models.Entities
         {
             LastKnownHealthStatus = (int)status;
             LastKnownHealthStatusReport = DateTime.UtcNow;
+            LastSync = DateTime.UtcNow;
+        }
+
+        public void UpdateContainerStatus(ContainerStatus status)
+        {
+            LastKnownContainerStatus = (int)status;
+            LastKnownContainerStatusReport = DateTime.UtcNow;
+            LastSync = DateTime.UtcNow;
         }
 
         /// <summary>
@@ -37,8 +45,17 @@ namespace DittoBox.API.ContainerManagement.Domain.Models.Entities
             return false;
         }
 
+        public void UpdateConditions(ContainerConditions newConditions)
+        {
+            ContainerConditions = newConditions;
+        }
 
-
+        public void UpdateMetrics(double temperature, double humidity)
+        {
+            Temperature = temperature;
+            Humidity = humidity;
+            LastSync = DateTime.UtcNow;
+        }
 
     }
 }

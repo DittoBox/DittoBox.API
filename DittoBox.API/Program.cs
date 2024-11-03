@@ -4,6 +4,19 @@ using DittoBox.API.AccountSubscription.Application.Services;
 using DittoBox.API.AccountSubscription.Domain.Repositories;
 using DittoBox.API.AccountSubscription.Domain.Services.Application;
 using DittoBox.API.AccountSubscription.Infrastructure.Repositories;
+using DittoBox.API.ContainerManagement.Application.Handlers.Interfaces;
+using DittoBox.API.ContainerManagement.Application.Handlers.Internal;
+using DittoBox.API.ContainerManagement.Application.Queries;
+using DittoBox.API.ContainerManagement.Application.Services;
+using DittoBox.API.ContainerManagement.Domain.Repositories;
+using DittoBox.API.ContainerManagement.Domain.Services.Application;
+using DittoBox.API.ContainerManagement.Infrastructure.Repositories;
+using DittoBox.API.GroupManagement.Domain.Models.Commands;
+using DittoBox.API.GroupManagement.Domain.Models.Handlers.Internal;
+using DittoBox.API.GroupManagement.Domain.Repositories;
+using DittoBox.API.GroupManagement.Domain.Services.Application;
+using DittoBox.API.GroupManagement.Domain.Services.Domain;
+using DittoBox.API.GroupManagement.Infrastructure.Repositories;
 using DittoBox.API.Shared.Domain.Repositories;
 using DittoBox.API.Shared.Infrastructure;
 using DittoBox.API.Shared.Infrastructure.Repositories;
@@ -78,7 +91,6 @@ namespace DittoBox.API
 
             app.UseAuthorization();
 
-
             app.MapControllers();
 
             app.Run();
@@ -108,6 +120,20 @@ namespace DittoBox.API
             builder.Services.AddScoped<IGetSubscriptionDetailsQueryHandler, GetSubscriptionDetailsQueryHandler>();
             builder.Services.AddScoped<ICancelSubscriptionCommandHandler, CancelSubscriptionCommandHandler>();
 
+            /* Container Management handlers */
+            builder.Services.AddScoped<ICreateContainerCommandHandler, CreateContainerCommandHandler>();
+            builder.Services.AddScoped<IGetContainerQueryHandler, GetContainerQueryHandler>();
+            builder.Services.AddScoped<IGetContainerStatusByContainerIdQueryHandler, GetContainerStatusByContainerIdQueryHandler>();
+            builder.Services.AddScoped<IGetHealthStatusByContainerIdQueryHandler, GetHealthStatusByContainerIdQueryHandler>();
+            builder.Services.AddScoped<IUpdateContainerMetricsCommandHandler, UpdateContainerMetricsCommandHandler>();
+            builder.Services.AddScoped<IUpdateContainerParametersCommandHandler, UpdateContainerParametersCommandHandler>();
+            builder.Services.AddScoped<IUpdateContainerStatusCommandHandler, UpdateContainerStatusCommandHandler>();
+            builder.Services.AddScoped<IUpdateHealthStatusCommandHandler, UpdateHealthStatusCommandHandler>();
+
+            /* GroupManagement handlers */
+            builder.Services.AddScoped<ICreateGroupCommandHandler, CreateGroupCommandHandler>();
+            builder.Services.AddScoped<IGetGroupQueryHandler, GetGroupQueryHandler>();
+
         }
 
         public static void RegisterRepositories(WebApplicationBuilder builder) {
@@ -116,6 +142,8 @@ namespace DittoBox.API
             builder.Services.AddScoped<IAccountRepository, AccountRepository>();
             builder.Services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
             builder.Services.AddScoped<IProfilePrivilegeRepository, ProfilePrivilegeRepository>();
+            builder.Services.AddScoped<IContainerRepository, ContainerRepository>();
+            builder.Services.AddScoped<IGroupRepository, GroupRepository>();
         }
 
         public static void RegisterServices(WebApplicationBuilder builder) {
@@ -123,6 +151,8 @@ namespace DittoBox.API
             builder.Services.AddScoped<IProfileService, ProfileService>();
             builder.Services.AddScoped<IAccountService, AccountService>();
             builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
+            builder.Services.AddScoped<IContainerService, ContainerService>();
+            builder.Services.AddScoped<IGroupService, GroupService>();
         }
 	}
 }
