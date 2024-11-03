@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DittoBox.API.AccountSubscription.Interface.Controllers
 {
+   /// <summary>
+    /// Controller for managing account subscriptions and related operations.
+    /// </summary>
 	[ApiController]
 	[Route("api/v1/[controller]")]
 	public class AccountController(
@@ -18,6 +21,11 @@ namespace DittoBox.API.AccountSubscription.Interface.Controllers
 		IGetSubscriptionUsageQueryHandler getSubscriptionUsageQueryHandler
 		) : ControllerBase
 	{
+ 	/// <summary>
+        /// Gets the details of an account by its identifier.
+        /// </summary>
+        /// <param name="accountId">The identifier of the account.</param>
+        /// <returns>An <see cref="ActionResult{AccountResource}"/> containing the account details.</returns>
 		[HttpGet]
 		[Route("{accountId:int}")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
@@ -41,6 +49,11 @@ namespace DittoBox.API.AccountSubscription.Interface.Controllers
 				return StatusCode(500, "Internal server error");
 			}
 		}
+  	/// <summary>
+        /// Creates a new account.
+        /// </summary>
+        /// <param name="command">The command object containing the account details.</param>
+        /// <returns>An <see cref="ActionResult{AccountResource}"/> containing the created account resource.</returns>
 
 		[HttpPost]
 		[ProducesResponseType(StatusCodes.Status201Created)]
@@ -58,6 +71,11 @@ namespace DittoBox.API.AccountSubscription.Interface.Controllers
 				return StatusCode(500, "Internal server error");
 			}
 		}
+   	 /// <summary>
+        /// Updates the details of an existing account.
+        /// </summary>
+        /// <param name="command">The command object containing the updated account details.</param>
+        /// <returns>An <see cref="ActionResult"/> indicating the result of the operation.</returns>
 
 		[HttpPut]
 		[ProducesResponseType(StatusCodes.Status200OK)]
@@ -75,6 +93,11 @@ namespace DittoBox.API.AccountSubscription.Interface.Controllers
 				return StatusCode(500, "Internal server error");
 			}
 		}
+    	 /// <summary>
+        /// Deletes an account by its identifier.
+        /// </summary>
+        /// <param name="command">The command object containing the account identifier.</param>
+        /// <returns>An <see cref="ActionResult"/> indicating the result of the deletion operation.</returns>
 
 		[HttpDelete]
 		[Route("{command:int}")]
@@ -95,6 +118,12 @@ namespace DittoBox.API.AccountSubscription.Interface.Controllers
 				return StatusCode(500, "Internal server error");
 			}
 		}
+ 	  /// <summary>
+        /// Updates the business information for an account.
+        /// </summary>
+        /// <param name="accountId">The identifier of the account to update.</param>
+        /// <param name="command">The command object containing the updated business information.</param>
+        /// <returns>An <see cref="ActionResult"/> indicating the result of the update operation.</returns>
 
 		[HttpPut]
 		[Route("{accountId:int}/business")]
@@ -117,6 +146,11 @@ namespace DittoBox.API.AccountSubscription.Interface.Controllers
 			}
 		}
 
+	/// <summary>
+        /// Retrieves the subscription usage status for an account.
+        /// </summary>
+        /// <param name="accountId">The identifier of the account.</param>
+        /// <returns>An <see cref="ActionResult{AccountUsageResource}"/> containing the subscription usage details.</returns>
 		[HttpPost]
 		[Route("{accountId:int}/subscription-status")]
 		public async Task<ActionResult<AccountUsageResource>> GetSubscriptionStatus([FromRoute] int accountId)
