@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DittoBox.API.UserProfile.Interface
 {
+      /// <summary>
+    /// Controller for managing user profiles.
+    /// </summary>
     [ApiController]
     [Route("api/v1/[controller]")]
     public class UserController(
@@ -16,6 +19,11 @@ namespace DittoBox.API.UserProfile.Interface
         IChangePasswordCommandHandler changePasswordCommandHandler
     ) : ControllerBase
     {
+        // <summary>
+        /// Gets a user by their identifier.
+        /// </summary>
+        /// <param name="query">The query object containing the user ID.</param>
+        /// <returns>An <see cref="ActionResult{UserResource}"/> containing the user details.</returns>
 
         [HttpGet("{UserId:int}")]
         public async Task<ActionResult<UserResource>> GetUser([FromRoute] GetUserQuery query)
@@ -36,6 +44,11 @@ namespace DittoBox.API.UserProfile.Interface
                 return StatusCode(500, "Internal server error");
             }
         }
+          /// <summary>
+        /// Creates a new user.
+        /// </summary>
+        /// <param name="user">The command object containing the new user details.</param>
+        /// <returns>An <see cref="ActionResult{UserResource}"/> with the created user details.</returns>
 
         [HttpPost]
         public async Task<ActionResult<UserResource>> CreateUser([FromBody] CreateUserCommand user)
@@ -52,6 +65,11 @@ namespace DittoBox.API.UserProfile.Interface
                 return StatusCode(500, "Internal server error");
             }
         }
+        /// <summary>
+        /// Deletes a user by their identifier.
+        /// </summary>
+        /// <param name="command">The command object containing the user ID to be deleted.</param>
+        /// <returns>An <see cref="ActionResult"/> indicating the result of the operation.</returns>
 
         [HttpDelete]
         [Route("{UserId:int}")]
@@ -69,6 +87,11 @@ namespace DittoBox.API.UserProfile.Interface
                 return StatusCode(500, "Internal server error");
             }
         }
+          /// <summary>
+        /// Changes the password of a user.
+        /// </summary>
+        /// <param name="changePassword">The command object containing the new password details.</param>
+        /// <returns>An <see cref="ActionResult"/> indicating the result of the operation.</returns>
 
         [HttpPut]
         [Route("change-password")]
