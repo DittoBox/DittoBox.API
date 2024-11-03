@@ -83,7 +83,7 @@ namespace DittoBox.API
             using (var scope = app.Services.CreateScope())
             {
                 var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-                // db.Database.EnsureDeleted();
+                db.Database.EnsureDeleted();
                 db.Database.EnsureCreated();
             }
 
@@ -129,6 +129,10 @@ namespace DittoBox.API
             builder.Services.AddScoped<IUpdateContainerParametersCommandHandler, UpdateContainerParametersCommandHandler>();
             builder.Services.AddScoped<IUpdateContainerStatusCommandHandler, UpdateContainerStatusCommandHandler>();
             builder.Services.AddScoped<IUpdateHealthStatusCommandHandler, UpdateHealthStatusCommandHandler>();
+			builder.Services.AddScoped<IGetContainersQueryHandler, GetContainersQueryHandler>();
+			builder.Services.AddScoped<IGetTemplateQueryHandler, GetTemplateQueryHandler>();
+			builder.Services.AddScoped<ICreateTemplateCommandHandler, CreateTemplateCommandHandler>();
+			builder.Services.AddScoped<IGetTemplatesQueryHandler, GetTemplatesQueryHandler>();
 
             /* GroupManagement handlers */
             builder.Services.AddScoped<ICreateGroupCommandHandler, CreateGroupCommandHandler>();
@@ -144,6 +148,7 @@ namespace DittoBox.API
             builder.Services.AddScoped<IProfilePrivilegeRepository, ProfilePrivilegeRepository>();
             builder.Services.AddScoped<IContainerRepository, ContainerRepository>();
             builder.Services.AddScoped<IGroupRepository, GroupRepository>();
+			builder.Services.AddScoped<ITemplateRepository, TemplateRepository>();
         }
 
         public static void RegisterServices(WebApplicationBuilder builder) {
@@ -153,6 +158,7 @@ namespace DittoBox.API
             builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
             builder.Services.AddScoped<IContainerService, ContainerService>();
             builder.Services.AddScoped<IGroupService, GroupService>();
+			builder.Services.AddScoped<ITemplateService, TemplateService>();
         }
 	}
 }

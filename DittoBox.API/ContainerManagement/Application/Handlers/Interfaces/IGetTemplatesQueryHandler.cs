@@ -5,6 +5,6 @@ namespace DittoBox.API.ContainerManagement.Application.Handlers.Interfaces
 {
     public interface IGetTemplatesQueryHandler
     {
-        public Task<ICollection<TemplateResource>> Handle(GetTemplatesQuery query)
+        public Task<IEnumerable<TemplateResource>> Handle(GetTemplatesQuery query);
     }
 }

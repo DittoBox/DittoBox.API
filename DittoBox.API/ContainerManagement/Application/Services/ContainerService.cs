@@ -25,6 +25,11 @@ namespace DittoBox.API.ContainerManagement.Application.Services
 			return await containerRepository.GetById(id);
 		}
 
+		public Task<IEnumerable<Container>> GetContainers()
+		{
+			return containerRepository.GetAll();
+		}
+
 		public async Task UpdateContainer(Container container)
 		{
 			await containerRepository.Update(container);

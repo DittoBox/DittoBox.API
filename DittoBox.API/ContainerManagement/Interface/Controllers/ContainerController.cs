@@ -11,13 +11,14 @@ namespace DittoBox.API.ContainerManagement.Interface.Controllers
     public class ContainerController(
         ILogger<ContainerController> _logger,
         ICreateContainerCommandHandler createContainerCommandHandler,
-        IGetContainerQueryHandler getContainersQueryHandler,
+        IGetContainerQueryHandler getContainerQueryHandler,
         IGetContainerStatusByContainerIdQueryHandler getContainerStatusByContainerIdQueryHandler,
         IGetHealthStatusByContainerIdQueryHandler getHealthStatusByContainerIdQueryHandler,
         IUpdateContainerMetricsCommandHandler updateContainerMetricsCommandHandler,
         IUpdateContainerParametersCommandHandler updateContainerParametersCommandHandler,
         IUpdateContainerStatusCommandHandler updateContainerStatusCommandHandler,
-        IUpdateHealthStatusCommandHandler updateHealthStatusCommandHandler
+        IUpdateHealthStatusCommandHandler updateHealthStatusCommandHandler,
+		IGetContainersQueryHandler getContainersQueryHandler
         ) : ControllerBase
     {
         [HttpPost]
@@ -41,7 +42,7 @@ namespace DittoBox.API.ContainerManagement.Interface.Controllers
         {
             try
             {
-                var response = await getContainersQueryHandler.Handle(query);
+                var response = await getContainerQueryHandler.Handle(query);
                 return Ok(response);
             }
             catch (Exception ex)
@@ -159,5 +160,20 @@ namespace DittoBox.API.ContainerManagement.Interface.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
+
+		[HttpGet]
+		public async Task<ActionResult<ICollection<ContainerResource>>> GetContainers()
+		{
+			var query = new GetContainersQuery();
+			try
+			{
+				var response = await getContainersQueryHandler.Handle(query);
+				return Ok(response);
+			} catch (Exception ex)
+			{
+				_logger.LogError(ex, "An error occurred while getting containers.");
+				return StatusCode(500, "Internal server error");
+			}
+		}
     }
 }

@@ -10,47 +10,16 @@ namespace DittoBox.API.ContainerManagement.Interface.Controllers
     [Route("api/v1/[controller]")]
     public class TemplateController(
 		ILogger<TemplateController> _logger,
-		ICreateTemplateCommandHandler createTemplateCommandHandler,
-		IDeleteTemplateCommandHandler deleteTemplateCommandHandler,
-		IUpdateTemplateCommandHandler updateTemplateCommandHandler,
 		IGetTemplateQueryHandler getTemplateQueryHandler,
-        IGetTemplatesQueryHandler getTemplatesQueryHandler
+        IGetTemplatesQueryHandler getTemplatesQueryHandler,
+		ICreateTemplateCommandHandler createTemplateCommandHandler
 	) : ControllerBase
     {
-        [HttpPost]
-        public async Task<ActionResult<TemplateResource>> CreateTemplate([FromBody] CreateTemplateCommand command)
-        {
-			var response = await createTemplateCommandHandler.Handle(command);
-			return Created("", response);
-        }
-
-        [HttpDelete]
-        [Route("{templateId}")]
-        public async Task<ActionResult> DeleteTemplate([FromRoute] DeleteTemplateCommand command)
-        {
-			try
-			{
-				await deleteTemplateCommandHandler.Handle(command);
-				return NoContent();
-			}
-			catch (Exception ex)
-			{
-				_logger.LogError(ex, "And error ocurred while deleting template with id {templateId}", command.TemplateId);
-				return StatusCode(500, "Internal server error");
-			}
-        }
-
-        [HttpPut]
-        [Route("{templateId}")]
-        public Task<ActionResult<TemplateResource>> UpdateTemplate([FromRoute] int templateId, [FromBody] UpdateTemplateCommand command)
-        {
-            throw new NotImplementedException();
-        }
-
         [HttpGet]
         [Route("{templateId}")]
-        public async Task<ActionResult<TemplateResource>> GetTemplate([FromRoute] GetTemplateQuery query)
+        public async Task<ActionResult<TemplateResource>> GetTemplate([FromRoute] int templateId)
         {
+			var query = new GetTemplateQuery(templateId);
 			try
             {
                 var response = await getTemplateQueryHandler.Handle(query);
@@ -69,12 +38,13 @@ namespace DittoBox.API.ContainerManagement.Interface.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TemplateResource>>> GetTemplates()
+        public async Task<ActionResult<ICollection<TemplateResource>>> GetTemplates()
         {
+			var query = new GetTemplatesQuery();
 			try
 			{
-				var response = await getTemplatesQueryHandler.Handle();
-				return response;
+				var response = await getTemplatesQueryHandler.Handle(query);
+				return Ok(response);
 			}
 			catch (Exception ex)
 			{
@@ -82,5 +52,20 @@ namespace DittoBox.API.ContainerManagement.Interface.Controllers
 				return StatusCode(500, "Internal server error");
 			}
         }
+
+		[HttpPost]
+		public async Task<ActionResult<TemplateResource>> CreateTemplate([FromBody] CreateTemplateCommand template) {
+			try
+			{
+				var response = await createTemplateCommandHandler.Handle(template);
+				_logger.LogInformation("Template created with name {name} and id {id}", response.Name, response.Id);
+				return StatusCode(201, response);
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, "An error occurred while creating template with name {name}", template.Name);
+				return StatusCode(500, "Internal server error");
+			}
+		}
     }
 }

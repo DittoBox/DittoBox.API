@@ -18,6 +18,7 @@ namespace DittoBox.API.Shared.Infrastructure
 		public DbSet<Group> Groups { get; set; }
 		public DbSet<Location> locations { get; set; }
 		public DbSet<Container> Containers { get; set; }
+		public DbSet<Template> Templates { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
