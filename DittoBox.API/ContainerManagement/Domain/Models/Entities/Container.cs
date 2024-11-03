@@ -8,17 +8,12 @@ namespace DittoBox.API.ContainerManagement.Domain.Models.Entities
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public int AccountId { get; set; }
-        public ContainerSize ContainerSize { get; set; }
-        public int ActiveTemplateId { get; private set; } = 0;
+        public ContainerSize ContainerSize { get; set; } = ContainerSize.Small;
         public int LastKnownHealthStatus { get; private set; } = 0;
         public DateTime LastKnownHealthStatusReport { get; private set; } = new DateTime(1970, 1, 1);
         public int LastKnownContainerStatus { get; set; } = 0;
         public DateTime LastKnownContainerStatusReport { get; set; } = new DateTime();
 
-        public void AssignTemplate(int templateId)
-        {
-            ActiveTemplateId = templateId;
-        }
 
         public void UpdateHealthStatus(HealthStatus status)
         {

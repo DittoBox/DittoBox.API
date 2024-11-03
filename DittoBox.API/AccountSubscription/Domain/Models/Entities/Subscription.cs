@@ -1,6 +1,4 @@
-﻿using DittoBox.API.AccountSubscription.Domain.Models.ValueObjects;
-
-namespace DittoBox.API.AccountSubscription.Domain.Models.Entities
+﻿namespace DittoBox.API.AccountSubscription.Domain.Models.Entities
 {
     public class Subscription
     {

@@ -5,6 +5,6 @@ namespace DittoBox.API.AccountSubscription.Application.Commands
     public record UpdateAccountCommand
     (
         [Required] int AccountId,
-        string? BusinessName
+		[Required] int RepresentativeId
         );
 }

@@ -8,7 +8,7 @@ namespace DittoBox.API.AccountSubscription.Application.Services
 		ISubscriptionRepository subscriptionRepository
 	) : ISubscriptionService
 	{
-		public async Task<Subscription> CreateSubscription(int accountId, string subscriptionName, string subscriptionDescription)
+		public async Task<Subscription> CreateSubscription(int accountId)
 		{
 			var subscription = new Subscription(){
 				AccountId = accountId,
@@ -21,9 +21,12 @@ namespace DittoBox.API.AccountSubscription.Application.Services
 			return subscription;
 		}
 
-		public Task DeleteSubscription(int subscriptionId)
+		public async Task DeleteSubscription(int subscriptionId)
 		{
-			throw new NotImplementedException();
+			var subscription = await GetSubscription(subscriptionId);
+			if (subscription != null ){
+				await subscriptionRepository.Delete(subscription);
+			}
 		}
 
 		public async Task<Subscription?> GetSubscription(int subscriptionId)
@@ -31,14 +34,13 @@ namespace DittoBox.API.AccountSubscription.Application.Services
 			return await subscriptionRepository.GetById(subscriptionId);
 		}
 
-		public Task<Subscription?> GetSubscriptionByAccountId(int accountId)
+		public async Task UpdateSubscriptionTier(int subscriptionId, int subscriptionTierId)
 		{
-			throw new NotImplementedException();
-		}
-
-		public Task UpdateSubscriptionTier(int subscriptionTierId)
-		{
-			throw new NotImplementedException();
+			var subscription = await GetSubscription(subscriptionId);
+			if (subscription != null ) {
+				subscription.TierId = subscriptionTierId;
+				await subscriptionRepository.Update(subscription);
+			}
 		}
 	}
 }

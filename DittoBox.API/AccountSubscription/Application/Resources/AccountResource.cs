@@ -8,17 +8,15 @@ namespace DittoBox.API.AccountSubscription.Application.Resources
 		[Required] int Id,
 		[Required] string BusinessName,
 		[Required] string BussinessId,
-		[Required] int RepresentativeId,
-		[Required] int SubscriptionId)
+		[Required] int RepresentativeId)
 	{
 		public static AccountResource FromAccount(Account account)
 		{
 			return new AccountResource(
-				account.Id, 
-				account.BusinessName, 
-				account.BussinessId, 
-				account.RepresentativeId, 
-				account.SubscriptionId
+				account.Id,
+				account.BusinessName,
+				account.BusinessId,
+				account.RepresentativeId
 			);
 		}
 

@@ -8,12 +8,15 @@ namespace DittoBox.API.AccountSubscription.Application.Handlers.Internal
 {
     public class CreateAccountCommandHandler(
 		IAccountService accountService,
+		ISubscriptionService subscriptionService,
 		IUnitOfWork unitOfWork
 	) : ICreateAccountCommandHandler
     {
         public async Task<AccountResource> Handle(CreateAccountCommand command)
         {
 			var result = await accountService.CreateAccount(command.RepresentativeId, command.BusinessName, command.BusinessId);
+			await unitOfWork.CompleteAsync();
+			var subscription = await subscriptionService.CreateSubscription(result.Id);
 			await unitOfWork.CompleteAsync();
 			return AccountResource.FromAccount(result);
         }

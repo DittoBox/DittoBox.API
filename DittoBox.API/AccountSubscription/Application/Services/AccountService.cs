@@ -1,7 +1,6 @@
 ﻿using DittoBox.API.AccountSubscription.Domain.Models.Aggregates;
 using DittoBox.API.AccountSubscription.Domain.Repositories;
 using DittoBox.API.AccountSubscription.Domain.Services.Application;
-using DittoBox.API.Shared.Domain.Repositories;
 
 namespace DittoBox.API.AccountSubscription.Application.Services
 {
@@ -11,10 +10,11 @@ namespace DittoBox.API.AccountSubscription.Application.Services
 	{
 		public async Task<Account> CreateAccount(int representativeId, string businessName, string businessId)
 		{
-			var account = new Account(){
+			var account = new Account()
+			{
 				RepresentativeId = representativeId,
 				BusinessName = businessName,
-				BussinessId = businessId
+				BusinessId = businessId
 			};
 
 			await accountRepository.Add(account);
@@ -24,6 +24,26 @@ namespace DittoBox.API.AccountSubscription.Application.Services
 		public async Task<Account?> GetAccount(int accountId)
 		{
 			return await accountRepository.GetById(accountId);
+		}
+		public async Task UpdateAccountRepresentative(int accountId, int representativeId)
+		{
+			var account = await accountRepository.GetById(accountId);
+			if (account != null)
+			{
+				account.RepresentativeId = representativeId;
+				await accountRepository.Update(account);
+			}
+		}
+
+		public async Task UpdateAccountBusinessInformation(int accountId, string businessName, string businessId)
+		{
+			var account = await accountRepository.GetById(accountId);
+			if (account != null)
+			{
+				account.BusinessName = businessName;
+				account.BusinessId = businessId;
+				await accountRepository.Update(account);
+			}
 		}
 	}
 }

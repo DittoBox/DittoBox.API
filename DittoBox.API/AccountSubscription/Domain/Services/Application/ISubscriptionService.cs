@@ -4,9 +4,9 @@ namespace DittoBox.API.AccountSubscription.Domain.Services.Application
 {
     public interface ISubscriptionService
     {
-		public Task<Subscription> CreateSubscription(int accountId, string subscriptionName, string subscriptionDescription);
+		public Task<Subscription> CreateSubscription(int accountId);
 		public Task DeleteSubscription(int subscriptionId);
-		public Task<Subscription?> GetSubscriptionByAccountId(int accountId);
-		public Task UpdateSubscriptionTier(int subscriptionTierId);
+		public Task<Subscription?> GetSubscription(int subscriptionId);
+		public Task UpdateSubscriptionTier(int subscriptionId, int subscriptionTierId);
     }
 }

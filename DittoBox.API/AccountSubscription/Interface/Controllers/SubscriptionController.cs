@@ -17,12 +17,13 @@ namespace DittoBox.API.AccountSubscription.Interface.Controllers
         ) : ControllerBase
     {
         [HttpGet]
-        [Route("{query:int}")]
+        [Route("{subscriptionId:int}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(SubscriptionResource))]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<SubscriptionResource>> GetSubscriptionDetails([FromRoute]GetSubscriptionDetailsQuery query)
+        public async Task<ActionResult<SubscriptionResource>> GetSubscriptionDetails([FromRoute]int subscriptionId)
         {
+			var query = new GetSubscriptionDetailsQuery(subscriptionId);
             try
             {
                 var response = await getSubscriptionDetailsQueryHandler.Handle(query);
