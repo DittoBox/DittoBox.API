@@ -18,11 +18,13 @@ namespace DittoBox.API.AccountSubscription.Interface.Controllers
         ) : ControllerBase
     {
         [HttpGet]
-        [Route("{query:int}")]
+        [Route("{accountId:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<AccountResource>> GetAccountDetails([FromRoute] GetAccountDetailsQuery query)
-        {
+        public async Task<ActionResult<AccountResource>> GetAccountDetails([FromRoute] int accountId)
+		{
+			var query = new GetAccountDetailsQuery(accountId);
+
             try
             {
                 var response = await getAccountDetailsQueryHandler.Handle(query);
@@ -47,7 +49,7 @@ namespace DittoBox.API.AccountSubscription.Interface.Controllers
             try
             {
                 var response = await createAccountCommandHandler.Handle(command);
-                return CreatedAtAction(nameof(GetAccountDetails), new { accountId = response.Id }, response);
+                return Created("", response);
             }
             catch (Exception ex)
             {
