@@ -119,6 +119,7 @@ namespace DittoBox.API
             builder.Services.AddScoped<IUpgradeSubscriptionCommandHandler, UpgradeSubscriptionCommandHandler>();
             builder.Services.AddScoped<IGetSubscriptionDetailsQueryHandler, GetSubscriptionDetailsQueryHandler>();
             builder.Services.AddScoped<ICancelSubscriptionCommandHandler, CancelSubscriptionCommandHandler>();
+			builder.Services.AddScoped<IGetSubscriptionUsageQueryHandler, getSubscriptionUsageQueryHandler>();
 
             /* Container Management handlers */
             builder.Services.AddScoped<ICreateContainerCommandHandler, CreateContainerCommandHandler>();
