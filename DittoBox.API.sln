@@ -5,7 +5,7 @@ VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DittoBox.API", "DittoBox.API\DittoBox.API.csproj", "{41339250-11FA-4464-A531-B91678BC5611}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DittoBox.API-Tets", "DittoBox.API-Tets\DittoBox.API-Tets.csproj", "{77584164-0C19-4098-86B9-94B9768A8E44}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DittoBox.API-Tests", "DittoBox.API-Tets\DittoBox.API-Tests.csproj", "{77584164-0C19-4098-86B9-94B9768A8E44}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
