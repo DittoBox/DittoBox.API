@@ -42,5 +42,10 @@ namespace DittoBox.API.UserProfile.Application.Services
         {
             await userRepository.Update(user);
         }
-    }
+
+		public async Task<IEnumerable<User>> GetUsers()
+		{
+			return await userRepository.GetAll();
+		}
+	}
 }
