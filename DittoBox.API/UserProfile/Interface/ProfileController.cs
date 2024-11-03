@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DittoBox.API.UserProfile.Interface
 {
+    /// <summary>
+    /// Controller for managing user profiles.
+    /// </summary>
     [ApiController]
     [Route("api/v1/[controller]")]
     public class ProfileController(
@@ -17,6 +20,11 @@ namespace DittoBox.API.UserProfile.Interface
         IRevokePrivilegeCommandHandler revokePrivilegeCommandHandler
     ) : ControllerBase
     {
+        /// <summary>
+        /// Gets the details of a profile by its identifier.
+        /// </summary>
+        /// <param name="query">The query object containing the profile ID.</param>
+        /// <returns>An <see cref="ActionResult{ProfileResource}"/> containing the profile details.</returns>
         [HttpGet("{ProfileId:int}")]
         public async Task<ActionResult<ProfileResource>> GetProfileDetails([FromRoute] GetProfileQuery query)
         {
@@ -31,6 +39,11 @@ namespace DittoBox.API.UserProfile.Interface
                 return StatusCode(500, "Internal server error");
             }
         }
+            /// <summary>
+        /// Updates the names of a profile.
+        /// </summary>
+        /// <param name="command">The command object containing the updated profile names.</param>
+        /// <returns>An <see cref="ActionResult"/> indicating the result of the operation.</returns>
 
         [HttpPut]
         [Route("update-names")]
@@ -48,6 +61,11 @@ namespace DittoBox.API.UserProfile.Interface
                 return StatusCode(500, "Internal server error");
             }
         }
+        /// <summary>
+        /// Grants privileges to a profile.
+        /// </summary>
+        /// <param name="privilege">The command object containing the privilege details.</param>
+        /// <returns>An <see cref="ActionResult"/> indicating the result of the operation.</returns>
 
         [HttpPost]
         [Route("grant-privileges")]
@@ -65,6 +83,11 @@ namespace DittoBox.API.UserProfile.Interface
                 return StatusCode(500, "Internal server error");
             }
         }
+         /// <summary>
+        /// Revokes privileges from a profile.
+        /// </summary>
+        /// <param name="privilege">The command object containing the privilege details.</param>
+        /// <returns>An <see cref="ActionResult"/> indicating the result of the operation.</returns>
 
         [HttpPut]
         [Route("revoke-privileges")]
