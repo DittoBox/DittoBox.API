@@ -16,7 +16,8 @@ namespace DittoBox.API.UserProfile.Interface
         ICreateUserCommandHandler createUserCommandHandler,
         IGetUserQueryHandler getUserQueryHandler,
         IDeleteUserCommandHandler deleteUserCommandHandler,
-        IChangePasswordCommandHandler changePasswordCommandHandler
+        IChangePasswordCommandHandler changePasswordCommandHandler,
+        ILoginCommandHandler loginCommandHandler
     ) : ControllerBase
     {
         // <summary>
@@ -107,6 +108,22 @@ namespace DittoBox.API.UserProfile.Interface
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred while changing password for user with id {UserId}", changePassword.UserId);
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpPost]
+        [Route("login")]
+        public async Task<ActionResult> Login([FromBody] LoginCommand login)
+        {
+            try
+            {
+                var response = await loginCommandHandler.Handle(login);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while logging in user with email {email}", login.Email);
                 return StatusCode(500, "Internal server error");
             }
         }

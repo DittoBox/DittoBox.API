@@ -10,5 +10,8 @@ namespace DittoBox.API.UserProfile.Domain.Services.Application
         public string EncryptPassword(string password);
         public Task UpdateUser(User user);
 		public Task<IEnumerable<User>> GetUsers();
+        public Task<string?> Login(string email, string password);
+        public Task<User?> GetUserByEmail(string email);
+
     }
 }
