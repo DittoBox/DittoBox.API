@@ -13,7 +13,8 @@ namespace DittoBox.API.UserProfile.Interface
         ICreateUserCommandHandler createUserCommandHandler,
         IGetUserQueryHandler getUserQueryHandler,
         IDeleteUserCommandHandler deleteUserCommandHandler,
-        IChangePasswordCommandHandler changePasswordCommandHandler
+        IChangePasswordCommandHandler changePasswordCommandHandler,
+        ILoginCommandHandler loginCommandHandler
     ) : ControllerBase
     {
 

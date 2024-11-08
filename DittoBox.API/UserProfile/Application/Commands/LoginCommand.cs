@@ -3,7 +3,7 @@
 namespace DittoBox.API.UserProfile.Application.Commands
 {
     public record LoginCommand(
-        [Required] string Username,
+        [Required, EmailAddress] string Email,
         [Required] string Password
     );
 }

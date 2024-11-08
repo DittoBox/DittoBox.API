@@ -5,6 +5,6 @@ namespace DittoBox.API.UserProfile.Application.Handlers.Interfaces
 {
     public interface ILoginCommandHandler
     {
-        public Task<LoginResource> Handle(LoginCommand command);
+        public Task<LoginResource?> Handle(LoginCommand command);
     }
 }

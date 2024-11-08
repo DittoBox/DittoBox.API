@@ -107,6 +107,7 @@ namespace DittoBox.API
             builder.Services.AddScoped<IGrantPrivilegeCommandHandler, GrantPrivilegeCommandHandler>();
             builder.Services.AddScoped<IRevokePrivilegeCommandHandler, RevokePrivilegeCommandHandler>();
             builder.Services.AddScoped<IUpdateProfileNamesCommandHandler, UpdateProfileNamesCommandHandler>();
+            builder.Services.AddScoped<ILoginCommandHandler, LoginCommandHandler>();
 
             /* AccountSubscription handlers */
             builder.Services.AddScoped<ICreateAccountCommandHandler, CreateAccountCommandHandler>();

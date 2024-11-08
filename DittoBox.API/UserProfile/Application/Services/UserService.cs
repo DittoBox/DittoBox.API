@@ -11,7 +11,9 @@ using System.Text;
 namespace DittoBox.API.UserProfile.Application.Services
 {
     public class UserService(
-        IUserRepository userRepository) : IUserService
+        IUserRepository userRepository,
+        IConfiguration configuration
+        ) : IUserService
     {
         public async Task<User> CreateUser(string username, string email, string password)
         {
@@ -51,6 +53,11 @@ namespace DittoBox.API.UserProfile.Application.Services
             return await userRepository.GetAll();
         }
 
+        public async Task<User?> GetUserByEmail(string email)
+        {
+            return await userRepository.GetByEmail(email);
+        }
+
         public async Task<string?> Login(string email, string password)
         {
             var hashedPassword = EncryptPassword(password);
@@ -64,8 +71,8 @@ namespace DittoBox.API.UserProfile.Application.Services
 
         public string CreateToken(User user)
         {
+            var key = Encoding.ASCII.GetBytes(configuration["JwtKey"] ?? throw new Exception());
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes("supersecretkey");
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(
