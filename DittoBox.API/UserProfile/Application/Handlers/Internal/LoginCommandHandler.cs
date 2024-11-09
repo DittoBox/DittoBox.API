@@ -2,7 +2,6 @@
 using DittoBox.API.UserProfile.Application.Handlers.Interfaces;
 using DittoBox.API.UserProfile.Application.Resources;
 using DittoBox.API.UserProfile.Domain.Services.Application;
-using Microsoft.AspNetCore.Mvc;
 
 namespace DittoBox.API.UserProfile.Application.Handlers.Internal
 {
@@ -21,6 +20,7 @@ namespace DittoBox.API.UserProfile.Application.Handlers.Internal
 			}
 
 			var profile = await profileService.GetProfile(user.Id) ?? null;
+			var privileges = await profileService.ListUserPrivileges(user.Id) ?? null;
 
 			int? accountId = null;
 			int? groupId = null;
@@ -38,7 +38,8 @@ namespace DittoBox.API.UserProfile.Application.Handlers.Internal
 				Token = token,
 				AccountId = accountId,
 				GroupId = groupId,
-				ProfileId = user.Id
+				ProfileId = user.Id,
+				Privileges = privileges == null ? [] : privileges.Select(p => p.ToString()).ToArray()
 			};
 
 		}
