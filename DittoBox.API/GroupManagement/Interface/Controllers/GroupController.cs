@@ -20,7 +20,9 @@ namespace DittoBox.API.GroupManagement.Interface.Controllers
     public class GroupController (
         ICreateGroupCommandHandler createGroupCommandHandler,
         ILogger<GroupController> _logger,
-        IGetGroupQueryHandler getGroupQueryHandler
+        IGetGroupQueryHandler getGroupQueryHandler,
+        IRegisterUserCommandHandler registerUserCommandHandler,
+        IRegisterContainerCommandHandler registerContainerCommandHandler
     ) : ControllerBase
     {
          /// <summary>
@@ -32,11 +34,19 @@ namespace DittoBox.API.GroupManagement.Interface.Controllers
 
         [HttpPost]
         [Route("{groupId}/register-container")]
-        public ActionResult RegisterContainer([FromRoute]int groupId, [FromBody]RegisterContainerCommand command)
+        public async Task<IActionResult> RegisterContainerAsync([FromRoute]int groupId, [FromBody]RegisterContainerCommand command)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await registerContainerCommandHandler.Handle(command);
+                return CreatedAtAction(nameof(GetGroup), new { GroupId = groupId }, command);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while registering container with serial number {serialNumber}", command.Code);
+                return StatusCode(500, "Internal server error");
+            }
         }
-
          /// <summary>
         /// Unregisters a container from a specific group.
         /// </summary>
@@ -68,9 +78,17 @@ namespace DittoBox.API.GroupManagement.Interface.Controllers
         /// <param name="command">The command containing the details of the user to register.</param>
         [HttpPost]
         [Route("{groupId}/register-user")]
-        public void RegisterUser([FromRoute] int groupId, [FromBody] RegisterUserCommand command)
+        public async Task<CreatedAtActionResult> RegisterUserAsync([FromRoute]int groupId, [FromBody]RegisterUserCommand command)
         {
-            throw new NotImplementedException();
+            try{
+                await registerUserCommandHandler.Handle(command);
+                return CreatedAtAction(nameof(GetGroup), new { GroupId = groupId }, command);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while registering user with email {email}", command.Email);
+                return (CreatedAtActionResult)StatusCode(500, "Internal server error");
+            }
         }
         
          /// <summary>
