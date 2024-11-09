@@ -2,10 +2,8 @@ namespace DittoBox.API.UserProfile.Domain.Models.ValueObjects
 {
 	public enum Privilege
 	{
-		GrantPrivilege, 
-		SubscriptionManagement,
-		IntergroupManagement,
+		WorkerManagement,
 		GroupManagement,
-		ContainerManagement
+		AccountManagement
 	}
 }
