@@ -21,7 +21,8 @@ namespace DittoBox.API.GroupManagement.Interface.Controllers
         ICreateGroupCommandHandler createGroupCommandHandler,
         ILogger<GroupController> _logger,
         IGetGroupQueryHandler getGroupQueryHandler,
-        IRegisterUserCommandHandler registerUserCommandHandler
+        IRegisterUserCommandHandler registerUserCommandHandler,
+        IRegisterContainerCommandHandler registerContainerCommandHandler
     ) : ControllerBase
     {
          /// <summary>
@@ -33,11 +34,19 @@ namespace DittoBox.API.GroupManagement.Interface.Controllers
 
         [HttpPost]
         [Route("{groupId}/register-container")]
-        public ActionResult RegisterContainer([FromRoute]int groupId, [FromBody]RegisterContainerCommand command)
+        public async Task<IActionResult> RegisterContainerAsync([FromRoute]int groupId, [FromBody]RegisterContainerCommand command)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await registerContainerCommandHandler.Handle(command);
+                return CreatedAtAction(nameof(GetGroup), new { GroupId = groupId }, command);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while registering container with serial number {serialNumber}", command.Code);
+                return StatusCode(500, "Internal server error");
+            }
         }
-
          /// <summary>
         /// Unregisters a container from a specific group.
         /// </summary>

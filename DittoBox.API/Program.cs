@@ -142,6 +142,7 @@ namespace DittoBox.API
             builder.Services.AddScoped<ICreateGroupCommandHandler, CreateGroupCommandHandler>();
             builder.Services.AddScoped<IGetGroupQueryHandler, GetGroupQueryHandler>();
             builder.Services.AddScoped<IRegisterUserCommandHandler, RegisterUserCommandHandler>();
+            builder.Services.AddScoped<IRegisterContainerCommandHandler, RegisterContainerCommandHandler>();
         }
 
         public static void RegisterRepositories(WebApplicationBuilder builder) {
