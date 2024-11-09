@@ -10,5 +10,6 @@ namespace DittoBox.API.UserProfile.Application.Resources
         public int? AccountId { get; init; }
         public int? GroupId { get; init; }
         public int ProfileId { get; init; }
+		public string[] Privileges { get; init; } = [];
     }
 }
