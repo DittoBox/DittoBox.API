@@ -1,5 +1,6 @@
 using DittoBox.API.GroupManagement.Domain.Models.Commands;
 using DittoBox.API.GroupManagement.Domain.Models.Entities;
+using DittoBox.API.GroupManagement.Domain.Models.Handlers.Internal;
 using DittoBox.API.GroupManagement.Domain.Models.ValueObject;
 using DittoBox.API.GroupManagement.Domain.Repositories;
 using DittoBox.API.GroupManagement.Domain.Services.Application;
