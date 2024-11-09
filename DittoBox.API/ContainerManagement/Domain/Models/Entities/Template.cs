@@ -1,4 +1,6 @@
-﻿namespace DittoBox.API.ContainerManagement.Domain.Models.Entities
+﻿using DittoBox.API.ContainerManagement.Domain.Models.ValueObjects;
+
+namespace DittoBox.API.ContainerManagement.Domain.Models.Entities
 {
 	public class Template
 	{
@@ -24,6 +26,9 @@
 		public int? MaxEthyleneThreshold { get; set; }
 		public int? MinAmmoniaThreshold { get; set; }
 		public int? MaxAmmoniaThreshold { get; set; }
+
+		public TemplateCategory Category { get; set; }
+
 		public Template() { }
 		public Template(
 			string name,
@@ -40,7 +45,8 @@
 			int? minEthyleneThreshold,
 			int? maxEthyleneThreshold,
 			int? minAmmoniaThreshold,
-			int? maxAmmoniaThreshold
+			int? maxAmmoniaThreshold,
+			TemplateCategory category
 		)
 		{
 			Name = name;
@@ -58,6 +64,7 @@
 			MaxEthyleneThreshold = maxEthyleneThreshold;
 			MinAmmoniaThreshold = minAmmoniaThreshold;
 			MaxAmmoniaThreshold = maxAmmoniaThreshold;
+			Category = category;
 		}
 	}
 }

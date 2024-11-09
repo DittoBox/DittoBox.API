@@ -25,7 +25,8 @@ namespace DittoBox.API.ContainerManagement.Application.Handlers.Internal {
 				command.MinEthyleneThreshold,
 				command.MaxEthyleneThreshold,
 				command.MinAmmoniaThreshold,
-				command.MaxAmmoniaThreshold
+				command.MaxAmmoniaThreshold,
+				command.Category
 			);
 
 			await unitOfWork.CompleteAsync();

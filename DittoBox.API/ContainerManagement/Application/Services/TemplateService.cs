@@ -1,4 +1,5 @@
 using DittoBox.API.ContainerManagement.Domain.Models.Entities;
+using DittoBox.API.ContainerManagement.Domain.Models.ValueObjects;
 using DittoBox.API.ContainerManagement.Domain.Repositories;
 using DittoBox.API.ContainerManagement.Domain.Services.Application;
 using DittoBox.API.Shared.Domain.Repositories;
@@ -8,7 +9,7 @@ namespace DittoBox.API.ContainerManagement.Application.Services
 	class TemplateService(ITemplateRepository templateRepository, IUnitOfWork unitOfWork) : ITemplateService
 	{
 
-		public async Task<Template> CreateTemplate(string name, sbyte maxTemperatureThreshold, sbyte minTemperatureThreshold, sbyte maxHumidityThreshold, sbyte minHumidityThreshold, int? maxOxygenThreshold, int? minCarbonDioxideThreshold, int? maxCarbonDioxideThreshold, int? minOxygenThreshold, int? minSulfurDioxideThreshold, int? maxSulfurDioxideThreshold, int? minEthyleneThreshold, int? maxEthyleneThreshold, int? minAmmoniaThreshold, int? maxAmmoniaThreshold)
+		public async Task<Template> CreateTemplate(string name, sbyte maxTemperatureThreshold, sbyte minTemperatureThreshold, sbyte maxHumidityThreshold, sbyte minHumidityThreshold, int? maxOxygenThreshold, int? minCarbonDioxideThreshold, int? maxCarbonDioxideThreshold, int? minOxygenThreshold, int? minSulfurDioxideThreshold, int? maxSulfurDioxideThreshold, int? minEthyleneThreshold, int? maxEthyleneThreshold, int? minAmmoniaThreshold, int? maxAmmoniaThreshold, TemplateCategory category)
 		{
 			var template = new Template(
 				name,
@@ -25,7 +26,8 @@ namespace DittoBox.API.ContainerManagement.Application.Services
 				minEthyleneThreshold,
 				maxEthyleneThreshold,
 				minAmmoniaThreshold,
-				maxAmmoniaThreshold
+				maxAmmoniaThreshold,
+				category
 			);
 
 			await templateRepository.Add(template);
