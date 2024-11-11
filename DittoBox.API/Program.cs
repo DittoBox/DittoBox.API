@@ -12,6 +12,7 @@ using DittoBox.API.ContainerManagement.Domain.Repositories;
 using DittoBox.API.ContainerManagement.Domain.Services.Application;
 using DittoBox.API.ContainerManagement.Infrastructure.Repositories;
 using DittoBox.API.GroupManagement.Domain.Models.Commands;
+using DittoBox.API.GroupManagement.Domain.Models.Handlers.Interfaces;
 using DittoBox.API.GroupManagement.Domain.Models.Handlers.Internal;
 using DittoBox.API.GroupManagement.Domain.Repositories;
 using DittoBox.API.GroupManagement.Domain.Services.Application;
@@ -151,6 +152,7 @@ namespace DittoBox.API
             builder.Services.AddScoped<IGetGroupQueryHandler, GetGroupQueryHandler>();
             builder.Services.AddScoped<IRegisterUserCommandHandler, RegisterUserCommandHandler>();
             builder.Services.AddScoped<IRegisterContainerCommandHandler, RegisterContainerCommandHandler>();
+            builder.Services.AddScoped<IGetContainersByGroupIdQueryHandler, GetContainersByGroupIdQueryHandler>();
         }
 
         public static void RegisterRepositories(WebApplicationBuilder builder) {

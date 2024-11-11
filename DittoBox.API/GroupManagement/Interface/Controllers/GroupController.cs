@@ -1,6 +1,9 @@
-﻿using System.Text.Json;
+﻿using System.Security.Cryptography.X509Certificates;
+using System.Text.Json;
 using System.Text.Json.Serialization;
+using DittoBox.API.ContainerManagement.Interface.Resources;
 using DittoBox.API.GroupManagement.Domain.Models.Commands;
+using DittoBox.API.GroupManagement.Domain.Models.Handlers.Interfaces;
 using DittoBox.API.GroupManagement.Domain.Models.Handlers.Internal;
 using DittoBox.API.GroupManagement.Domain.Models.Queries;
 using DittoBox.API.GroupManagement.Domain.Models.Resources;
@@ -22,7 +25,8 @@ namespace DittoBox.API.GroupManagement.Interface.Controllers
         ILogger<GroupController> _logger,
         IGetGroupQueryHandler getGroupQueryHandler,
         IRegisterUserCommandHandler registerUserCommandHandler,
-        IRegisterContainerCommandHandler registerContainerCommandHandler
+        IRegisterContainerCommandHandler registerContainerCommandHandler,
+        IGetContainersByGroupIdQueryHandler getContainersByGroupIdQueryHandler
     ) : ControllerBase
     {
          /// <summary>
@@ -47,6 +51,22 @@ namespace DittoBox.API.GroupManagement.Interface.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
+
+        [HttpGet]
+        [Route("{groupId}/containers")]
+        public async Task<IEnumerable<ContainerResource>?> GetContainersByGroupIdAsync([FromRoute]int groupId)
+        {
+            try
+            {
+                var query = new GetContainersByGroupIdQuery(groupId);
+                return await getContainersByGroupIdQueryHandler.Handle(query);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while getting containers for group with groupId: {groupId}", groupId);
+                return null;
+            }
+        } 
          /// <summary>
         /// Unregisters a container from a specific group.
         /// </summary>
