@@ -1,4 +1,5 @@
 using DittoBox.API.ContainerManagement.Domain.Models.Entities;
+using DittoBox.API.ContainerManagement.Domain.Models.ValueObjects;
 
 namespace DittoBox.API.ContainerManagement.Domain.Services.Application
 {
@@ -21,7 +22,8 @@ namespace DittoBox.API.ContainerManagement.Domain.Services.Application
 			int? minEthyleneThreshold,
 			int? maxEthyleneThreshold,
 			int? minAmmoniaThreshold,
-			int? maxAmmoniaThreshold
+			int? maxAmmoniaThreshold,
+			TemplateCategory category
 		);
 	}
 }
