@@ -10,8 +10,13 @@ namespace DittoBox.API.ContainerManagement.Domain.Models.Entities
         public int AccountId { get; set; }
         public int GroupId { get; set; }
         public int ContainerSizeId { get; set; }
-        public double Temperature { get; set; } = 0.0;
-        public double Humidity { get; set; } = 0.0;
+        public double? Temperature { get; set; }
+        public double? Humidity { get; set; }
+        public double? Oxygen { get; set; }
+        public double? Dioxide { get; set; }
+        public double? Ethylene { get; set; }
+        public double? Ammonia { get; set; }
+        public double? SulfurDioxide { get; set; }
 
         public ContainerConditions? ContainerConditions { get; set; }
 
@@ -71,10 +76,15 @@ namespace DittoBox.API.ContainerManagement.Domain.Models.Entities
             ContainerConditions = newConditions;
         }
 
-        public void UpdateMetrics(double temperature, double humidity)
+        public void UpdateMetrics(double temperature, double humidity, double oxygen, double dioxide, double ethylene, double ammonia, double sulfurDioxide)
         {
             Temperature = temperature;
             Humidity = humidity;
+            Oxygen = oxygen;
+            Dioxide = dioxide;
+            Ethylene = ethylene;
+            Ammonia = ammonia;
+            SulfurDioxide = sulfurDioxide;
             LastSync = DateTime.UtcNow;
         }
 

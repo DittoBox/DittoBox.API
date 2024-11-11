@@ -15,7 +15,7 @@ namespace DittoBox.API.ContainerManagement.Application.Handlers.Internal
             var container = await containerService.GetContainerById(containerId);
             if (container != null) 
             {
-                container.UpdateMetrics(command.Temperature, command.Humidity);
+                container.UpdateMetrics(command.Temperature, command.Humidity, command.Oxygen, command.Dioxide, command.Ethylene, command.Ammonia, command.SulfurDioxide);
                 await containerService.UpdateContainer(container);
                 await unitOfWork.CompleteAsync();
             }
