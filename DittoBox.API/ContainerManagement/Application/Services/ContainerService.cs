@@ -25,6 +25,11 @@ namespace DittoBox.API.ContainerManagement.Application.Services
 			return await containerRepository.GetById(id);
 		}
 
+		public Task<IEnumerable<Container>> GetContainersByGroupId(int groupId)
+		{
+			return containerRepository.GetContainersByGroupId(groupId);
+		}
+
 		public Task<IEnumerable<Container>> GetContainers()
 		{
 			return containerRepository.GetAll();

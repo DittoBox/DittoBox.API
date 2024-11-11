@@ -30,6 +30,8 @@ namespace DittoBox.API.GroupManagement.Domain.Models.Handlers.Internal
                 throw new Exception("Profile not found");
             }
             profile.GroupId = command.GroupId;
+            container.GroupId = command.GroupId;
+            container.AccountId = command.AccountId;
             await unitOfWork.CompleteAsync();
         }
     }

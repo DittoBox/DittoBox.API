@@ -8,5 +8,6 @@ namespace DittoBox.API.ContainerManagement.Domain.Services.Application
         public Task<Container?> GetContainerById(int id);
         public Task UpdateContainer(Container container);
 		public Task<IEnumerable<Container>> GetContainers();
+        public Task<IEnumerable<Container>> GetContainersByGroupId(int groupId);
     }
 }
