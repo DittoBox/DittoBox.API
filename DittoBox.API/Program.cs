@@ -101,7 +101,15 @@ namespace DittoBox.API
 		public static void RegisterHandlers(WebApplicationBuilder builder)
 		{
             /* UserProfile handlers */
-			builder.Services.AddScoped<ICreateUserCommandHandler, CreateUserCommandHandler>();
+		                        builder.Services.AddCors(options =>
+                        {
+                                options.AddPolicy("AllowAll", corsPolicyBuilder =>
+                                {
+                                        corsPolicyBuilder.AllowAnyOrigin()
+                                                .AllowAnyMethod()
+                                                .AllowAnyHeader();
+                                });
+                        });	builder.Services.AddScoped<ICreateUserCommandHandler, CreateUserCommandHandler>();
             builder.Services.AddScoped<IGetUserQueryHandler, GetUserQueryHandler>();
             builder.Services.AddScoped<IDeleteUserCommandHandler, DeleteUserCommandHandler>();
             builder.Services.AddScoped<IChangePasswordCommandHandler, ChangePasswordCommandHandler>();
