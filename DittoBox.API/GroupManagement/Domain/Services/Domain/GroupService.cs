@@ -47,6 +47,15 @@ namespace DittoBox.API.GroupManagement.Domain.Services.Domain
             throw new NotImplementedException();
         }
 
+        public async Task<IEnumerable<Group>> GetGroupsByAccountId(int accountId)
+        {
+            var groups = await groupRepository.GetAllSync(); // Asegúrate de que esto devuelva Task<IQueryable<Group>>
+            var result = await groups
+                .Include(g => g.Location)
+                .Where(g => g.AccountId == accountId)
+                .ToListAsync();
+            return result;
+        }
 
         public void RegisterContainer(int groupId, int containerId)
         {

@@ -3,6 +3,7 @@ using DittoBox.API.AccountSubscription.Application.Handlers.Interfaces;
 using DittoBox.API.AccountSubscription.Application.Queries;
 using DittoBox.API.AccountSubscription.Application.Resources;
 using DittoBox.API.ContainerManagement.Interface.Resources;
+using DittoBox.API.GroupManagement.Domain.Models.Resources;
 using DittoBox.API.UserProfile.Application.Resources;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,7 +23,8 @@ namespace DittoBox.API.AccountSubscription.Interface.Controllers
 		IUpdateBusinessInformationCommandHandler updateBusinessInformationCommandHandler,
 		IGetSubscriptionUsageQueryHandler getSubscriptionUsageQueryHandler,
 		IGetContainersByAccountIdQueryHandler getContainersByAccountIdQueryHandler,
-		IGetUsersByAccountIdQueryHandler getUsersByAccountIdQueryHandler
+		IGetUsersByAccountIdQueryHandler getUsersByAccountIdQueryHandler,
+		IGetGroupsByAccountIdQueryHandler getGroupsByAccountIdQueryHandler
 		) : ControllerBase
 	{
  	/// <summary>
@@ -231,6 +233,37 @@ namespace DittoBox.API.AccountSubscription.Interface.Controllers
 			catch (Exception ex)
 			{
 				_logger.LogError(ex, "An error occurred while getting users for account with accountId: {accountId}", accountId);
+				return StatusCode(500, "Internal server error");
+			}
+		}
+
+		/// <summary>
+		/// Retrieves the groups associated with an account.
+		/// </summary>
+		/// <param name="accountId">The identifier of the account.</param>
+		/// <returns>An <see cref="ActionResult{IEnumerable{GroupResource}}"/> containing the groups associated with the account.</returns>
+		/// <response code="200">Returns the list of groups associated with the account.</response>
+		/// <response code="404">If the account does not exist.</response>
+		/// <response code="500">If an error occurred while processing the request.</response>
+		/// <param name="accountId"></param>
+		/// <returns></returns>
+		/// <summary>
+		[HttpGet]
+		[Route("{accountId:int}/groups")]
+		[ProducesResponseType(StatusCodes.Status200OK)]
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		[ProducesResponseType(StatusCodes.Status500InternalServerError)]
+		public async Task<ActionResult<IEnumerable<GroupResource>>> GetGroupsByAccountId([FromRoute] int accountId)
+		{
+			try
+			{
+				var query = new GetGroupsByAccountIdQuery(accountId);
+				var response = await getGroupsByAccountIdQueryHandler.Handle(query);
+				return Ok(response);
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, "An error occurred while getting groups for account with accountId: {accountId}", accountId);
 				return StatusCode(500, "Internal server error");
 			}
 		}

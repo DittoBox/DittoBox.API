@@ -135,6 +135,7 @@ namespace DittoBox.API
 			builder.Services.AddScoped<IGetSubscriptionUsageQueryHandler, getSubscriptionUsageQueryHandler>();
             builder.Services.AddScoped<IGetContainersByAccountIdQueryHandler, GetContainersByAccountIdQueryHandler>();
             builder.Services.AddScoped<IGetUsersByAccountIdQueryHandler, GetUsersByAccountIdQueryHandler>();
+            builder.Services.AddScoped<IGetGroupsByAccountIdQueryHandler, GetGroupsByAccountIdQueryHandler>();
 
             /* Container Management handlers */
             builder.Services.AddScoped<ICreateContainerCommandHandler, CreateContainerCommandHandler>();
