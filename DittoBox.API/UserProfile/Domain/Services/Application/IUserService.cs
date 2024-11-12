@@ -12,6 +12,7 @@ namespace DittoBox.API.UserProfile.Domain.Services.Application
 		public Task<IEnumerable<User>> GetUsers();
         public Task<string?> Login(string email, string password);
         public Task<User?> GetUserByEmail(string email);
+		public Task<User?> GetUserByUsername(string username);
 
     }
 }
