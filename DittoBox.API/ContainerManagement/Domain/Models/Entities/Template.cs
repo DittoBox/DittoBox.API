@@ -66,5 +66,24 @@ namespace DittoBox.API.ContainerManagement.Domain.Models.Entities
 			MaxAmmoniaThreshold = maxAmmoniaThreshold;
 			Category = category;
 		}
+		public ContainerConditions ToContainerConditions()
+		{
+			return new ContainerConditions(
+				MinTemperatureThreshold,
+				MaxTemperatureThreshold,
+				MinHumidityThreshold,
+				MaxHumidityThreshold,
+				MinOxygenThreshold ?? 0,
+				MaxOxygenThreshold ?? 0,
+				MinCarbonDioxideThreshold ?? 0,
+				MaxCarbonDioxideThreshold ?? 0,
+				MinEthyleneThreshold ?? 0,
+				MaxEthyleneThreshold ?? 0,
+				MinAmmoniaThreshold ?? 0,
+				MaxAmmoniaThreshold ?? 0,
+				MinSulfurDioxideThreshold ?? 0,
+				MaxSulfurDioxideThreshold ?? 0
+			);
+		}
 	}
 }

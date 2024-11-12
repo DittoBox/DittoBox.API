@@ -18,7 +18,8 @@ namespace DittoBox.API.ContainerManagement.Interface.Controllers
         IUpdateContainerParametersCommandHandler updateContainerParametersCommandHandler,
         IUpdateContainerStatusCommandHandler updateContainerStatusCommandHandler,
         IUpdateHealthStatusCommandHandler updateHealthStatusCommandHandler,
-		IGetContainersQueryHandler getContainersQueryHandler
+		IGetContainersQueryHandler getContainersQueryHandler,
+        IAssingTemplateCommandHandler assingTemplateCommandHandler
         ) : ControllerBase
     {
 
@@ -73,10 +74,23 @@ namespace DittoBox.API.ContainerManagement.Interface.Controllers
 
         [HttpPost]
         [Route("{containerId}/assign/{templateId}")]
-        public Task<ActionResult<ContainerResource>> AssignTemplate([FromRoute] int containerId, [FromRoute] int templateId)
+        public async Task<ActionResult<ContainerResource>> AssignTemplate([FromRoute] int containerId, [FromRoute] int templateId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var command = new AssingTemplateCommand(containerId, templateId);
+                await assingTemplateCommandHandler.Handle(command);
+                var query = new GetContainerByIdQuery(containerId);
+                var response = await getContainerQueryHandler.Handle(query);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while assigning template with containerId: {containerId} and templateId: {templateId}", containerId, templateId);
+                return StatusCode(500, "Internal server error");
+            }
         }
+
 
 	 /// <summary>
         /// Retrieves the status of a container by its ID.
