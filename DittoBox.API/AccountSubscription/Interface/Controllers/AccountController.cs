@@ -2,6 +2,7 @@ using DittoBox.API.AccountSubscription.Application.Commands;
 using DittoBox.API.AccountSubscription.Application.Handlers.Interfaces;
 using DittoBox.API.AccountSubscription.Application.Queries;
 using DittoBox.API.AccountSubscription.Application.Resources;
+using DittoBox.API.ContainerManagement.Interface.Resources;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DittoBox.API.AccountSubscription.Interface.Controllers
@@ -18,7 +19,8 @@ namespace DittoBox.API.AccountSubscription.Interface.Controllers
 		IUpdateAccountCommandHandler updateAccountCommandHandler,
 		IDeleteAccountCommandHandler deleteAccountCommandHandler,
 		IUpdateBusinessInformationCommandHandler updateBusinessInformationCommandHandler,
-		IGetSubscriptionUsageQueryHandler getSubscriptionUsageQueryHandler
+		IGetSubscriptionUsageQueryHandler getSubscriptionUsageQueryHandler,
+		IGetContainersByAccountIdQueryHandler getContainersByAccountIdQueryHandler
 		) : ControllerBase
 	{
  	/// <summary>
@@ -164,6 +166,36 @@ namespace DittoBox.API.AccountSubscription.Interface.Controllers
 			catch (Exception ex)
 			{
 				_logger.LogError(ex, "An error occurred while getting subscription status for account with accountId: {accountId}", accountId);
+				return StatusCode(500, "Internal server error");
+			}
+		}
+
+	/// <summary>
+		/// Retrieves the containers associated with an account.
+		/// </summary>
+		/// <param name="accountId">The identifier of the account.</param>
+		/// <returns>An <see cref="ActionResult{IEnumerable{ContainerResource}}"/> containing the containers associated with the account.</returns>
+		/// <response code="200">Returns the list of containers associated with the account.</response>
+		/// <response code="404">If the account does not exist.</response>
+		/// <response code="500">If an error occurred while processing the request.</response>
+		/// <param name="accountId"></param>
+		/// <returns></returns>
+		[HttpGet]
+		[Route("{accountId:int}/containers")]
+		[ProducesResponseType(StatusCodes.Status200OK)]
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		[ProducesResponseType(StatusCodes.Status500InternalServerError)]
+		public async Task<ActionResult<IEnumerable<ContainerResource>>> GetContainersByAccountId([FromRoute] int accountId)
+		{
+			try
+			{
+				var query = new GetContainersByAccountIdQuery(accountId);
+				var response = await getContainersByAccountIdQueryHandler.Handle(query);
+				return Ok(response);
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, "An error occurred while getting containers for account with accountId: {accountId}", accountId);
 				return StatusCode(500, "Internal server error");
 			}
 		}

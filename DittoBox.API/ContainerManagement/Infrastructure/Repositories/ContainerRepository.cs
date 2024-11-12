@@ -22,5 +22,10 @@ namespace DittoBox.API.ContainerManagement.Infrastructure.Repositories
         {
             return await _context.Containers.Where(c => c.GroupId == groupId).ToListAsync();
         }
+
+        public async Task<IEnumerable<Container>> GetContainersByAccountId(int accountId)
+        {
+            return await _context.Containers.Where(c => c.AccountId == accountId).ToListAsync();
+        }
     }
 }

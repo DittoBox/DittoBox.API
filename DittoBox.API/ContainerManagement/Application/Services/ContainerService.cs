@@ -40,5 +40,10 @@ namespace DittoBox.API.ContainerManagement.Application.Services
 			await containerRepository.Update(container);
 			await unitOfWork.CompleteAsync();
 		}
+
+		public Task<IEnumerable<Container>> GetContainersByAccountId(int accountId)
+		{
+			return containerRepository.GetContainersByAccountId(accountId);
+		}
 	}
 }
