@@ -146,6 +146,7 @@ namespace DittoBox.API
 			builder.Services.AddScoped<IGetTemplateQueryHandler, GetTemplateQueryHandler>();
 			builder.Services.AddScoped<ICreateTemplateCommandHandler, CreateTemplateCommandHandler>();
 			builder.Services.AddScoped<IGetTemplatesQueryHandler, GetTemplatesQueryHandler>();
+            builder.Services.AddScoped<IAssingTemplateCommandHandler, AssingTemplateCommandHandler>();
 
             /* GroupManagement handlers */
             builder.Services.AddScoped<ICreateGroupCommandHandler, CreateGroupCommandHandler>();
