@@ -5,6 +5,6 @@ namespace DittoBox.API.AccountSubscription.Application.Queries
 {
     public interface IGetUsersByAccountIdQueryHandler
     {
-        Task<IEnumerable<UserResource>> Handle(GetUsersByAccountIdQuery query, CancellationToken cancellationToken);
+        Task<IEnumerable<ProfileResource>> Handle(GetUsersByAccountIdQuery query);
     }
 }

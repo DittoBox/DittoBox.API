@@ -12,5 +12,7 @@ namespace DittoBox.API.UserProfile.Domain.Services.Application
         public Task GrantPrivilege(ProfilePrivilege profilePrivilege);
         public Task RevokePrivilege(ProfilePrivilege profilePrivilege);
         public Task<ICollection<Privilege>> ListUserPrivileges(int userId);
+
+        public Task<IEnumerable<Profile>> GetProfilesByAccountId(int accountId);
     }
 }

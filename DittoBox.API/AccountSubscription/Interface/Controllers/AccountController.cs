@@ -3,6 +3,7 @@ using DittoBox.API.AccountSubscription.Application.Handlers.Interfaces;
 using DittoBox.API.AccountSubscription.Application.Queries;
 using DittoBox.API.AccountSubscription.Application.Resources;
 using DittoBox.API.ContainerManagement.Interface.Resources;
+using DittoBox.API.UserProfile.Application.Resources;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DittoBox.API.AccountSubscription.Interface.Controllers
@@ -20,7 +21,8 @@ namespace DittoBox.API.AccountSubscription.Interface.Controllers
 		IDeleteAccountCommandHandler deleteAccountCommandHandler,
 		IUpdateBusinessInformationCommandHandler updateBusinessInformationCommandHandler,
 		IGetSubscriptionUsageQueryHandler getSubscriptionUsageQueryHandler,
-		IGetContainersByAccountIdQueryHandler getContainersByAccountIdQueryHandler
+		IGetContainersByAccountIdQueryHandler getContainersByAccountIdQueryHandler,
+		IGetUsersByAccountIdQueryHandler getUsersByAccountIdQueryHandler
 		) : ControllerBase
 	{
  	/// <summary>
@@ -199,6 +201,40 @@ namespace DittoBox.API.AccountSubscription.Interface.Controllers
 				return StatusCode(500, "Internal server error");
 			}
 		}
+
+		/// <summary>
+		/// Retrieves the users associated with an account.
+		/// </summary>
+		/// <param name="accountId">The identifier of the account.</param>
+		/// <returns>An <see cref="ActionResult{IEnumerable{ProfileResource}}"/> containing the users associated with the account.</returns>
+		/// <response code="200">Returns the list of users associated with the account.</response>
+		/// <response code="404">If the account does not exist.</response>
+		/// <response code="500">If an error occurred while processing the request.</response>
+		/// <param name="accountId"></param>
+		/// <returns></returns>
+		/// <summary>
+		/// Retrieves the users associated with an account.
+		/// </summary>
+		[HttpGet]
+		[Route("{accountId:int}/users")]
+		[ProducesResponseType(StatusCodes.Status200OK)]
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		[ProducesResponseType(StatusCodes.Status500InternalServerError)]
+		public async Task<ActionResult<IEnumerable<ProfileResource>>> GetUsersByAccountId([FromRoute] int accountId)
+		{
+			try
+			{
+				var query = new GetUsersByAccountIdQuery(accountId);
+				var response = await getUsersByAccountIdQueryHandler.Handle(query);
+				return Ok(response);
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, "An error occurred while getting users for account with accountId: {accountId}", accountId);
+				return StatusCode(500, "Internal server error");
+			}
+		}
+		
 
 	}
 }
