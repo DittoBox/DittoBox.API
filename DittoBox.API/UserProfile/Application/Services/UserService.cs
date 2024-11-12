@@ -87,5 +87,10 @@ namespace DittoBox.API.UserProfile.Application.Services
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
-    }
+
+		public Task<User?> GetUserByUsername(string username)
+		{
+			return userRepository.GetByUsername(username);
+		}
+	}
 }

@@ -13,5 +13,10 @@ namespace DittoBox.API.UserProfile.Infrastructure.Repositories
         {
             return await context.Users.FirstOrDefaultAsync(u => u.Email == email);
         }
-    }
+
+		public Task<User?> GetByUsername(string username)
+		{
+			return context.Users.FirstOrDefaultAsync(u => u.Username == username);
+		}
+	}
 }
