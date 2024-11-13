@@ -9,13 +9,15 @@ namespace DittoBox.API.GroupManagement.Domain.Models.Resources
         string Name,
         Location Location,
         int AccountId,
-        FacilityType FacilityType
+        FacilityType FacilityType,
+        int? ContainerCount,
+        int? ProfileCount
     )
     {
 
         public static GroupResource FromGroup(Group group)
         {
-            return new GroupResource(group.Id, group.Name, Location.FromLocation(group.Location), group.AccountId, group.FacilityType);
+            return new GroupResource(group.Id, group.Name, Location.FromLocation(group.Location), group.AccountId, group.FacilityType, group.ContainerCount, group.ProfileCount);
         }
     };
 

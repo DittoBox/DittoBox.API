@@ -15,7 +15,7 @@ namespace DittoBox.API.GroupManagement.Domain.Services.Domain
     {
         public async Task<Group> CreateGroup(int accountId, string name, Location location, FacilityType facilityType)
         {
-            var group = new Group(accountId, name, location, facilityType);
+            var group = new Group(accountId, name, location, facilityType, 0, 0);
             await groupRepository.Add(group);
             return group;
         }
@@ -29,15 +29,19 @@ namespace DittoBox.API.GroupManagement.Domain.Services.Domain
         }
         public async Task<Group> GetGroup(int id)
         {
-            var groups = await groupRepository.GetAllSync(); // Asegúrate de que esto devuelva Task<IQueryable<Group>>
+            var groups = await groupRepository.GetAllSync(); 
             var group = await groups
                 .Include(g => g.Location)
+                .Include(g => g.Containers)
+                .Include(g => g.Profiles)
                 .FirstOrDefaultAsync(g => g.Id == id);
 
             if (group == null)
             {
                 throw new Exception("Group not found");
             }
+            group.ProfileCount = group.Profiles.Count;
+            group.ContainerCount = group.Containers.Count;
 
             return group;
         }
