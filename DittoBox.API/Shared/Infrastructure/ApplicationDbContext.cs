@@ -14,7 +14,7 @@ namespace DittoBox.API.Shared.Infrastructure
 		public DbSet<Profile> Profiles { get; set; }
 		public DbSet<Account> Accounts { get; set; }
 		public DbSet<Subscription> Subscriptions { get; set; }
-		public DbSet<ProfilePrivilege> ProfilePrivileges { get; set; }
+		public DbSet<ProfilePrivilege> ProfilePrivileges { get; set; }	
 		public DbSet<Group> Groups { get; set; }
 		public DbSet<Location> locations { get; set; }
 		public DbSet<Container> Containers { get; set; }
