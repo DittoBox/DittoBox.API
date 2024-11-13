@@ -54,11 +54,21 @@ namespace DittoBox.API.GroupManagement.Domain.Services.Domain
         public async Task<IEnumerable<Group>> GetGroupsByAccountId(int accountId)
         {
             var groups = await groupRepository.GetAllSync(); // Asegúrate de que esto devuelva Task<IQueryable<Group>>
-            var result = await groups
-                .Include(g => g.Location)
+            var groupList = await groups
                 .Where(g => g.AccountId == accountId)
+                .Include(g => g.Location)
+                .Include(g => g.Containers)
+                .Include(g => g.Profiles)
                 .ToListAsync();
-            return result;
+
+            // Actualizar el número de perfiles y contenedores asociados a cada grupo
+            foreach (var group in groupList)
+            {
+                group.ProfileCount = group.Profiles.Count;
+                group.ContainerCount = group.Containers.Count;
+            }
+
+            return groupList;
         }
 
         public void RegisterContainer(int groupId, int containerId)
