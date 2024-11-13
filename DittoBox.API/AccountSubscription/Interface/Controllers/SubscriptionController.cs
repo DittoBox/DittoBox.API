@@ -9,7 +9,7 @@ namespace DittoBox.API.AccountSubscription.Interface.Controllers
 	/// <summary>
    	 /// Controller for managing subscriptions.
    	 /// </summary>
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class SubscriptionController(
         ILogger<SubscriptionController> logger,

@@ -13,7 +13,19 @@ namespace DittoBox.API.UserProfile.Application.Handlers.Internal
         public async Task<ProfileResource?> Handle(GetProfileQuery query)
         {
             var result = await profileService.GetProfile(query.ProfileId);
-            return result == null ? null : ProfileResource.FromProfile(result);
+            if (result == null)
+            {
+                return null;
+            }
+            var privileges = await profileService.ListUserPrivileges(query.ProfileId);
+            return new ProfileResource()
+            {
+                AccountId = result.AccountId,
+                GroupId = result.GroupId,
+                FirstName = result.FirstName,
+                LastName = result.LastName,
+                Privileges = privileges.Select(p => p.ToString()).ToArray()
+            };
         }
     }
 }
