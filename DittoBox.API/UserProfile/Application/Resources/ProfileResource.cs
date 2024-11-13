@@ -8,7 +8,7 @@ namespace DittoBox.API.UserProfile.Application.Resources
 		public string LastName { get; set; } = string.Empty;
 		public int? AccountId { get; set; }
 		public int? GroupId { get; set; }
-		public ICollection<string> ProfilePrivileges { get; set; } = [];
+		public string[] Privileges { get; init; } = [];
 
 
 		public static ProfileResource FromProfile(Profile profile)
@@ -19,8 +19,7 @@ namespace DittoBox.API.UserProfile.Application.Resources
 				LastName = profile.LastName,
 				AccountId = profile.AccountId,
 				GroupId = profile.GroupId,
-				ProfilePrivileges = profile.ProfilePrivileges.Select(pp => pp.Privilege.ToString()).ToList()
-			};
+				Privileges = profile.ProfilePrivileges.Select(p => p.Privilege.ToString()).ToArray()};
 		}
 	}
 }
