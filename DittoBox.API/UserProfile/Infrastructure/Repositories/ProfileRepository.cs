@@ -2,6 +2,7 @@
 using DittoBox.API.Shared.Infrastructure.Repositories;
 using DittoBox.API.UserProfile.Domain.Models.Entities;
 using DittoBox.API.UserProfile.Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace DittoBox.API.UserProfile.Infrastructure.Repositories
 {
@@ -13,9 +14,9 @@ namespace DittoBox.API.UserProfile.Infrastructure.Repositories
         {
             _context = context;
         }
-        public Task<IEnumerable<Profile>> GetByAccountId(int accountId)
+        public async Task<IEnumerable<Profile>> GetByAccountId(int accountId)
         {
-            return Task.FromResult(_context.Set<Profile>().Where(p => p.AccountId == accountId).AsEnumerable());
+            return await _context.Profiles.Where(p => p.AccountId == accountId).Include(p => p.ProfilePrivileges).ToListAsync();
         }
     }
 }
