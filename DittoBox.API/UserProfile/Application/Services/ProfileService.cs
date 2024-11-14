@@ -34,6 +34,7 @@ namespace DittoBox.API.UserProfile.Application.Services
         public Task<IEnumerable<Profile>> GetProfilesByAccountId(int accountId)
         {
             return profileRepository.GetByAccountId(accountId);
+            
         }
 
         public async Task GrantPrivilege(ProfilePrivilege profilePrivilege)
