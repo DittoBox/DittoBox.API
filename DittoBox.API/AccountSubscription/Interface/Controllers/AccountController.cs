@@ -5,10 +5,18 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DittoBox.API.AccountSubscription.Interface.Controllers
 {
+    /// <summary>
+    /// Controller for managing account operations.
+    /// </summary>
     [ApiController]
     [Route("api/v1/[controller]")]
     public class AccountController : ControllerBase
     {
+        /// <summary>
+        /// Retrieves account details based on the provided query.
+        /// </summary>
+        /// <param name="query">The query parameters for fetching account details.</param>
+        /// <returns>An <see cref="AccountResponse"/> containing the account details.</returns>
         [HttpGet]
         [Route("{query}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -18,6 +26,11 @@ namespace DittoBox.API.AccountSubscription.Interface.Controllers
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Creates a new account with the specified details.
+        /// </summary>
+        /// <param name="command">The command containing account creation parameters.</param>
+        /// <returns>An <see cref="AccountResponse"/> representing the created account.</returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -26,6 +39,12 @@ namespace DittoBox.API.AccountSubscription.Interface.Controllers
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Updates an existing account with new information.
+        /// </summary>
+        /// <param name="accountId">The ID of the account to update.</param>
+        /// <param name="command">The command containing updated account information.</param>
+        /// <returns>An <see cref="AccountResponse"/> representing the updated account.</returns>
         [HttpPut]
         [Route("{accountId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -35,6 +54,11 @@ namespace DittoBox.API.AccountSubscription.Interface.Controllers
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Deletes an account with the specified ID.
+        /// </summary>
+        /// <param name="accountId">The ID of the account to delete.</param>
+        /// <returns>An <see cref="ActionResult"/> indicating the result of the operation.</returns>
         [HttpDelete]
         [Route("{accountId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -46,6 +70,12 @@ namespace DittoBox.API.AccountSubscription.Interface.Controllers
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Updates the business information of a specific account.
+        /// </summary>
+        /// <param name="accountId">The ID of the account to update.</param>
+        /// <param name="command">The command containing the new business information.</param>
+        /// <returns>An <see cref="AccountResponse"/> representing the updated account.</returns>
         [HttpPut]
         [Route("{accountId}/business")]
         [ProducesResponseType(StatusCodes.Status200OK)]
