@@ -17,7 +17,7 @@ namespace DittoBox.API.GroupManagement.Interface.Controllers
     /// This controller provides endpoints to register and unregister containers and users,
     /// transfer containers and users, and manage group-related queries.
     /// </summary>
-    
+
     [ApiController]
     [Route("api/v1/[controller]")]
     public class GroupController (
@@ -29,25 +29,18 @@ namespace DittoBox.API.GroupManagement.Interface.Controllers
         IGetContainersByGroupIdQueryHandler getContainersByGroupIdQueryHandler
     ) : ControllerBase
     {
-         /// <summary>
-        /// Registers a container to a specific group.
-        /// </summary>
-        /// <param name="groupId">The ID of the group to which the container is being registered.</param>
-        /// <param name="command">The command containing the details of the container to register.</param>
-        /// <returns>An ActionResult indicating the outcome of the operation.</returns>
-
         [HttpPost]
-        [Route("{groupId}/register-container")]
-        public async Task<IActionResult> RegisterContainerAsync([FromRoute]int groupId, [FromBody]RegisterContainerCommand command)
+        [Route("register-container")]
+        public async Task<IActionResult> RegisterContainerAsync([FromBody]RegisterContainerCommand command)
         {
             try
             {
-                await registerContainerCommandHandler.Handle(command);
-                return CreatedAtAction(nameof(GetGroup), new { GroupId = groupId }, command);
+                var result = await registerContainerCommandHandler.Handle(command);
+                return Created("", result);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occurred while registering container with serial number {serialNumber}", command.Code);
+                _logger.LogError(ex, "An error occurred while registering container with serial number {serialNumber}", command.Uiid);
                 return StatusCode(500, "Internal server error");
             }
         }

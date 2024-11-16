@@ -2,21 +2,21 @@
 
 namespace DittoBox.API.ContainerManagement.Interface.Resources
 {
-    public record CreateContainerResource(
-            int Id,
-            string Name,
-            string Description,
-            int ContainerSizeId
-        )
-    {
-        public static CreateContainerResource FromContainer(Container container)
-        {
-            return new CreateContainerResource(
-                container.Id,
-                container.Name,
-                container.Description,
-                container.ContainerSizeId
-            );
-        }
-    }
+	public record CreateContainerResource(
+			int Id,
+			string Uuid,
+			string Name,
+			string Description
+		)
+	{
+		public static CreateContainerResource FromContainer(Container container)
+		{
+			return new CreateContainerResource(
+				container.Id,
+				container.Uiid,
+				container.Name,
+				container.Description
+			);
+		}
+	}
 }

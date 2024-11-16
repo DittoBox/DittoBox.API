@@ -7,5 +7,6 @@ namespace DittoBox.API.ContainerManagement.Domain.Repositories
     {
         public Task<IEnumerable<Container>> GetContainersByGroupId(int groupId);
         public Task<IEnumerable<Container>> GetContainersByAccountId(int accountId);
+		public Task<Container?> GetContainerByUuid(string uuid);
     }
 }
