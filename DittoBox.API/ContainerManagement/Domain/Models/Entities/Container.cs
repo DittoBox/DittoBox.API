@@ -10,7 +10,6 @@ namespace DittoBox.API.ContainerManagement.Domain.Models.Entities
 		public string Description { get; set; } = string.Empty;
 		public int? AccountId { get; set; }
 		public int? GroupId { get; set; }
-		public int ContainerSizeId { get; set; }
 		public double? Temperature { get; set; }
 		public double? Humidity { get; set; }
 		public double? Oxygen { get; set; }
