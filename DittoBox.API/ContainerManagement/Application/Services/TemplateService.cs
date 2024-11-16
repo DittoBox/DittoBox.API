@@ -9,7 +9,7 @@ namespace DittoBox.API.ContainerManagement.Application.Services
 	class TemplateService(ITemplateRepository templateRepository, IUnitOfWork unitOfWork) : ITemplateService
 	{
 
-		public async Task<Template> CreateTemplate(string name, sbyte maxTemperatureThreshold, sbyte minTemperatureThreshold, sbyte maxHumidityThreshold, sbyte minHumidityThreshold, int? maxOxygenThreshold, int? minCarbonDioxideThreshold, int? maxCarbonDioxideThreshold, int? minOxygenThreshold, int? minSulfurDioxideThreshold, int? maxSulfurDioxideThreshold, int? minEthyleneThreshold, int? maxEthyleneThreshold, int? minAmmoniaThreshold, int? maxAmmoniaThreshold, TemplateCategory category)
+		public async Task<Template> CreateTemplate(string name, double maxTemperatureThreshold, double minTemperatureThreshold, double maxHumidityThreshold, double minHumidityThreshold, double? maxOxygenThreshold, double? minCarbonDioxideThreshold, double? maxCarbonDioxideThreshold, double? minOxygenThreshold, double? minSulfurDioxideThreshold, double? maxSulfurDioxideThreshold, double? minEthyleneThreshold, double? maxEthyleneThreshold, double? minAmmoniaThreshold, double? maxAmmoniaThreshold, TemplateCategory category)
 		{
 			var template = new Template(
 				name,
