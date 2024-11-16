@@ -13,7 +13,7 @@ namespace DittoBox.API.ContainerManagement.Application.Handlers.Internal
     {
         public async Task<CreateContainerResource> Handle(CreateContainerCommand command)
         {
-            var result = await containerService.CreateContainer(command.Name, command.Description, command.AccountId, command.GroupId, command.ContainerSizeId);
+            var result = await containerService.CreateContainer(command.DeviceId, command.Name, command.Description, command.AccountId, command.GroupId);
             await unitOfWork.CompleteAsync();
             return CreateContainerResource.FromContainer(result);
         }

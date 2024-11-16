@@ -5,9 +5,9 @@ namespace DittoBox.API.ContainerManagement.Interface.Resources
 {
     public record ContainerResource(
             int Id, 
-            string Name,
-            string Description,
-            int GroupId,
+            string? Name,
+            string? Description,
+            int? GroupId,
             double? Temperature, 
             double? Humidity,
             double? Oxygen,
@@ -22,8 +22,8 @@ namespace DittoBox.API.ContainerManagement.Interface.Resources
             double? ethyleneMin, double? ethyleneMax,
             double? ammoniaMin, double? ammoniaMax,
             double? sulfurDioxideMin, double? sulfurDioxideMax,
-            string LastKnownHealthStatus,
-            string LastKnownContainerStatus,
+            string? LastKnownHealthStatus,
+            string? LastKnownContainerStatus,
             DateTime LastSync
         )
     {
