@@ -20,10 +20,22 @@ namespace DittoBox.API.ContainerManagement.Application.Handlers.Internal
                 container.UpdateMetrics(command.Temperature, command.Humidity, command.Oxygen, command.Dioxide, command.Ethylene, command.Ammonia, command.SulfurDioxide);
                 await containerService.UpdateContainer(container);
                 await unitOfWork.CompleteAsync();
-                await notificationService.GenerateNotification(AlertType.ContainerStatusReport, containerId: container.Id);
+                await notificationService.GenerateNotification(AlertType.ContainerStatusReport, containerId: container.Id, accountId: container.AccountId, groupId: container.GroupId);
 				await unitOfWork.CompleteAsync();
-                
+
+				if (!container.IsTemperatureWithinRange())
+				{
+					await notificationService.GenerateNotification(AlertType.TemperatureThresholdExceeded, containerId: container.Id, accountId: container.AccountId, groupId: container.GroupId);
+					await unitOfWork.CompleteAsync();
+				}
+				if (!container.IsHumidityWithinRange())
+				{
+					await notificationService.GenerateNotification(AlertType.HumidityThresholdExceeded, containerId: container.Id, accountId: container.AccountId, groupId: container.GroupId);
+					await unitOfWork.CompleteAsync();
+				}                
             }
+
+
         }
     }
 }
