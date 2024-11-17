@@ -10,5 +10,19 @@ namespace DittoBox.API.ContainerManagement.Domain.Repositories
         public Task<ICollection<Notification>> GetAllNotificationsByGroup(int groupId);
 
         public Task<ICollection<Notification>> GetAllNotificationsByContainer(int containerId);
+
+		public Task<int> GetAmountOfNotificationsByContainer(int containerId);
+
+		public Task<Notification?> GetLatestNotificationByContainer(int containerId);
+
+		public Task<int> GetAmountOfNotificationsByGroup(int groupId);
+
+		public Task<Notification?> GetLatestNotificationByGroup(int groupId);
+
+		public Task<int> GetAmountOfNotificationsByAccount(int accountId);
+
+		public Task<Notification?> GetLatestNotificationByAccount(int accountId);
+
+		
     }
 }

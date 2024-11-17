@@ -55,5 +55,68 @@ namespace DittoBox.API.ContainerManagement.Interface.Controllers
             var notifications = await notificationRepository.GetAllNotificationsByContainer(containerId);
             return Ok(notifications.Select(NotificationResource.FromNotification));
         }
-    }
+	
+		[HttpGet]
+		[Route("container/{containerId:int}/latest")]
+		public async Task<ActionResult<NotificationResource?>> GetLatestNotificationByContainer([FromRoute] int containerId)
+		{
+			var notification = await notificationRepository.GetLatestNotificationByContainer(containerId);
+			if (notification == null)
+			{
+				return NotFound();
+			}
+
+			return Ok(NotificationResource.FromNotification(notification));
+		}
+
+		[HttpGet]
+		[Route("group/{groupId:int}/latest")]
+		public async Task<ActionResult<NotificationResource?>> GetLatestNotificationByGroup([FromRoute] int groupId)
+		{
+			var notification = await notificationRepository.GetLatestNotificationByGroup(groupId);
+			if (notification == null)
+			{
+				return NotFound();
+			}
+
+			return Ok(NotificationResource.FromNotification(notification));
+		}
+
+		[HttpGet]
+		[Route("account/{accountId:int}/latest")]
+		public async Task<ActionResult<NotificationResource?>> GetLatestNotificationByAccount([FromRoute] int accountId)
+		{
+			var notification = await notificationRepository.GetLatestNotificationByAccount(accountId);
+			if (notification == null)
+			{
+				return NotFound();
+			}
+
+			return Ok(NotificationResource.FromNotification(notification));
+		}
+
+		[HttpGet]
+		[Route("container/{containerId:int}/amount")]
+		public async Task<ActionResult<int>> GetAmountOfNotificationsByContainer([FromRoute] int containerId)
+		{
+			var notifications = await notificationRepository.GetAmountOfNotificationsByContainer(containerId);
+			return Ok(notifications);
+		}
+
+		[HttpGet]
+		[Route("group/{groupId:int}/amount")]
+		public async Task<ActionResult<int>> GetAmountOfNotificationsByGroup([FromRoute] int groupId)
+		{
+			var notifications = await notificationRepository.GetAmountOfNotificationsByGroup(groupId);
+			return Ok(notifications);
+		}
+
+		[HttpGet]
+		[Route("account/{accountId:int}/amount")]
+		public async Task<ActionResult<int>> GetAmountOfNotificationsByAccount([FromRoute] int accountId)
+		{
+			var notifications = await notificationRepository.GetAmountOfNotificationsByAccount(accountId);
+			return Ok(notifications);
+		}
+	}
 }

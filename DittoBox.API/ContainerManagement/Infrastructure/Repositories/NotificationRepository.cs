@@ -38,5 +38,50 @@ namespace DittoBox.API.ContainerManagement.Infrastructure.Repositories
                 .OrderByDescending(n => n.IssuedAt)
                 .ToListAsync();
         }
-    }
+
+		public async Task<int> GetAmountOfNotificationsByContainer(int containerId)
+		{
+			return await context.Notifications
+				.Where(n => n.ContainerId == containerId)
+				.CountAsync();
+		}
+
+		public Task<Notification?> GetLatestNotificationByContainer(int containerId)
+		{
+			return context.Notifications
+				.Where(n => n.ContainerId == containerId)
+				.OrderByDescending(n => n.IssuedAt)
+				.FirstOrDefaultAsync();
+		}
+
+		public Task<int> GetAmountOfNotificationsByGroup(int groupId)
+		{
+			return context.Notifications
+				.Where(n => n.GroupId == groupId)
+				.CountAsync();
+		}
+
+		public Task<Notification?> GetLatestNotificationByGroup(int groupId)
+		{
+			return context.Notifications
+				.Where(n => n.GroupId == groupId)
+				.OrderByDescending(n => n.IssuedAt)
+				.FirstOrDefaultAsync();
+		}
+
+		public Task<int> GetAmountOfNotificationsByAccount(int accountId)
+		{
+			return context.Notifications
+				.Where(n => n.AccountId == accountId)
+				.CountAsync();
+		}
+
+		public Task<Notification?> GetLatestNotificationByAccount(int accountId)
+		{
+			return context.Notifications
+				.Where(n => n.AccountId == accountId)
+				.OrderByDescending(n => n.IssuedAt)
+				.FirstOrDefaultAsync();
+		}
+	}
 }
