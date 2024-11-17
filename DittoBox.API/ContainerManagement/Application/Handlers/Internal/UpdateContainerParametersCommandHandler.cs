@@ -30,6 +30,7 @@ namespace DittoBox.API.ContainerManagement.Application.Handlers.Internal
                 await containerService.UpdateContainer(container);
                 await unitOfWork.CompleteAsync();
                 await notificationService.GenerateNotification(AlertType.ContainerActivated, containerId: container.Id, accountId: container.AccountId, groupId: container.GroupId);
+				await unitOfWork.CompleteAsync();
             }
         }
     }
