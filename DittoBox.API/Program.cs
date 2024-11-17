@@ -85,7 +85,7 @@ namespace DittoBox.API
             using (var scope = app.Services.CreateScope())
             {
                 var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-                //db.Database.EnsureDeleted();
+                // db.Database.EnsureDeleted();
                 db.Database.EnsureCreated();
             }
 
@@ -169,6 +169,7 @@ namespace DittoBox.API
             builder.Services.AddScoped<IContainerRepository, ContainerRepository>();
             builder.Services.AddScoped<IGroupRepository, GroupRepository>();
 			builder.Services.AddScoped<ITemplateRepository, TemplateRepository>();
+            builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
         }
 
         public static void RegisterServices(WebApplicationBuilder builder) {
