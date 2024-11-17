@@ -8,7 +8,9 @@ namespace DittoBox.API.ContainerManagement.Application.Handlers.Internal
 {
     public class UpdateContainerStatusCommandHandler(
         IContainerService containerService,
-        IUnitOfWork unitOfWork) : IUpdateContainerStatusCommandHandler
+        IUnitOfWork unitOfWork,
+        INotificationService notificationService    
+    ) : IUpdateContainerStatusCommandHandler
     {
         public async Task Handle(int containerId, UpdateContainerStatusCommand command)
         {
@@ -18,6 +20,17 @@ namespace DittoBox.API.ContainerManagement.Application.Handlers.Internal
                 container.UpdateContainerStatus(result);
                 await containerService.UpdateContainer(container);
                 await unitOfWork.CompleteAsync();
+                await notificationService.GenerateNotification(AlertType.ContainerStatusReport, containerId: container.Id);
+
+                if (!container.IsTemperatureWithinRange())
+                {
+                    await notificationService.GenerateNotification(AlertType.TemperatureThresholdExceeded, containerId: container.Id);
+                }
+
+                if (!container.IsHumidityWithinRange())
+                {
+                    await notificationService.GenerateNotification(AlertType.HumidityThresholdExceeded, containerId: container.Id);
+                }
             }
         }
     }

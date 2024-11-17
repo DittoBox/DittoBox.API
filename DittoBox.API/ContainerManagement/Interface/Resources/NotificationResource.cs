@@ -1,11 +1,12 @@
 ﻿using DittoBox.API.ContainerManagement.Domain.Models.Entities;
+using DittoBox.API.ContainerManagement.Domain.Models.ValueObjects;
 
 namespace DittoBox.API.ContainerManagement.Interface.Resources
 {
     public record NotificationResource
     {
         public int Id { get; set; }
-        public string AlertType { get; set; }  = string.Empty;
+        public AlertType AlertType { get; set; }
         public DateTime IssuedAt { get; set; }
         public int AccountId { get; set; }
         public int GroupId { get; set; }
@@ -20,7 +21,7 @@ namespace DittoBox.API.ContainerManagement.Interface.Resources
             new NotificationResource
             {
                 Id = notification.Id,
-                AlertType = notification.AlertType.ToString(),
+                AlertType = notification.AlertType,
                 IssuedAt = notification.IssuedAt,
                 AccountId = notification.AccountId,
                 GroupId = notification.GroupId,

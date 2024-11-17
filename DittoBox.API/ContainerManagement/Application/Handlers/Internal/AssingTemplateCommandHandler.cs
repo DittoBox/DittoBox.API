@@ -1,4 +1,5 @@
 using DittoBox.API.ContainerManagement.Application.Commands;
+using DittoBox.API.ContainerManagement.Domain.Models.ValueObjects;
 using DittoBox.API.ContainerManagement.Domain.Services.Application;
 using DittoBox.API.Shared.Domain.Repositories;
 using Microsoft.Extensions.Logging;
@@ -9,7 +10,8 @@ namespace DittoBox.API.ContainerManagement.Application.Handlers.Interfaces
         IContainerService containerService,
         IUnitOfWork unitOfWork,
         ITemplateService templateService,
-        ILogger<AssingTemplateCommandHandler> logger
+        ILogger<AssingTemplateCommandHandler> logger,
+        INotificationService notificationService
         ) : IAssingTemplateCommandHandler
     {
     public async Task Handle(AssingTemplateCommand command)
@@ -29,9 +31,10 @@ namespace DittoBox.API.ContainerManagement.Application.Handlers.Interfaces
             }
             if (template != null && container != null)
             {
-                    container.ContainerConditions = template.ToContainerConditions();
+                container.ContainerConditions = template.ToContainerConditions();
+                await unitOfWork.CompleteAsync();
+                await notificationService.GenerateNotification(AlertType.TemplateAssigned, containerId: container.Id);
             }
-            await unitOfWork.CompleteAsync();
         }
     }
 }
