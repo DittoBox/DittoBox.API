@@ -85,9 +85,9 @@ namespace DittoBox.API
             {
                 var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
-				if (Environment.GetEnvironmentVariable("RESET_DATABASE") == "true") {
-					db.Database.EnsureDeleted();
-				}
+                if (Environment.GetEnvironmentVariable("RESET_DATABASE") == "true") {
+                  db.Database.EnsureDeleted();
+                }
                 db.Database.EnsureCreated();
             }
 
@@ -171,7 +171,9 @@ namespace DittoBox.API
             builder.Services.AddScoped<IProfilePrivilegeRepository, ProfilePrivilegeRepository>();
             builder.Services.AddScoped<IContainerRepository, ContainerRepository>();
             builder.Services.AddScoped<IGroupRepository, GroupRepository>();
-            builder.Services.AddScoped<ITemplateRepository, TemplateRepository>();
+			      builder.Services.AddScoped<ITemplateRepository, TemplateRepository>();
+            builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
+
         }
 
         public static void RegisterServices(WebApplicationBuilder builder)
