@@ -21,15 +21,18 @@ namespace DittoBox.API.ContainerManagement.Application.Handlers.Internal
                 await containerService.UpdateContainer(container);
                 await unitOfWork.CompleteAsync();
                 await notificationService.GenerateNotification(AlertType.ContainerStatusReport, containerId: container.Id);
+				await unitOfWork.CompleteAsync();
 
                 if (!container.IsTemperatureWithinRange())
                 {
                     await notificationService.GenerateNotification(AlertType.TemperatureThresholdExceeded, containerId: container.Id);
+					await unitOfWork.CompleteAsync();
                 }
 
                 if (!container.IsHumidityWithinRange())
                 {
                     await notificationService.GenerateNotification(AlertType.HumidityThresholdExceeded, containerId: container.Id);
+					await unitOfWork.CompleteAsync();
                 }
             }
         }
