@@ -1,7 +1,10 @@
-namespace DittoBox.API.GroupManagement.Domain.Models.Commands
+using DittoBox.API.ContainerManagement.Interface.Resources;
+using DittoBox.API.GroupManagement.Domain.Models.Commands;
+
+namespace DittoBox.API.GroupManagement.Domain.Models.Handlers.Interfaces
 {
     public interface IRegisterContainerCommandHandler
     {
-        public Task Handle(RegisterContainerCommand command);
+        public Task<ContainerRegistrationResource> Handle(RegisterContainerCommand command);
     }
 }
