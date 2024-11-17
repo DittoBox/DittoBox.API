@@ -8,7 +8,8 @@ namespace DittoBox.API.ContainerManagement.Application.Handlers.Internal
 {
     public class UpdateContainerParametersCommandHandler(
         IContainerService containerService,
-        IUnitOfWork unitOfWork
+        IUnitOfWork unitOfWork,
+        INotificationService notificationService
         ) : IUpdateContainerParametersCommandHandler
     {
         public async Task Handle(int containerId, UpdateContainerParametersCommand command)
@@ -28,6 +29,7 @@ namespace DittoBox.API.ContainerManagement.Application.Handlers.Internal
                 container.UpdateConditions(conditions);
                 await containerService.UpdateContainer(container);
                 await unitOfWork.CompleteAsync();
+                await notificationService.GenerateNotification(AlertType.ContainerActivated, containerId: container.Id, accountId: container.AccountId, groupId: container.GroupId);
             }
         }
     }

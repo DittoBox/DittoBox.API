@@ -61,5 +61,23 @@ namespace DittoBox.API.ContainerManagement.Domain.Models.Entities
 			LastSync = DateTime.UtcNow;
 		}
 
-	}
+		public bool IsTemperatureWithinRange()
+        {
+            if (ContainerConditions?.MinTemperature != null && ContainerConditions?.MaxTemperature != null)
+            {
+                return Temperature >= ContainerConditions.MinTemperature && Temperature <= ContainerConditions.MaxTemperature;
+            }
+            return true;
+        }
+
+        public bool IsHumidityWithinRange()
+        {
+            if (ContainerConditions?.MinHumidity != null && ContainerConditions?.MaxHumidity != null)
+            {
+                return Humidity >= ContainerConditions.MinHumidity && Humidity <= ContainerConditions.MaxHumidity;
+            }
+            return true;
+        }
+
+    }
 }
