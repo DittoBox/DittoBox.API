@@ -20,14 +20,15 @@ namespace DittoBox.API.ContainerManagement.Infrastructure.Repositories
 			switch (priority)
 			{
 				case 1:
-					return notifications.Where(n => n.AlertType == AlertType.TemperatureThresholdExceeded ||
-													n.AlertType == AlertType.HumidityThresholdExceeded ||
-													n.AlertType == AlertType.ContainerLinked ||
-													n.AlertType == AlertType.TemplateAssigned ||
-													n.AlertType == AlertType.ContainerActivated);
+					return notifications.Where(n => 
+					n.AlertType == AlertType.TemperatureThresholdExceeded ||
+					n.AlertType == AlertType.HumidityThresholdExceeded ||
+					n.AlertType == AlertType.ContainerLinked ||
+					n.AlertType == AlertType.TemplateAssigned ||
+					n.AlertType == AlertType.ContainerActivated);
 				case 2:
 					return notifications.Where(n => n.AlertType == AlertType.TemperatureThresholdExceeded ||
-													n.AlertType == AlertType.HumidityThresholdExceeded);
+					n.AlertType == AlertType.HumidityThresholdExceeded);
 				default:
 					return notifications;
 			}
@@ -71,11 +72,12 @@ namespace DittoBox.API.ContainerManagement.Infrastructure.Repositories
 			return await filteredNotifications.Take(limit).ToListAsync();
 		}
 
-		public async Task<int> GetAmountOfNotificationsByContainer(int containerId)
+		public async Task<int> GetAmountOfNotificationsByContainer(int containerId, int priority = 1)
 		{
-			return await context.Notifications
-				.Where(n => n.ContainerId == containerId)
-				.CountAsync();
+			var notifications = context.Notifications
+				.Where(n => n.ContainerId == containerId);
+			var filteredNotifications = FilterByPriority(notifications, priority);
+			return await filteredNotifications.CountAsync();
 		}
 
 		public Task<Notification?> GetLatestNotificationByContainer(int containerId)
@@ -86,11 +88,12 @@ namespace DittoBox.API.ContainerManagement.Infrastructure.Repositories
 				.FirstOrDefaultAsync();
 		}
 
-		public Task<int> GetAmountOfNotificationsByGroup(int groupId)
+		public Task<int> GetAmountOfNotificationsByGroup(int groupId, int priority = 1)
 		{
-			return context.Notifications
-				.Where(n => n.GroupId == groupId)
-				.CountAsync();
+			var notifications = context.Notifications
+				.Where(n => n.GroupId == groupId);
+			var filteredNotifications = FilterByPriority(notifications, priority);
+			return filteredNotifications.CountAsync();
 		}
 
 		public Task<Notification?> GetLatestNotificationByGroup(int groupId)
@@ -101,11 +104,12 @@ namespace DittoBox.API.ContainerManagement.Infrastructure.Repositories
 				.FirstOrDefaultAsync();
 		}
 
-		public Task<int> GetAmountOfNotificationsByAccount(int accountId)
+		public Task<int> GetAmountOfNotificationsByAccount(int accountId, int priority = 1)
 		{
-			return context.Notifications
-				.Where(n => n.AccountId == accountId)
-				.CountAsync();
+			var notifications = context.Notifications
+				.Where(n => n.AccountId == accountId);
+				var filteredNotifications = FilterByPriority(notifications, priority);
+			return filteredNotifications.CountAsync();
 		}
 
 		public Task<Notification?> GetLatestNotificationByAccount(int accountId)
