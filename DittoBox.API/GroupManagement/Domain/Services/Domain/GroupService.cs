@@ -1,5 +1,6 @@
 using DittoBox.API.GroupManagement.Domain.Models.Commands;
 using DittoBox.API.GroupManagement.Domain.Models.Entities;
+using DittoBox.API.GroupManagement.Domain.Models.Handlers.Internal;
 using DittoBox.API.GroupManagement.Domain.Models.ValueObject;
 using DittoBox.API.GroupManagement.Domain.Repositories;
 using DittoBox.API.GroupManagement.Domain.Services.Application;
@@ -14,7 +15,7 @@ namespace DittoBox.API.GroupManagement.Domain.Services.Domain
     {
         public async Task<Group> CreateGroup(int accountId, string name, Location location, FacilityType facilityType)
         {
-            var group = new Group(accountId, name, location, facilityType);
+            var group = new Group(accountId, name, location, facilityType, 0, 0);
             await groupRepository.Add(group);
             return group;
         }
@@ -28,15 +29,19 @@ namespace DittoBox.API.GroupManagement.Domain.Services.Domain
         }
         public async Task<Group> GetGroup(int id)
         {
-            var groups = await groupRepository.GetAllSync(); // Asegúrate de que esto devuelva Task<IQueryable<Group>>
+            var groups = await groupRepository.GetAllSync(); 
             var group = await groups
                 .Include(g => g.Location)
+                .Include(g => g.Containers)
+                .Include(g => g.Profiles)
                 .FirstOrDefaultAsync(g => g.Id == id);
 
             if (group == null)
             {
                 throw new Exception("Group not found");
             }
+            group.ProfileCount = group.Profiles.Count;
+            group.ContainerCount = group.Containers.Count;
 
             return group;
         }
@@ -46,6 +51,25 @@ namespace DittoBox.API.GroupManagement.Domain.Services.Domain
             throw new NotImplementedException();
         }
 
+        public async Task<IEnumerable<Group>> GetGroupsByAccountId(int accountId)
+        {
+            var groups = await groupRepository.GetAllSync(); // Asegúrate de que esto devuelva Task<IQueryable<Group>>
+            var groupList = await groups
+                .Where(g => g.AccountId == accountId)
+                .Include(g => g.Location)
+                .Include(g => g.Containers)
+                .Include(g => g.Profiles)
+                .ToListAsync();
+
+            // Actualizar el número de perfiles y contenedores asociados a cada grupo
+            foreach (var group in groupList)
+            {
+                group.ProfileCount = group.Profiles.Count;
+                group.ContainerCount = group.Containers.Count;
+            }
+
+            return groupList;
+        }
 
         public void RegisterContainer(int groupId, int containerId)
         {

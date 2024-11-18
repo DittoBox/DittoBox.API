@@ -6,6 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DittoBox.API.ContainerManagement.Interface.Controllers
 {
+    /// <summary>
+    /// Controller for managing templates within the container management system.
+    /// Provides endpoints for creating and retrieving templates.
+    /// </summary>
     [ApiController]
     [Route("api/v1/[controller]")]
     public class TemplateController(
@@ -15,6 +19,11 @@ namespace DittoBox.API.ContainerManagement.Interface.Controllers
 		ICreateTemplateCommandHandler createTemplateCommandHandler
 	) : ControllerBase
     {
+    	/// <summary>
+        /// Retrieves a specific template by its ID.
+        /// </summary>
+        /// <param name="templateId">The ID of the template to retrieve.</param>
+        /// <returns>An ActionResult containing the requested TemplateResource or a NotFound status.</returns>
         [HttpGet]
         [Route("{templateId}")]
         public async Task<ActionResult<TemplateResource>> GetTemplate([FromRoute] int templateId)
@@ -36,6 +45,10 @@ namespace DittoBox.API.ContainerManagement.Interface.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
+ 	/// <summary>
+        /// Retrieves all templates.
+        /// </summary>
+        /// <returns>An ActionResult containing a collection of TemplateResource objects.</returns>
 
         [HttpGet]
         public async Task<ActionResult<ICollection<TemplateResource>>> GetTemplates()
@@ -52,6 +65,11 @@ namespace DittoBox.API.ContainerManagement.Interface.Controllers
 				return StatusCode(500, "Internal server error");
 			}
         }
+	 /// <summary>
+        /// Creates a new template based on the provided details.
+        /// </summary>
+        /// <param name="template">The CreateTemplateCommand containing the details of the template to create.</param>
+        /// <returns>An ActionResult containing the created TemplateResource and a 201 Created status.</returns>
 
 		[HttpPost]
 		public async Task<ActionResult<TemplateResource>> CreateTemplate([FromBody] CreateTemplateCommand template) {

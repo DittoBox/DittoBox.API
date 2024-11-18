@@ -1,4 +1,5 @@
 using DittoBox.API.ContainerManagement.Domain.Models.Entities;
+using DittoBox.API.ContainerManagement.Domain.Models.ValueObjects;
 
 namespace DittoBox.API.ContainerManagement.Domain.Services.Application
 {
@@ -8,20 +9,21 @@ namespace DittoBox.API.ContainerManagement.Domain.Services.Application
 		Task<IEnumerable<Template>> GetTemplates();
 		Task<Template> CreateTemplate(
 			string name,
-			sbyte maxTemperatureThreshold,
-			sbyte minTemperatureThreshold,
-			sbyte maxHumidityThreshold,
-			sbyte minHumidityThreshold,
-			int? maxOxygenThreshold,
-			int? minCarbonDioxideThreshold,
-			int? maxCarbonDioxideThreshold,
-			int? minOxygenThreshold,
-			int? minSulfurDioxideThreshold,
-			int? maxSulfurDioxideThreshold,
-			int? minEthyleneThreshold,
-			int? maxEthyleneThreshold,
-			int? minAmmoniaThreshold,
-			int? maxAmmoniaThreshold
+			double maxTemperatureThreshold,
+			double minTemperatureThreshold,
+			double maxHumidityThreshold,
+			double minHumidityThreshold,
+			double? maxOxygenThreshold,
+			double? minCarbonDioxideThreshold,
+			double? maxCarbonDioxideThreshold,
+			double? minOxygenThreshold,
+			double? minSulfurDioxideThreshold,
+			double? maxSulfurDioxideThreshold,
+			double? minEthyleneThreshold,
+			double? maxEthyleneThreshold,
+			double? minAmmoniaThreshold,
+			double? maxAmmoniaThreshold,
+			TemplateCategory category
 		);
 	}
 }

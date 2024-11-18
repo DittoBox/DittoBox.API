@@ -11,5 +11,7 @@ namespace DittoBox.API.GroupManagement.Domain.Services.Application
         public Task<Group> UpdateGroup(int id, string name, Location location);
         public Task DeleteGroup(int id);
         public Task RegisterContainer(int groupId, int containerId);
+
+        public Task<IEnumerable<Group>> GetGroupsByAccountId(int accountId);
     }
 }

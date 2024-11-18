@@ -1,6 +1,9 @@
-﻿using System.Text.Json;
+﻿using System.Security.Cryptography.X509Certificates;
+using System.Text.Json;
 using System.Text.Json.Serialization;
+using DittoBox.API.ContainerManagement.Interface.Resources;
 using DittoBox.API.GroupManagement.Domain.Models.Commands;
+using DittoBox.API.GroupManagement.Domain.Models.Handlers.Interfaces;
 using DittoBox.API.GroupManagement.Domain.Models.Handlers.Internal;
 using DittoBox.API.GroupManagement.Domain.Models.Queries;
 using DittoBox.API.GroupManagement.Domain.Models.Resources;
@@ -14,29 +17,49 @@ namespace DittoBox.API.GroupManagement.Interface.Controllers
     /// This controller provides endpoints to register and unregister containers and users,
     /// transfer containers and users, and manage group-related queries.
     /// </summary>
-    
+
     [ApiController]
     [Route("api/v1/[controller]")]
     public class GroupController (
         ICreateGroupCommandHandler createGroupCommandHandler,
         ILogger<GroupController> _logger,
-        IGetGroupQueryHandler getGroupQueryHandler
+        IGetGroupQueryHandler getGroupQueryHandler,
+        IRegisterUserCommandHandler registerUserCommandHandler,
+        IRegisterContainerCommandHandler registerContainerCommandHandler,
+        IGetContainersByGroupIdQueryHandler getContainersByGroupIdQueryHandler
     ) : ControllerBase
     {
-         /// <summary>
-        /// Registers a container to a specific group.
-        /// </summary>
-        /// <param name="groupId">The ID of the group to which the container is being registered.</param>
-        /// <param name="command">The command containing the details of the container to register.</param>
-        /// <returns>An ActionResult indicating the outcome of the operation.</returns>
-
         [HttpPost]
-        [Route("{groupId}/register-container")]
-        public ActionResult RegisterContainer([FromRoute]int groupId, [FromBody]RegisterContainerCommand command)
+        [Route("register-container")]
+        public async Task<IActionResult> RegisterContainerAsync([FromBody]RegisterContainerCommand command)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var result = await registerContainerCommandHandler.Handle(command);
+                return Created("", result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while registering container with serial number {serialNumber}", command.Uiid);
+                return StatusCode(500, "Internal server error");
+            }
         }
 
+        [HttpGet]
+        [Route("{groupId}/containers")]
+        public async Task<IEnumerable<ContainerResource>?> GetContainersByGroupIdAsync([FromRoute]int groupId)
+        {
+            try
+            {
+                var query = new GetContainersByGroupIdQuery(groupId);
+                return await getContainersByGroupIdQueryHandler.Handle(query);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while getting containers for group with groupId: {groupId}", groupId);
+                return null;
+            }
+        } 
          /// <summary>
         /// Unregisters a container from a specific group.
         /// </summary>
@@ -68,9 +91,17 @@ namespace DittoBox.API.GroupManagement.Interface.Controllers
         /// <param name="command">The command containing the details of the user to register.</param>
         [HttpPost]
         [Route("{groupId}/register-user")]
-        public void RegisterUser([FromRoute] int groupId, [FromBody] RegisterUserCommand command)
+        public async Task<CreatedAtActionResult> RegisterUserAsync([FromRoute]int groupId, [FromBody]RegisterUserCommand command)
         {
-            throw new NotImplementedException();
+            try{
+                await registerUserCommandHandler.Handle(command);
+                return CreatedAtAction(nameof(GetGroup), new { GroupId = groupId }, command);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while registering user with email {email}", command.Email);
+                return (CreatedAtActionResult)StatusCode(500, "Internal server error");
+            }
         }
         
          /// <summary>

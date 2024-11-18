@@ -10,13 +10,16 @@ namespace DittoBox.API.ContainerManagement.Application.Services
 		IUnitOfWork unitOfWork
 	) : IContainerService
 	{
-		public async Task<Container> CreateContainer(string name, string description, int accountId, int groupId, int containerSizeId)
+		public async Task<Container> CreateContainer(string uiid, string name, string description, int accountId, int groupId)
 		{
-			var container = new Container(name, description, accountId, groupId, containerSizeId);
+			var container = await containerRepository.GetContainerByUuid(uiid) ?? throw new Exception("Container hasn't been self registered yet. Make sure to turn it on first.");
 
-			// implement validations for accountId and groupId
+			container.Name = name;
+			container.Description = description;
+			container.AccountId = accountId;
+			container.GroupId = groupId;
 
-			await containerRepository.Add(container);
+			await containerRepository.Update(container);
 			await unitOfWork.CompleteAsync();
 			return container;
 		}
@@ -25,15 +28,37 @@ namespace DittoBox.API.ContainerManagement.Application.Services
 			return await containerRepository.GetById(id);
 		}
 
-		public Task<IEnumerable<Container>> GetContainers()
+		public async Task<IEnumerable<Container>> GetContainersByGroupId(int groupId)
 		{
-			return containerRepository.GetAll();
+			return await containerRepository.GetContainersByGroupId(groupId);
+		}
+
+		public async Task<IEnumerable<Container>> GetContainers()
+		{
+			return await containerRepository.GetAll();
 		}
 
 		public async Task UpdateContainer(Container container)
 		{
 			await containerRepository.Update(container);
 			await unitOfWork.CompleteAsync();
+		}
+
+		public Task<IEnumerable<Container>> GetContainersByAccountId(int accountId)
+		{
+			return containerRepository.GetContainersByAccountId(accountId);
+		}
+
+		public async Task<Container> RegisterContainer(string uuid)
+		{
+			var container = new Container() { Uiid = uuid };
+			await containerRepository.Add(container);
+			return container;
+		}
+
+		public async Task<Container?> GetContainerByUuid(string uuid)
+		{
+			return await containerRepository.GetContainerByUuid(uuid);
 		}
 	}
 }

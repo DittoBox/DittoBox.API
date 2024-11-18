@@ -1,4 +1,6 @@
-﻿namespace DittoBox.API.ContainerManagement.Domain.Models.Entities
+﻿using DittoBox.API.ContainerManagement.Domain.Models.ValueObjects;
+
+namespace DittoBox.API.ContainerManagement.Domain.Models.Entities
 {
 	public class Template
 	{
@@ -6,41 +8,45 @@
 		public string Name { get; set; } = string.Empty;
 
 		// Temperature in a range from -127 to 127 degrees Celsius
-		public sbyte MaxTemperatureThreshold { get; set; }
-		public sbyte MinTemperatureThreshold { get; set; }
+		public double MaxTemperatureThreshold { get; set; }
+		public double MinTemperatureThreshold { get; set; }
 
 		// Humidity in a range from 0 to 100%
-		public float MaxHumidityThreshold { get; set; }
-		public float MinHumidityThreshold { get; set; }
+		public double MaxHumidityThreshold { get; set; }
+		public double MinHumidityThreshold { get; set; }
 
 		// Gases measured in PPM (particles per million)
-		public int? MinOxygenThreshold { get; set; }
-		public int? MaxOxygenThreshold { get; set; }
-		public int? MinCarbonDioxideThreshold { get; set; }
-		public int? MaxCarbonDioxideThreshold { get; set; }
-		public int? MinSulfurDioxideThreshold { get; set; }
-		public int? MaxSulfurDioxideThreshold { get; set; }
-		public int? MinEthyleneThreshold { get; set; }
-		public int? MaxEthyleneThreshold { get; set; }
-		public int? MinAmmoniaThreshold { get; set; }
-		public int? MaxAmmoniaThreshold { get; set; }
+		public double? MinOxygenThreshold { get; set; }
+		public double? MaxOxygenThreshold { get; set; }
+		public double? MinCarbonDioxideThreshold { get; set; }
+		public double? MaxCarbonDioxideThreshold { get; set; }
+		public double? MinSulfurDioxideThreshold { get; set; }
+		public double? MaxSulfurDioxideThreshold { get; set; }
+		public double? MinEthyleneThreshold { get; set; }
+		public double? MaxEthyleneThreshold { get; set; }
+		public double? MinAmmoniaThreshold { get; set; }
+		public double? MaxAmmoniaThreshold { get; set; }
+
+		public TemplateCategory Category { get; set; }
+
 		public Template() { }
 		public Template(
 			string name,
-			sbyte maxTemperatureThreshold,
-			sbyte minTemperatureThreshold,
-			sbyte maxHumidityThreshold,
-			sbyte minHumidityThreshold,
-			int? maxOxygenThreshold,
-			int? minCarbonDioxideThreshold,
-			int? maxCarbonDioxideThreshold,
-			int? minOxygenThreshold,
-			int? minSulfurDioxideThreshold,
-			int? maxSulfurDioxideThreshold,
-			int? minEthyleneThreshold,
-			int? maxEthyleneThreshold,
-			int? minAmmoniaThreshold,
-			int? maxAmmoniaThreshold
+			double maxTemperatureThreshold,
+			double minTemperatureThreshold,
+			double maxHumidityThreshold,
+			double minHumidityThreshold,
+			double? maxOxygenThreshold,
+			double? minCarbonDioxideThreshold,
+			double? maxCarbonDioxideThreshold,
+			double? minOxygenThreshold,
+			double? minSulfurDioxideThreshold,
+			double? maxSulfurDioxideThreshold,
+			double? minEthyleneThreshold,
+			double? maxEthyleneThreshold,
+			double? minAmmoniaThreshold,
+			double? maxAmmoniaThreshold,
+			TemplateCategory category
 		)
 		{
 			Name = name;
@@ -58,6 +64,26 @@
 			MaxEthyleneThreshold = maxEthyleneThreshold;
 			MinAmmoniaThreshold = minAmmoniaThreshold;
 			MaxAmmoniaThreshold = maxAmmoniaThreshold;
+			Category = category;
+		}
+		public ContainerConditions ToContainerConditions()
+		{
+			return new ContainerConditions(
+				MinTemperatureThreshold,
+				MaxTemperatureThreshold,
+				MinHumidityThreshold,
+				MaxHumidityThreshold,
+				MinOxygenThreshold ?? 0,
+				MaxOxygenThreshold ?? 0,
+				MinCarbonDioxideThreshold ?? 0,
+				MaxCarbonDioxideThreshold ?? 0,
+				MinEthyleneThreshold ?? 0,
+				MaxEthyleneThreshold ?? 0,
+				MinAmmoniaThreshold ?? 0,
+				MaxAmmoniaThreshold ?? 0,
+				MinSulfurDioxideThreshold ?? 0,
+				MaxSulfurDioxideThreshold ?? 0
+			);
 		}
 	}
 }

@@ -1,20 +1,24 @@
-﻿namespace DittoBox.API.ContainerManagement.Application.Commands
+﻿using System.ComponentModel.DataAnnotations;
+using DittoBox.API.ContainerManagement.Domain.Models.ValueObjects;
+
+namespace DittoBox.API.ContainerManagement.Application.Commands
 {
     public record CreateTemplateCommand(
-        string Name,
-        sbyte MaxTemperatureThreshold,
-        sbyte MinTemperatureThreshold,
-        sbyte MaxHumidityThreshold,
-        sbyte MinHumidityThreshold,
-        int? MaxOxygenThreshold,
-		int? MinOxygenThreshold,
-        int? MinCarbonDioxideThreshold,
-        int? MaxCarbonDioxideThreshold,
-        int? MinSulfurDioxideThreshold,
-        int? MaxSulfurDioxideThreshold,
-        int? MinEthyleneThreshold,
-        int? MaxEthyleneThreshold,
-        int? MinAmmoniaThreshold,
-        int? MaxAmmoniaThreshold
+        [Required] string Name,
+        [Required] double MaxTemperatureThreshold,
+        [Required] double MinTemperatureThreshold,
+        [Required] double MaxHumidityThreshold,
+        [Required] double MinHumidityThreshold,
+        [Required] double? MaxOxygenThreshold,
+        [Required] double? MinOxygenThreshold,
+        [Required] double? MaxCarbonDioxideThreshold,
+        [Required] double? MinCarbonDioxideThreshold,
+        [Required] double? MinSulfurDioxideThreshold,
+        [Required] double? MaxSulfurDioxideThreshold,
+        [Required] double? MinEthyleneThreshold,
+        [Required] double? MaxEthyleneThreshold,
+        [Required] double? MinAmmoniaThreshold,
+        [Required] double? MaxAmmoniaThreshold,
+        [Required] TemplateCategory Category
     );
 }
