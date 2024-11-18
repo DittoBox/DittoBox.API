@@ -33,26 +33,26 @@ namespace DittoBox.API.ContainerManagement.Interface.Controllers
 
         [HttpGet]
         [Route("account/{accountId:int}")]
-        public async Task<ActionResult<ICollection<NotificationResource>>> GetAllNotificationsByAccount([FromRoute] int accountId)
+        public async Task<ActionResult<ICollection<NotificationResource>>> GetNotificationsByAccount([FromRoute] int accountId, [FromQuery] int priority = 1, [FromQuery] int limit = 20)
         {
-            var notifications = await notificationRepository.GetAllNotificationsByAccount(accountId);
+            var notifications = await notificationRepository.GetNotificationsByAccount(accountId, priority, limit);
             return Ok(notifications.Select(NotificationResource.FromNotification));
 
         }
 
         [HttpGet]
         [Route("group/{groupId:int}")]
-        public async Task<ActionResult<ICollection<NotificationResource>>> GetAllNotificationsByGroup([FromRoute] int groupId)
+        public async Task<ActionResult<ICollection<NotificationResource>>> GetNotificationsByGroup([FromRoute] int groupId, [FromQuery] int priority = 1, [FromQuery] int limit = 20)
         {
-            var notifications = await notificationRepository.GetAllNotificationsByGroup(groupId);
+            var notifications = await notificationRepository.GetNotificationsByGroup(groupId, priority, limit);
             return Ok(notifications.Select(NotificationResource.FromNotification));
         }
 
         [HttpGet]
         [Route("container/{containerId:int}")]
-        public async Task<ActionResult<ICollection<NotificationResource>>> GetAllNotificationsByContainer([FromRoute] int containerId)
+        public async Task<ActionResult<ICollection<NotificationResource>>> GetNotificationsByContainer([FromRoute] int containerId, [FromQuery] int priority = 1, [FromQuery] int limit = 20)
         {
-            var notifications = await notificationRepository.GetAllNotificationsByContainer(containerId);
+            var notifications = await notificationRepository.GetNotificationsByContainer(containerId, priority, limit);
             return Ok(notifications.Select(NotificationResource.FromNotification));
         }
 	

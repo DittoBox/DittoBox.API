@@ -5,11 +5,11 @@ namespace DittoBox.API.ContainerManagement.Domain.Repositories
 {
     public interface INotificationRepository : IBaseRepository<Notification>
     {
-        public Task<ICollection<Notification>> GetAllNotificationsByAccount(int accountId);
+        public Task<ICollection<Notification>> GetNotificationsByAccount(int accountId, int priority, int limit);
 
-        public Task<ICollection<Notification>> GetAllNotificationsByGroup(int groupId);
+        public Task<ICollection<Notification>> GetNotificationsByGroup(int groupId, int priority, int limit);
 
-        public Task<ICollection<Notification>> GetAllNotificationsByContainer(int containerId);
+        public Task<ICollection<Notification>> GetNotificationsByContainer(int containerId, int priority, int limit);
 
 		public Task<int> GetAmountOfNotificationsByContainer(int containerId);
 
