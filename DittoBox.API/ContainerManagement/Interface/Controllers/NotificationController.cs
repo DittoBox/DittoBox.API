@@ -97,23 +97,23 @@ namespace DittoBox.API.ContainerManagement.Interface.Controllers
 
 		[HttpGet]
 		[Route("container/{containerId:int}/amount")]
-		public async Task<ActionResult<int>> GetAmountOfNotificationsByContainer([FromRoute] int containerId)
+		public async Task<ActionResult<int>> GetAmountOfNotificationsByContainer([FromRoute] int containerId, [FromQuery] int priority = 1)
 		{
-			var notifications = await notificationRepository.GetAmountOfNotificationsByContainer(containerId);
+			var notifications = await notificationRepository.GetAmountOfNotificationsByContainer(containerId, priority);
 			return Ok(notifications);
 		}
 
 		[HttpGet]
 		[Route("group/{groupId:int}/amount")]
-		public async Task<ActionResult<int>> GetAmountOfNotificationsByGroup([FromRoute] int groupId)
+		public async Task<ActionResult<int>> GetAmountOfNotificationsByGroup([FromRoute] int groupId, [FromQuery] int priority = 1)
 		{
-			var notifications = await notificationRepository.GetAmountOfNotificationsByGroup(groupId);
+			var notifications = await notificationRepository.GetAmountOfNotificationsByGroup(groupId, priority);
 			return Ok(notifications);
 		}
 
 		[HttpGet]
 		[Route("account/{accountId:int}/amount")]
-		public async Task<ActionResult<int>> GetAmountOfNotificationsByAccount([FromRoute] int accountId)
+		public async Task<ActionResult<int>> GetAmountOfNotificationsByAccount([FromRoute] int accountId, [FromQuery] int priority = 1)
 		{
 			var notifications = await notificationRepository.GetAmountOfNotificationsByAccount(accountId);
 			return Ok(notifications);
